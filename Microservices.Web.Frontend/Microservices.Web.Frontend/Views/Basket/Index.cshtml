@@ -1,0 +1,175 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Microservices.Web.Frontend.Models.DTO.Basket.BasketDTO
+
+@{
+    ViewData["Title"] = "سبد خرید";
+}
+<h1>سبد خرید</h1>
+
+<div class="row text-right">
+    <table class="table col-md-9">
+        <thead>
+            <tr>
+
+                <th>
+                    <label asp-for="Items.FirstOrDefault().ProductName"></label>
+                </th>
+                <th>
+                    <label asp-for="Items.FirstOrDefault().UnitPrice"></label>
+                </th>
+                <th>
+                    <label asp-for="Items.FirstOrDefault().Quantity"></label>
+                </th>
+                <th>
+                    <label>قیمت کل</label>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        <b class="text-success">@item.UnitPrice.ToString("n0")  تومان</b>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        <b class="text-success">@item.TotalPrice().ToString("n0")  تومان</b>
+                    </td>
+                    <td class="row">
+                        <a class="btn btn-danger" asp-action="Delete" asp-controller="Basket" asp-route-id="@item.Id"> حذف</a>
+                        <a class="btn btn-warning" onclick="ShowEdit('@item.Id','@item.Quantity')">ویزایش تعداد</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="bg-dark text-white">
+
+                <td>
+                    قیمت کل
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <b>@Model.TotalPrice().ToString("n0")  تومان</b>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="col-md-3 card">
+        <div class="row col-md-12 card-body ">
+            <label>استفاده از کد تخفیف</label>
+            <input type="text" class="form-control col-md-12" id="txtDiscountCode" placeholder="کد تخفیف را وارد نمایید" />
+            <button type="submit" onclick="ApplyDiscountCode()" id="btnApplyDiscountCode" class="btn btn-warning btn-sm col-md-12">اعمال کد تخفیف</button>
+
+
+            <hr />
+            @if (Model.DiscountDetail != null)
+            {
+                <div>
+                    <b> کد تخفیف استفاده شده :</b>
+                    <small>  @Model.DiscountDetail.DiscountCode</small>
+
+                    <b class="col-md-12">مبلغ : @Model.DiscountDetail.Amount.ToString("n0")  تومان</b>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<br />
+<a asp-action="Checkout" asp-controller="Basket" class="btn btn-success  col-md-12">ثبت سفارش</a>
+
+<!-- Modal -->
+<div class="modal fade" id="editQuantityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Edit" asp-controller="Basket">
+                <div class="modal-body">
+                    <input type="hidden" id="BasketItemId" name="BasketItemId" value="" />
+                    <input type="number" id="quantity" name="quantity" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">برگشت</button>
+                    <button type="submit" class="btn btn-primary">ثبت تغییرات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+
+        function ShowEdit(BasketItemId, quantity) {
+            $("#BasketItemId").val(BasketItemId);
+            $("#quantity").val(quantity);
+            $("#editQuantityModal").modal({
+                fadeDuration: 400,
+                fadeDelay: 0.10
+            });
+        }
+
+        function ApplyDiscountCode() {
+
+            var code = $("#txtDiscountCode").val();
+
+            var postData = { 'DiscountCode': code };
+
+            $.ajax({
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+                type: "POST",
+                url: "Basket/ApplyDiscount",
+                data: postData,
+                success: function (data) {
+                    if (data.isSuccess) {
+                        swal({
+                            title: "بسیار خوب!",
+                            text: data.message,
+                            icon: "warning",
+                            button: "خب",
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "هشدار!",
+                            text: data.message,
+                            icon: "warning",
+                            button: "خب",
+                        });
+                    }
+                }
+            });
+        }
+
+    </script>
+
+
+}
+

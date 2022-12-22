@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace BasketService.Model.DTOs.Discount
+{
+    public class DiscountDTO
+    {
+        public Guid Id { get; set; }
+        public int Amount { get; set; }
+        public string Code { get; set; }
+        public bool Used { get; set; }
+    }
+}
