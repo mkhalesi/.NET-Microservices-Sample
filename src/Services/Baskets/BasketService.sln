@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketService", "BasketService\BasketService.csproj", "{AEBD6C88-4BE1-42D8-B83D-3AA63BEF55CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEBD6C88-4BE1-42D8-B83D-3AA63BEF55CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEBD6C88-4BE1-42D8-B83D-3AA63BEF55CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEBD6C88-4BE1-42D8-B83D-3AA63BEF55CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEBD6C88-4BE1-42D8-B83D-3AA63BEF55CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6BBA97D-7301-4CCB-97B4-F9349AB7AC7F}
+	EndGlobalSection
+EndGlobal
