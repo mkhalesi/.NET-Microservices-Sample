@@ -12,7 +12,7 @@ public class DiscountService : IDiscountService
     public DiscountService(IConfiguration configuration)
     {
         this.configuration = configuration;
-        channel = GrpcChannel.ForAddress(configuration["MicroServiceAddress:Discount:Uri"]);
+        channel = GrpcChannel.ForAddress(configuration["MicroserviceAddress:Discount:Uri"]);
     }
 
 

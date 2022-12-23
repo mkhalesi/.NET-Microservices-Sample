@@ -34,19 +34,19 @@ namespace Microservices.Web.Frontend
 
             //services.AddScoped<IDiscountService, Services.DiscountService.DiscountService>();
             services.AddScoped<IDiscountService>(p => new DiscountServiceRestful(
-                new RestClient(Configuration["MicroServiceAddress:ApiGatewayForWeb:Uri"])));
+                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
             services.AddScoped<IProductService>(p => new ProductService(
-                new RestClient(Configuration["MicroserviceAddress:Product:Uri"])));
+                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
             services.AddScoped<IBasketService>(p => new BasketServices(
-                new RestClient(Configuration["MicroserviceAddress:Basket:Uri"])));
+                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
             services.AddScoped<IOrderService>(p => new OrderService(
-                new RestClient(Configuration["MicroserviceAddress:Order:Uri"])));
+                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
             services.AddScoped<IPaymentService>(p => new PaymentService(
-                new RestClient(Configuration["MicroserviceAddress:Payment:Uri"])));
+                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
