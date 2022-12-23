@@ -101,7 +101,8 @@ namespace Microservices.Web.Frontend.Controllers
                 }
 
                 var basket = basketService.GetBasket(UserId);
-                basketService.ApplyDiscountToBasket(Guid.Parse(basket.Id), discount.Data.Id);
+                //basketService.ApplyDiscountToBasket(Guid.Parse(basket.Id), discount.Data.Id);
+                basketService.ApplyDiscountToBasket(basket.Id, discount.Data.Id);
                 discountService.UseDiscount(discount.Data.Id);
                 return Json(new ResultDTO
                 {
@@ -130,7 +131,8 @@ namespace Microservices.Web.Frontend.Controllers
         public IActionResult Checkout(CheckoutDTO checkout)
         {
             checkout.UserId = UserId;
-            checkout.BasketId = Guid.Parse(basketService.GetBasket(UserId).Id);
+            checkout.BasketId = basketService.GetBasket(UserId).Id;
+            //checkout.BasketId = Guid.Parse(basketService.GetBasket(UserId).Id);
             var result = basketService.Checkout(checkout);
             if (result.IsSuccess)
                 return RedirectToAction("OrderCreated");

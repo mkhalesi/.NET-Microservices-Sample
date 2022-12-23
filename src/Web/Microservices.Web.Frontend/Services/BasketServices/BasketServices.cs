@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Net;
-using System.Text.Json;
 using Microservices.Web.Frontend.Models.DTO;
 using Microservices.Web.Frontend.Models.DTO.Basket;
+using Newtonsoft.Json;
 using RestSharp;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Microservices.Web.Frontend.Services.BasketServices
 {
@@ -24,7 +25,8 @@ namespace Microservices.Web.Frontend.Services.BasketServices
         {
             var request = new RestRequest($"/api/Basket?UserId={userId}", Method.GET);
             IRestResponse response = restClient.Execute(request);
-            var basket = JsonSerializer.Deserialize<BasketDTO>(response.Content);
+            //var basket = JsonSerializer.Deserialize<BasketDTO>(response.Content);
+            var basket = JsonConvert.DeserializeObject<BasketDTO>(response.Content);
             return basket;
         }
 

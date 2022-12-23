@@ -35,7 +35,7 @@ namespace DiscountService.Model.Services
             var discountCode = context.DiscountCodes.SingleOrDefault(p => p.Code.Equals(Code));
 
             if (discountCode == null)
-                throw new Exception("Discouint Not Found....");
+                throw new Exception("Discount Not Found....");
             var result = mapper.Map<DiscountDto>(discountCode);
             return result;
         }

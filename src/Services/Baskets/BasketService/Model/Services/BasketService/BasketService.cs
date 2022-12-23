@@ -2,7 +2,6 @@
 using System.Linq;
 using AutoMapper;
 using BasketService.Infrastructure.Contexts;
-using BasketService.MessageBus;
 using BasketService.MessageBus.Config;
 using BasketService.MessageBus.SendMessages;
 using BasketService.Model.DTOs;
@@ -181,6 +180,15 @@ namespace BasketService.Model.Services.BasketService
                 UserId = basket.UserId,
                 Id = basket.Id,
             };
+        }
+
+        public void ApplyDiscountToBasket(Guid BasketId, Guid DiscountId)
+        {
+            var basket = context.Baskets.Find(BasketId);
+            if (basket == null)
+                throw new Exception("Basket not found....!");
+            basket.DiscountId = DiscountId ;
+            context.SaveChanges();
         }
 
         public ResultDTO CheckoutBasket(CheckoutBasketDTO checkoutBasket, IDiscountService discountService)

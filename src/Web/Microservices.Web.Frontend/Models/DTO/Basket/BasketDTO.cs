@@ -6,7 +6,7 @@ namespace Microservices.Web.Frontend.Models.DTO.Basket
 {
     public class BasketDTO
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string UserId { get; set; }
         public Guid? DiscountId { get; set; }
         public DiscountInBasketDTO DiscountDetail { get; set; } = null;

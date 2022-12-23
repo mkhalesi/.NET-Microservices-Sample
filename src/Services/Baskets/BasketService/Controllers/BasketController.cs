@@ -68,6 +68,19 @@ namespace BasketService.Controllers
             basketService.SetQuantities(basketItemId, quantity);
             return Ok();
         }
+        
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="basketId"></param>
+        /// <param name="discountId"></param>
+        /// <returns></returns>
+        [HttpPut("{basketId}/{discountId}")]
+        public IActionResult ApplyDiscountToBasket(Guid basketId, Guid discountId)
+        {
+            basketService.ApplyDiscountToBasket(basketId, discountId);
+            return Accepted();
+        }
 
         [HttpPost("CheckoutBasket")]
         public IActionResult CheckoutBasket(CheckoutBasketDTO checkoutBasket,

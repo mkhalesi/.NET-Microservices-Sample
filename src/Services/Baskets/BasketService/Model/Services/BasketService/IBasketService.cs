@@ -13,7 +13,7 @@ namespace BasketService.Model.Services.BasketService
         void RemoveItemFromBasket(Guid ItemId);
         void SetQuantities(Guid itemId, int quantity);
         void TransferBasket(string anonymousId, string UserId);
-
+        void ApplyDiscountToBasket(Guid BasketId, Guid DiscountId);
         ResultDTO CheckoutBasket(CheckoutBasketDTO checkoutBasket, IDiscountService discountService);
     }
 }

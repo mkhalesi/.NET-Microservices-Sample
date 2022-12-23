@@ -1,8 +1,10 @@
-﻿namespace Microservices.Web.Frontend.Models.DTO.Basket
+﻿using System;
+
+namespace Microservices.Web.Frontend.Models.DTO.Basket
 {
     public class BasketItemDTO
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string ProductId { get; set; }
         public string ProductName { get; set; }
         public int UnitPrice { get; set; }
