@@ -1,6 +1,8 @@
 using ApiGateway.ForWeb.Models.DiscountServices;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,13 @@ builder.Configuration.SetBasePath(environment.ContentRootPath)
     .AddOcelot(environment)
     .AddEnvironmentVariables();
 
-builder.Services.AddOcelot(configuration);
+builder.Services
+    .AddOcelot(configuration)
+    .AddPolly()
+    .AddCacheManager(x =>
+    {
+        x.WithDictionaryHandle();
+    });
 
 var app = builder.Build();
 
