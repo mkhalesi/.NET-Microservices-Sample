@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ProductService.Infrastructure.Contexts;
 using ProductService.Model.DTOs.ProductCategory;
@@ -15,7 +16,7 @@ namespace ProductService.Model.Services.ProductCategoryService
             this.context = context;
         }
 
-        public void AddNewCatrgory(CategoryDto category)
+        public Guid AddNewCatrgory(CategoryDto category)
         {
             Category newCategory = new Category
             {
@@ -24,6 +25,7 @@ namespace ProductService.Model.Services.ProductCategoryService
             };
             context.Categories.Add(newCategory);
             context.SaveChanges();
+            return newCategory.Id;
         }
 
         public List<CategoryDto> GetCategories()

@@ -31,7 +31,7 @@ namespace ProductService.Model.Services.ProductService
             return false;
         }
 
-        public void AddNewProduct(AddNewProductDto addNewProduct)
+        public Guid AddNewProduct(AddNewProductDto addNewProduct)
         {
             var category = context.Categories.Find(addNewProduct.CategoryId);
             if (category == null)
@@ -46,6 +46,7 @@ namespace ProductService.Model.Services.ProductService
             };
             context.Products.Add(product);
             context.SaveChanges();
+            return product.Id;
         }
 
         public ProductDto GetProduct(Guid Id)

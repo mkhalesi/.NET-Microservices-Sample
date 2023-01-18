@@ -8,7 +8,7 @@ namespace ProductService.Model.Services.ProductService
     {
         List<ProductDto> GetProductList();
         ProductDto GetProduct(Guid Id);
-        void AddNewProduct(AddNewProductDto addNewProduct);
+        Guid AddNewProduct(AddNewProductDto addNewProduct);
         bool UpdateProductName(UpdateProductDto updateProduct);
     }
 }

@@ -27,10 +27,9 @@ namespace ProductService.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] AddNewProductDto addNewProductDto)
         {
-            productService.AddNewProduct(addNewProductDto);
-            return Ok();
+            var productId = productService.AddNewProduct(addNewProductDto);
+            return Created($"api/ProductManagement/get/{productId}", productId);
         }
-
 
         [HttpGet]
         public IActionResult Get()
