@@ -3,14 +3,13 @@ using ProductService.Controllers;
 using ProductService.Model.DTOs.Product;
 using ProductService.Model.DTOs.ProductCategory;
 using Tynamix.ObjectFiller;
-using Xunit;
 
-namespace ProductService.ComponentTests.Controllers
+namespace ProductService.IntegrationTests.Controllers
 {
-    public class ProductManagementControllerTest : IClassFixture<ProductServiceFixture>
+    public class ProductManagementControllerIntegrationTest : IClassFixture<ProductServiceFixture>
     {
         private readonly ProductServiceFixture fixture;
-        public ProductManagementControllerTest(ProductServiceFixture fixture)
+        public ProductManagementControllerIntegrationTest(ProductServiceFixture fixture)
         {
             this.fixture = fixture;
         }
@@ -26,10 +25,16 @@ namespace ProductService.ComponentTests.Controllers
                 new ProductManagementController(fixture.productService, fixture.messageBus, fixture.options);
 
             var result = managementController.Post(newProduct) as CreatedResult;
+            var addedId = Guid.Parse(result.Value.ToString());
 
-            var insertedProduct = fixture.db.Products.FirstOrDefault(p => p.Id == Guid.Parse(result.Value.ToString()));
+            var insertedProduct = fixture.productService.GetProduct(addedId);
             Assert.NotNull(insertedProduct);
+            Assert.Equal(addedId, insertedProduct.Id);
+            Assert.Equal(newProduct.CategoryId, insertedProduct.productCategory.CategoryId);
             Assert.Equal(newProduct.Name, insertedProduct?.Name);
+            Assert.Equal(newProduct.Description, insertedProduct.Description);
+            Assert.Equal(newProduct.Image, insertedProduct.Image);
+            Assert.Equal(newProduct.Price, insertedProduct.Price);
         }
     }
 }

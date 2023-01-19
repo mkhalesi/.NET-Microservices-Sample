@@ -7,6 +7,7 @@ namespace ProductService.Model.Services.ProductCategoryService
     public interface ICategoryService
     {
         List<CategoryDto> GetCategories();
-        Guid AddNewCatrgory(CategoryDto category);
+        Guid AddNewCategory(CategoryDto category);
+        CategoryDto GetCategoryById(Guid categoryId);
     }
 }

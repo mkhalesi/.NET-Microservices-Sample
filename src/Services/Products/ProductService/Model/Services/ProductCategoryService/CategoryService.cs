@@ -16,7 +16,7 @@ namespace ProductService.Model.Services.ProductCategoryService
             this.context = context;
         }
 
-        public Guid AddNewCatrgory(CategoryDto category)
+        public Guid AddNewCategory(CategoryDto category)
         {
             Category newCategory = new Category
             {
@@ -26,6 +26,17 @@ namespace ProductService.Model.Services.ProductCategoryService
             context.Categories.Add(newCategory);
             context.SaveChanges();
             return newCategory.Id;
+        }
+
+        public CategoryDto GetCategoryById(Guid categoryId)
+        {
+            var category = context.Categories.FirstOrDefault(p => p.Id == categoryId);
+            return new CategoryDto
+            {
+                Id = category.Id,
+                Description = category.Description,
+                Name = category.Name,
+            };
         }
 
         public List<CategoryDto> GetCategories()

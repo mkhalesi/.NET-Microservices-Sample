@@ -29,7 +29,7 @@ namespace ProductService.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CategoryDto  categoryDto)
         {
-            categoryService.AddNewCatrgory(categoryDto);
+            categoryService.AddNewCategory(categoryDto);
             return Ok();
         }
  
