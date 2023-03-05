@@ -13,6 +13,7 @@ using OrderService.MessageBus.SendMessages;
 using OrderService.Model.Services.OrderService;
 using OrderService.Model.Services.ProductService;
 using OrderService.Model.Services.RegisterOrderService;
+using RestSharp;
 
 namespace OrderService
 {
@@ -35,13 +36,15 @@ namespace OrderService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrderService", Version = "v1" });
             });
             services.AddDbContext<OrderDataBaseContext>(o => o.UseSqlServer
-                (Configuration["OrderConnection"]) , ServiceLifetime.Singleton);
+                (Configuration["OrderConnection"]), ServiceLifetime.Singleton);
 
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
 
             services.AddTransient<IOrderService, Model.Services.OrderService.OrderService>();
             services.AddTransient<IRegisterOrderService, RegisterOrderService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IVerifyProductService>(p => 
+                new VerifyProductService(new RestClient("https://localhost:5001/")));
 
             services.AddHostedService<ReceivedOrderCreatedMessage>();
             services.AddHostedService<ReceivedPaymentOfOrderMessage>();

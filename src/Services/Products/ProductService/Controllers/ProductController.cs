@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using ProductService.Model.DTOs.Product;
 using ProductService.Model.Services.ProductService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,6 +31,13 @@ namespace ProductService.Controllers
         {
             var data = productService.GetProduct(id);
             return Ok(data);
+        }
+
+        [HttpGet("/api/product/verify/{Id}")]
+        public IActionResult Verify(Guid Id)
+        {
+            var data = productService.GetProduct(Id);
+            return Ok(new ProductVerifyDTO(data));
         }
 
     }
