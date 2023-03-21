@@ -7,8 +7,8 @@
 
 <h1>محصولات </h1>
 
- 
-<table class="table table-hover table-bordered table-responsive" >
+
+<table class="table table-hover table-bordered table-responsive">
     <thead>
         <tr>
             <th>
@@ -24,25 +24,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @item.price.ToString("n0") تومان
-            </td>
-            <td>
-                <a asp-action="Details"
-                   asp-controller="Product" 
-                   asp-route-id="@item.id">
-                    جزئیات
-                </a>
-           </td>
-        </tr>
-}
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @item.price.ToString("n0") تومان
+                    </td>
+                    <td>
+                        <a asp-action="Details"
+                           asp-controller="Product"
+                           asp-route-id="@item.id">
+                            جزئیات
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

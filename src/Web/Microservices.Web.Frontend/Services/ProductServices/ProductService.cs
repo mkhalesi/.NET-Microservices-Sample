@@ -20,6 +20,9 @@ namespace Microservices.Web.Frontend.Services.ProductServices
         {
             var request = new RestRequest("/api/Product", Method.GET);
             IRestResponse response = restClient.Execute(request);
+            if (string.IsNullOrEmpty(response.Content))
+                return null;
+
             var products = JsonSerializer.Deserialize<List<ProductDto>>(response.Content);
             return products;
         }
