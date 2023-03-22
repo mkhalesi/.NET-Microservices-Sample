@@ -1,9 +1,9 @@
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace FrontEnd_E2E_Test
 {
-    public class FrontEnd_E2E_Test : IDisposable 
+    public class FrontEnd_E2E_Test : IDisposable
     {
         private readonly IWebDriver _webDriver;
 
@@ -46,15 +46,38 @@ namespace FrontEnd_E2E_Test
             Assert.Equal("https://localhost:5001/basket", _webDriver.Url.ToLower());
         }
 
-        //[Fact]
-        //public void CheckEmptyDiscountCodeInBasket()
-        //{
-        //    _webDriver.Navigate().GoToUrl("https://localhost:44327/Product");
+        [Fact]
+        public void CheckEmptyDiscountCodeInBasket()
+        {
+            _webDriver.Navigate().GoToUrl("https://localhost:44327/Product");
 
-        //    _webDriver.FindElement(By.Id("addtobasket")).Click();
+            var txtDiscountCode = _webDriver.FindElement(By.Id("btnApplyDiscountCode"));
+            txtDiscountCode.Clear();
 
-        //    Assert.Equal("https://localhost:5001/basket", _webDriver.Url.ToLower());
-        //}
+            var btnApplyDiscountCode = _webDriver.FindElement(By.Id("btnApplyDiscountCode"));
+            btnApplyDiscountCode.Click();
+            Thread.Sleep(1000);
+
+            var alertTitle = _webDriver.FindElement(By.XPath("//div[@class='swal-title']")).Text;
+            Assert.Equal("هشدار", alertTitle);
+        }
+
+        [Fact]
+        public void CheckApplyInvalidDiscountCodeInBasket()
+        {
+            _webDriver.Navigate().GoToUrl("https://localhost:44327/Product");
+
+            var txtDiscountCode = _webDriver.FindElement(By.Id("btnApplyDiscountCode"));
+            txtDiscountCode.Clear();
+            txtDiscountCode.SendKeys("invalid-discount-code");
+
+            var btnApplyDiscountCode = _webDriver.FindElement(By.Id("btnApplyDiscountCode"));
+            btnApplyDiscountCode.Click();
+            Thread.Sleep(1000);
+
+            var alertTitle = _webDriver.FindElement(By.XPath("//div[@class='swal-title']")).Text;
+            Assert.Equal("enter discount code not founded", alertTitle);
+        }
 
         public void Dispose()
         {
