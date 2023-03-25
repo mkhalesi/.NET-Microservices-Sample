@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using IdentityModel;
+using IdentityModel.Client;
 using Microservices.Web.Frontend.Models.DTO;
 using Microservices.Web.Frontend.Models.DTO.Order;
 using Newtonsoft.Json;
@@ -21,36 +23,55 @@ namespace Microservices.Web.Frontend.Services.OrderServices
 
         private async Task<string> GetAccessToken()
         {
-            if(!string.IsNullOrWhiteSpace(_accessToken))
+            if (!string.IsNullOrWhiteSpace(_accessToken))
                 return _accessToken;
-            
+
             HttpClient client = new HttpClient();
-            return "";
+            var discoveryDocument = await client.GetDiscoveryDocumentAsync("https://localhost:7017");
+            var token = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest()
+            {
+                Address = discoveryDocument.TokenEndpoint,
+                ClientId = "webFrontend",
+                ClientSecret = "123321",
+                Scope = "OrderService.FullAccess",
+                GrantType = OidcConstants.GrantTypes.ClientCredentials
+            });
+
+            if (token.IsError)
+                throw new Exception(token.ErrorDescription);
+
+            _accessToken = token.AccessToken;
+
+            return _accessToken;
         }
 
-        public List<OrderDTO> GetOrders(string UserId)
+        public async Task<List<OrderDTO>> GetOrders(string UserId)
         {
             var request = new RestRequest("/api/Order", Method.GET);
-            IRestResponse response = restClient.Execute(request);
+            request.AddHeader("Authorization", $"Bearer {await GetAccessToken()}");
+            IRestResponse response = await restClient.ExecuteAsync(request);
             var orders = JsonConvert.DeserializeObject<List<OrderDTO>>(response.Content);
             return orders;
         }
 
-        public OrderDetailDTO OrderDetail(Guid OrderId)
+        public async Task<OrderDetailDTO> OrderDetail(Guid OrderId)
         {
             var request = new RestRequest($"/api/Order/{OrderId}", Method.GET);
-            IRestResponse response = restClient.Execute(request);
+            request.AddHeader("Authorization", $"Bearer {await GetAccessToken()}");
+            IRestResponse response = await restClient.ExecuteAsync(request);
             var orderdetail = JsonConvert.DeserializeObject<OrderDetailDTO>(response.Content);
             return orderdetail;
         }
 
-        public ResultDTO RequestPayment(Guid OrderId)
+        public async Task<ResultDTO> RequestPayment(Guid OrderId)
         {
             var request = new RestRequest($"/api/OrderPayment?OrderId={OrderId}", Method.POST);
+            request.AddHeader("Authorization", $"Bearer {await GetAccessToken()}");
             request.AddHeader("Content-Type", "application/json");
-            IRestResponse response = restClient.Execute(request);
+            IRestResponse response = await restClient.ExecuteAsync(request);
             return GetResponseStatusCode(response);
         }
+
         private static ResultDTO GetResponseStatusCode(IRestResponse response)
         {
             if (response.StatusCode == System.Net.HttpStatusCode.OK)

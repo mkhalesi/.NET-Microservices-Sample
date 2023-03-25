@@ -3,6 +3,7 @@ using Microservices.Web.Frontend.Services.PaymentServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Microservices.Web.Frontend.Models.DTO.Order;
+using System.Threading.Tasks;
 
 namespace Microservices.Web.Frontend.Controllers
 {
@@ -18,32 +19,32 @@ namespace Microservices.Web.Frontend.Controllers
             this.orderService = orderService;
             this.paymentService = paymentService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var orders = orderService.GetOrders(UserId);
+            var orders = await orderService.GetOrders(UserId);
             return View(orders);
         }
 
-        public IActionResult Detail(Guid Id)
+        public async Task<IActionResult> Detail(Guid Id)
         {
-            var order = orderService.OrderDetail(Id);
+            var order = await orderService.OrderDetail(Id);
             return View(order);
         }
 
-        public IActionResult Pay(Guid OrderId)
+        public async Task<IActionResult> Pay(Guid OrderId)
         {
-            var order = orderService.OrderDetail(OrderId);
+            var order = await orderService.OrderDetail(OrderId);
             if (order.PaymentStatus == PaymentStatus.isPaid)
             {
                 return RedirectToAction(nameof(Detail), new { Id = OrderId });
             }
             if (order.PaymentStatus == PaymentStatus.unPaid)
             {
-                //ارسال درخواست پرداخت برای سرویس سفارش
-                var paymentRequest = orderService.RequestPayment(OrderId);
+                //Submit a payment request for the order service
+                var paymentRequest = await orderService.RequestPayment(OrderId);
             }
 
-            // دریافت لینک پرداخت از سرویس پرداخت
+            //Get the payment link from the payment service
             string callbackUrl = Url.Action(nameof(Detail), "Orders",
                 new { Id = OrderId }, protocol: Request.Scheme);
             var paymentlink = paymentService.GetPaymentlink(order.Id, callbackUrl);

@@ -41,8 +41,10 @@ namespace Microservices.Web.Frontend
             services.AddScoped<IBasketService>(p => new BasketServices(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
+            //services.AddScoped<IOrderService>(p => new OrderService(
+            //    new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
             services.AddScoped<IOrderService>(p => new OrderService(
-                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
+                new RestClient("https://localhost:7001")));
 
             services.AddScoped<IPaymentService>(p => new PaymentService(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
