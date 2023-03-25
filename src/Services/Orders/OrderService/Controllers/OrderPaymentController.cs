@@ -4,9 +4,7 @@ using OrderService.Model.Services.OrderService;
 
 namespace OrderService.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class OrderPaymentController : ControllerBase
+    public class OrderPaymentController : OrderBaseController
     {
         private readonly IOrderService orderService;
         public OrderPaymentController(IOrderService orderService)

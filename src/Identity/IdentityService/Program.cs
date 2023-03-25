@@ -9,12 +9,38 @@ builder.Services.AddRazorPages();
 builder.Services.AddIdentityServer()
     .AddDeveloperSigningCredential()
     .AddInMemoryIdentityResources(new List<IdentityResource>())
-    .AddInMemoryClients(new List<Client>())
+    .AddInMemoryClients(new List<Client>()
+    {
+        new Client()
+        {
+            ClientName = "Frontend Web",
+            ClientId = "webFrontend",
+            ClientSecrets = {new Secret("123321".Sha256())},
+            AllowedGrantTypes = GrantTypes.ClientCredentials,
+            AllowedScopes = { "OrderService.FullAccess" }
+        }
+    })
     .AddTestUsers(new List<TestUser>()
     {
         new ()
         {
-            Claims = 
+            IsActive = true,
+            Password = "123321",
+            Username = "admin",
+            SubjectId = "TestGuid"
+        }
+    })
+    .AddInMemoryApiScopes(new List<ApiScope>()
+    {
+        new () { Name = "OrderService.FullAccess" }
+    })
+    .AddInMemoryApiResources(new List<ApiResource>()
+    {
+        new()
+        {
+            Name = "OrderService",
+            Description = "OrderService Api",
+            Scopes = { "OrderService.FullAccess" }
         }
     });
 

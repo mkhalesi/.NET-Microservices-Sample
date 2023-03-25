@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microservices.Web.Frontend.Models.DTO;
 using Microservices.Web.Frontend.Models.DTO.Order;
 using Newtonsoft.Json;
@@ -10,10 +12,20 @@ namespace Microservices.Web.Frontend.Services.OrderServices
     public class OrderService : IOrderService
     {
         private readonly RestClient restClient;
+        private string _accessToken = null;
         public OrderService(RestClient restClient)
         {
             this.restClient = restClient;
             restClient.Timeout = -1;
+        }
+
+        private async Task<string> GetAccessToken()
+        {
+            if(!string.IsNullOrWhiteSpace(_accessToken))
+                return _accessToken;
+            
+            HttpClient client = new HttpClient();
+            return "";
         }
 
         public List<OrderDTO> GetOrders(string UserId)

@@ -1,4 +1,3 @@
-using DiscountService.Proto;
 using Microservices.Web.Frontend.Services.BasketServices;
 using Microservices.Web.Frontend.Services.DiscountService;
 using Microservices.Web.Frontend.Services.OrderServices;
