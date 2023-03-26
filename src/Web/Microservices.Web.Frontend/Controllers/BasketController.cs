@@ -4,10 +4,12 @@ using Microservices.Web.Frontend.Models.DTO.Basket;
 using Microservices.Web.Frontend.Services.BasketServices;
 using Microservices.Web.Frontend.Services.DiscountService;
 using Microservices.Web.Frontend.Services.ProductServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Microservices.Web.Frontend.Controllers
 {
+    [Authorize]
     public class BasketController : Controller
     {
         #region constructor

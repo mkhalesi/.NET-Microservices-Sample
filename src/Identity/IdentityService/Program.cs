@@ -1,3 +1,4 @@
+using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Test;
 
@@ -8,16 +9,33 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddIdentityServer()
     .AddDeveloperSigningCredential()
-    .AddInMemoryIdentityResources(new List<IdentityResource>())
+    .AddInMemoryIdentityResources(new List<IdentityResource>()
+    {
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile()
+    })
     .AddInMemoryClients(new List<Client>()
     {
-        new Client()
+        new ()
         {
             ClientName = "Frontend Web",
             ClientId = "webFrontend",
             ClientSecrets = {new Secret("123321".Sha256())},
             AllowedGrantTypes = GrantTypes.ClientCredentials,
             AllowedScopes = { "OrderService.FullAccess" }
+        },
+        new ()
+        {
+            ClientName = "Frontend Web Code",
+            ClientId = "webFrontendCode",
+            ClientSecrets = {new Secret("123321".Sha256())},
+            AllowedGrantTypes = GrantTypes.Code,
+            RedirectUris = { "https://localhost:44327/signin-oidc" },
+            PostLogoutRedirectUris = { "https://localhost:44327/signout-oidc" },
+            AllowedScopes = {
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile
+            },
         }
     })
     .AddTestUsers(new List<TestUser>()

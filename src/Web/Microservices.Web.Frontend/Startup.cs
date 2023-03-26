@@ -1,13 +1,17 @@
+using IdentityModel;
 using Microservices.Web.Frontend.Services.BasketServices;
 using Microservices.Web.Frontend.Services.DiscountService;
 using Microservices.Web.Frontend.Services.OrderServices;
 using Microservices.Web.Frontend.Services.PaymentServices;
 using Microservices.Web.Frontend.Services.ProductServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using RestSharp;
 using DiscountService = Microservices.Web.Frontend.Services.DiscountService.DiscountService;
 
@@ -48,6 +52,26 @@ namespace Microservices.Web.Frontend
 
             services.AddScoped<IPaymentService>(p => new PaymentService(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
+
+            services.AddAuthentication(option =>
+            {
+                option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+                {
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.Authority = "https://localhost:7017";
+                    options.ClientId = "webFrontendCode";
+                    options.ClientSecret = "123321";
+                    options.ResponseType = "code";
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+                    // default
+                    options.Scope.Add(OidcConstants.StandardScopes.OpenId);
+                    options.Scope.Add(OidcConstants.StandardScopes.Profile);
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +91,7 @@ namespace Microservices.Web.Frontend
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
