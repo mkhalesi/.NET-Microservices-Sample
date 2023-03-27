@@ -7,7 +7,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 11001
         }
       ],
       // This information is provided to the subordinate
@@ -36,7 +36,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 11001
         }
       ],
 
@@ -51,7 +51,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 11001
         }
       ],
       "UpstreamPathTemplate": "/api/Category",
@@ -63,7 +63,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 11001
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement",
@@ -75,7 +75,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 11001
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
@@ -88,7 +88,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 11001
         }
       ],
       "UpstreamPathTemplate": "/api/ProductPriceManagement",

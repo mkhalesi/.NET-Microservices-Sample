@@ -34,7 +34,9 @@ builder.Services.AddIdentityServer()
             PostLogoutRedirectUris = { "https://localhost:44327/signout-oidc" },
             AllowedScopes = {
                 IdentityServerConstants.StandardScopes.OpenId,
-                IdentityServerConstants.StandardScopes.Profile
+                IdentityServerConstants.StandardScopes.Profile,
+                "OrderService.FullAccess",
+                "BasketService.FullAccess"
             },
         }
     })
@@ -50,7 +52,8 @@ builder.Services.AddIdentityServer()
     })
     .AddInMemoryApiScopes(new List<ApiScope>()
     {
-        new () { Name = "OrderService.FullAccess" }
+        new () { Name = "OrderService.FullAccess" },
+        new () { Name = "BasketService.FullAccess" }
     })
     .AddInMemoryApiResources(new List<ApiResource>()
     {
@@ -59,6 +62,12 @@ builder.Services.AddIdentityServer()
             Name = "OrderService",
             Description = "OrderService Api",
             Scopes = { "OrderService.FullAccess" }
+        },
+        new()
+        {
+            Name = "BasketService",
+            Description = "BasketService Api",
+            Scopes = { "BasketService.FullAccess" }
         }
     });
 

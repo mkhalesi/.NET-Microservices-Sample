@@ -8,12 +8,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using RestSharp;
-using DiscountService = Microservices.Web.Frontend.Services.DiscountService.DiscountService;
 
 namespace Microservices.Web.Frontend
 {
@@ -32,6 +31,8 @@ namespace Microservices.Web.Frontend
         public void ConfigureServices(IServiceCollection services)
         {
             var mvcService = services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
+            
             //if (environment.IsDevelopment())
             //    mvcService.AddRazorRuntimeCompilation();
 
@@ -48,7 +49,7 @@ namespace Microservices.Web.Frontend
             //services.AddScoped<IOrderService>(p => new OrderService(
             //    new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
             services.AddScoped<IOrderService>(p => new OrderService(
-                new RestClient("https://localhost:7001")));
+                new RestClient("https://localhost:7001"), new HttpContextAccessor()));
 
             services.AddScoped<IPaymentService>(p => new PaymentService(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
@@ -67,10 +68,13 @@ namespace Microservices.Web.Frontend
                     options.ClientSecret = "123321";
                     options.ResponseType = "code";
                     options.GetClaimsFromUserInfoEndpoint = true;
+                    options.SaveTokens = true;
 
                     // default
                     options.Scope.Add(OidcConstants.StandardScopes.OpenId);
                     options.Scope.Add(OidcConstants.StandardScopes.Profile);
+                    options.Scope.Add("OrderService.FullAccess");
+                    options.Scope.Add("BasketService.FullAccess");
                 });
         }
 

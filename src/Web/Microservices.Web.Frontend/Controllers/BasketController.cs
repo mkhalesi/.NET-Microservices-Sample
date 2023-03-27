@@ -32,7 +32,7 @@ namespace Microservices.Web.Frontend.Controllers
         {
             var basket = basketService.GetBasket(UserId);
 
-            if (basket.DiscountId.HasValue)
+            if (basket != null && basket.DiscountId.HasValue)
             {
                 var discount = discountService.GetDiscountById(basket.DiscountId.Value);
                 basket.DiscountDetail = new DiscountInBasketDTO()

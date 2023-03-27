@@ -6,6 +6,9 @@ using IdentityModel;
 using IdentityModel.Client;
 using Microservices.Web.Frontend.Models.DTO;
 using Microservices.Web.Frontend.Models.DTO.Order;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -14,10 +17,12 @@ namespace Microservices.Web.Frontend.Services.OrderServices
     public class OrderService : IOrderService
     {
         private readonly RestClient restClient;
+        private readonly IHttpContextAccessor _contextAccessor;
         private string _accessToken = null;
-        public OrderService(RestClient restClient)
+        public OrderService(RestClient restClient, IHttpContextAccessor contextAccessor)
         {
             this.restClient = restClient;
+            _contextAccessor = contextAccessor;
             restClient.Timeout = -1;
         }
 
@@ -26,21 +31,23 @@ namespace Microservices.Web.Frontend.Services.OrderServices
             if (!string.IsNullOrWhiteSpace(_accessToken))
                 return _accessToken;
 
-            HttpClient client = new HttpClient();
-            var discoveryDocument = await client.GetDiscoveryDocumentAsync("https://localhost:7017");
-            var token = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest()
-            {
-                Address = discoveryDocument.TokenEndpoint,
-                ClientId = "webFrontend",
-                ClientSecret = "123321",
-                Scope = "OrderService.FullAccess",
-                GrantType = OidcConstants.GrantTypes.ClientCredentials
-            });
+            //HttpClient client = new HttpClient();
+            //var discoveryDocument = await client.GetDiscoveryDocumentAsync("https://localhost:7017");
+            //var token = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest()
+            //{
+            //    Address = discoveryDocument.TokenEndpoint,
+            //    ClientId = "webFrontend",
+            //    ClientSecret = "123321",
+            //    Scope = "OrderService.FullAccess",
+            //    GrantType = OidcConstants.GrantTypes.ClientCredentials
+            //});
 
-            if (token.IsError)
-                throw new Exception(token.ErrorDescription);
+            //if (token.IsError)
+            //    throw new Exception(token.ErrorDescription);
 
-            _accessToken = token.AccessToken;
+            //_accessToken = token.AccessToken;
+
+            _accessToken = await _contextAccessor.HttpContext.GetTokenAsync(CookieAuthenticationDefaults.AuthenticationScheme, "access_token");
 
             return _accessToken;
         }
