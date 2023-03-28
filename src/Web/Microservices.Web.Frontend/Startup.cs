@@ -73,7 +73,7 @@ namespace Microservices.Web.Frontend
                     // default
                     options.Scope.Add(OidcConstants.StandardScopes.OpenId);
                     options.Scope.Add(OidcConstants.StandardScopes.Profile);
-                    options.Scope.Add("OrderService.FullAccess");
+                    options.Scope.Add("OrderService.GetOrders");
                     options.Scope.Add("BasketService.FullAccess");
                 });
         }

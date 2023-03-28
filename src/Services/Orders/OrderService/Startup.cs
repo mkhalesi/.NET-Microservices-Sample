@@ -58,6 +58,19 @@ namespace OrderService
                     option.Authority = "https://localhost:7017";
                     option.Audience = "OrderService";
                 });
+
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy("OrdersManagement", policy =>
+                {
+                    policy.RequireClaim("scope", "OrderService.OrdersManagement");
+                });
+                option.AddPolicy("GetOrders", policy =>
+                {
+                    policy.RequireClaim("scope", "OrderService.GetOrders");
+                });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

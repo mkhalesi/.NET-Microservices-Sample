@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Microservices.Web.Frontend.Models.DTO.Order;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Microservices.Web.Frontend.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IOrderService orderService;

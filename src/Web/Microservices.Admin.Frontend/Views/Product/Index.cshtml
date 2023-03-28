@@ -2,18 +2,18 @@
 @model List<ProductDto> ;
 
 @{
-    ViewData["Title"] = "لیست محصولات";
+    ViewData["Title"] = "Products List";
 }
 
-<h1>لیست محصولات</h1>
+<h1>Products List</h1>
 
 <table class="table table-hover">
     <thead>
         <tr>
 
-            <th scope="col">تصویر</th>
-            <th scope="col">محصول</th>
-            <th scope="col">قیمت</th>
+            <th scope="col">Image</th>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -25,9 +25,9 @@
                     <img src="@item.image" width="15" height="15" />
                 </td>
                 <td>@item.name</td>
-                <td>@item.price.ToString("n0") تومان</td>
+                <td>@item.price.ToString("n0") t</td>
                 <td class="row">
-                    <a class="btn  btn-info" onclick="Rename('@item.id','@item.name')">ویرایش</a>
+                    <a class="btn  btn-info" onclick="Rename('@item.id','@item.name')">Edit</a>
                 </td>
             </tr>
         }
@@ -39,18 +39,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">تغییر نام محصول</h5>
+                <h5 class="modal-title">Edit Product Name</h5>
                 
             </div>
             <form asp-action="UpdateName" asp-controller="Product">
                 <div class="modal-body">
                     <input type="hidden" id="ProductId" name="ProductId" value="" />
-                    <label>نام محصول</label>
+                    <label>Product Name</label>
                     <br />
                     <input class="form-control col-md-12" type="text" id="Name" name="Name" value="" />
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">ثبت تغییرات</button>
+                    <button type="submit" class="btn btn-primary">Apply Changes</button>
                 </div>
             </form>
         </div>

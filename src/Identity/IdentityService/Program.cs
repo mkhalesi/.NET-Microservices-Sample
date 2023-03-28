@@ -18,7 +18,7 @@ builder.Services.AddIdentityServer()
     {
         new ()
         {
-            ClientName = "Frontend Web",
+            ClientName = "Web Frontend",
             ClientId = "webFrontend",
             ClientSecrets = {new Secret("123321".Sha256())},
             AllowedGrantTypes = GrantTypes.ClientCredentials,
@@ -26,7 +26,7 @@ builder.Services.AddIdentityServer()
         },
         new ()
         {
-            ClientName = "Frontend Web Code",
+            ClientName = "Web Frontend Code",
             ClientId = "webFrontendCode",
             ClientSecrets = {new Secret("123321".Sha256())},
             AllowedGrantTypes = GrantTypes.Code,
@@ -35,8 +35,23 @@ builder.Services.AddIdentityServer()
             AllowedScopes = {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                "OrderService.FullAccess",
+                "OrderService.GetOrders",
                 "BasketService.FullAccess"
+            },
+        },
+        new ()
+        {
+            ClientName = "Admin Frontend Code",
+            ClientId = "adminFrontendCode",
+            ClientSecrets = {new Secret("123321".Sha256())},
+            AllowedGrantTypes = GrantTypes.Code,
+            RedirectUris = { "https://localhost:7297/signin-oidc" },
+            PostLogoutRedirectUris = { "https://localhost:7297/signout-oidc" },
+            AllowedScopes = {
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
+                "OrderService.GetOrders",
+                "OrderService.OrdersManagement"
             },
         }
     })
@@ -52,7 +67,8 @@ builder.Services.AddIdentityServer()
     })
     .AddInMemoryApiScopes(new List<ApiScope>()
     {
-        new () { Name = "OrderService.FullAccess" },
+        new () { Name = "OrderService.GetOrders" },
+        new () { Name = "OrderService.OrdersManagement" },
         new () { Name = "BasketService.FullAccess" }
     })
     .AddInMemoryApiResources(new List<ApiResource>()
@@ -61,7 +77,7 @@ builder.Services.AddIdentityServer()
         {
             Name = "OrderService",
             Description = "OrderService Api",
-            Scopes = { "OrderService.FullAccess" }
+            Scopes = { "OrderService.GetOrders" , "OrderService.OrdersManagement" }
         },
         new()
         {

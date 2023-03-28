@@ -4,10 +4,10 @@ using OrderService.Model.Services.OrderService;
 
 namespace OrderService.Controllers
 {
-    public class OrderController : OrderBaseController
+    public class OrderSiteController : OrderSiteBaseController
     {
         private readonly IOrderService orderService;
-        public OrderController(IOrderService orderService)
+        public OrderSiteController(IOrderService orderService)
         {
             this.orderService = orderService;
         }
