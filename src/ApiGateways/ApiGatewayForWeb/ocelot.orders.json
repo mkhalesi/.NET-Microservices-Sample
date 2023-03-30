@@ -11,7 +11,10 @@
           "Host": "localhost",
           "Port": 7001
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      }
     }
   ]
 }

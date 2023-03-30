@@ -46,10 +46,10 @@ namespace Microservices.Web.Frontend
             services.AddScoped<IBasketService>(p => new BasketServices(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
-            //services.AddScoped<IOrderService>(p => new OrderService(
-            //    new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
             services.AddScoped<IOrderService>(p => new OrderService(
-                new RestClient("https://localhost:7001"), new HttpContextAccessor()));
+                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"]), new HttpContextAccessor()));
+            //services.AddScoped<IOrderService>(p => new OrderService(
+            //    new RestClient("https://localhost:7001"), new HttpContextAccessor()));
 
             services.AddScoped<IPaymentService>(p => new PaymentService(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
@@ -75,6 +75,7 @@ namespace Microservices.Web.Frontend
                     options.Scope.Add(OidcConstants.StandardScopes.Profile);
                     options.Scope.Add("OrderService.GetOrders");
                     options.Scope.Add("BasketService.FullAccess");
+                    //options.Scope.Add("ApiGatewayForWeb.FullAccess");
                 });
         }
 

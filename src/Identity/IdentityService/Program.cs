@@ -16,14 +16,14 @@ builder.Services.AddIdentityServer()
     })
     .AddInMemoryClients(new List<Client>()
     {
-        new ()
-        {
-            ClientName = "Web Frontend",
-            ClientId = "webFrontend",
-            ClientSecrets = {new Secret("123321".Sha256())},
-            AllowedGrantTypes = GrantTypes.ClientCredentials,
-            AllowedScopes = { "OrderService.FullAccess" }
-        },
+        //new ()
+        //{
+        //    ClientName = "Web Frontend",
+        //    ClientId = "webFrontend",
+        //    ClientSecrets = {new Secret("123321".Sha256())},
+        //    AllowedGrantTypes = GrantTypes.ClientCredentials,
+        //    AllowedScopes = { "OrderService.FullAccess" }
+        //},
         new ()
         {
             ClientName = "Web Frontend Code",
@@ -36,7 +36,8 @@ builder.Services.AddIdentityServer()
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
                 "OrderService.GetOrders",
-                "BasketService.FullAccess"
+                "BasketService.FullAccess",
+                "ApiGatewayForWeb.FullAccess"
             },
         },
         new ()
@@ -69,7 +70,8 @@ builder.Services.AddIdentityServer()
     {
         new () { Name = "OrderService.GetOrders" },
         new () { Name = "OrderService.OrdersManagement" },
-        new () { Name = "BasketService.FullAccess" }
+        new () { Name = "BasketService.FullAccess" },
+        new () { Name = "ApiGatewayForWeb.FullAccess" }
     })
     .AddInMemoryApiResources(new List<ApiResource>()
     {
@@ -84,6 +86,12 @@ builder.Services.AddIdentityServer()
             Name = "BasketService",
             Description = "BasketService Api",
             Scopes = { "BasketService.FullAccess" }
+        },
+        new()
+        {
+            Name = "ApiGatewayForWeb",
+            Description = "ApiGatewayForWeb",
+            Scopes = { "ApiGatewayForWeb.FullAccess" }
         }
     });
 

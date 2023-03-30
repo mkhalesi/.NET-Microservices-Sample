@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using OrderService.Model.Services.OrderService;
 
 namespace OrderService.Controllers
 {
-    public class OrderSiteController : OrderSiteBaseController
+    public class OrderController : OrderSiteBaseController
     {
         private readonly IOrderService orderService;
-        public OrderSiteController(IOrderService orderService)
+        public OrderController(IOrderService orderService)
         {
             this.orderService = orderService;
         }
@@ -16,8 +18,8 @@ namespace OrderService.Controllers
         public IActionResult Get()
         {
             // identify from Claims
-            string UserId = "1";
-            var orders = orderService.GetOrdersForUser(UserId);
+            string userId = User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
+            var orders = orderService.GetOrdersForUser(userId);
             return Ok(orders);
         }
 

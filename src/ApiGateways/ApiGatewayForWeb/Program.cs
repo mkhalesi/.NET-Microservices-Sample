@@ -1,4 +1,5 @@
 using ApiGateway.ForWeb.Models.DiscountServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -22,6 +23,15 @@ builder.Configuration.SetBasePath(environment.ContentRootPath)
     .AddJsonFile("ocelot.json")
     .AddOcelot(environment)
     .AddEnvironmentVariables();
+
+var authenticationSchemeKey = "ApiGatewayForWebAuthenticationScheme";
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(authenticationSchemeKey, option =>
+    {
+        option.Authority = "https://localhost:7017";
+        option.Audience = "apiGatewayForWeb";
+    });
 
 builder.Services
     .AddOcelot(configuration)
