@@ -1,0 +1,44 @@
+{
+  "Routes": [
+    // ------------------- ProductManagement / api/ProductManagement
+    {
+      "DownstreamPathTemplate": "/api/ProductManagement",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 11001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ProductManagement",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/ProductManagement/{Id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 11001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    // ------------------- ProductPriceManagement / api/ProductPriceManagement
+    {
+      "DownstreamPathTemplate": "/api/ProductPriceManagement",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 11001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ProductPriceManagement",
+      "UpstreamHttpMethod": [ "POST" ]
+    }
+
+  ]
+}
