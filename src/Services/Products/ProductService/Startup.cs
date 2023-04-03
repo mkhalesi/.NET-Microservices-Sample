@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.OpenApi.Models;
 using ProductService.Infrastructure.Contexts;
 using ProductService.MessagingBus.Config;
@@ -40,6 +42,19 @@ namespace ProductService
             services.AddTransient<IProductService, Model.Services.ProductService.ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IMessageBus, RabbitMqMessageBus>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://localhost:7017";
+                    options.Audience = "ProductService";
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ProductsManagement",
+                    policy => policy.RequireClaim("scope", "ProductService.ProductsManagement"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +70,7 @@ namespace ProductService
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

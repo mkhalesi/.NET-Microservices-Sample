@@ -52,7 +52,9 @@ builder.Services.AddIdentityServer()
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
                 "OrderService.GetOrders",
-                "OrderService.OrdersManagement"
+                "OrderService.OrdersManagement",
+                "ApiGatewayAdmin.FullAccess",
+                "ProductService.ProductsManagement"
             },
         }
     })
@@ -71,8 +73,10 @@ builder.Services.AddIdentityServer()
         new () { Name = "OrderService.GetOrders" },
         new () { Name = "OrderService.OrdersManagement" },
         new () { Name = "BasketService.FullAccess" },
-        new () { Name = "ApiGatewayForWeb.FullAccess" }
-    })
+        new () { Name = "ApiGatewayForWeb.FullAccess" },
+        new () { Name = "ApiGatewayAdmin.FullAccess" },
+        new () { Name = "ProductService.ProductsManagement" }
+})
     .AddInMemoryApiResources(new List<ApiResource>()
     {
         new()
@@ -92,6 +96,18 @@ builder.Services.AddIdentityServer()
             Name = "ApiGatewayForWeb",
             Description = "ApiGatewayForWeb",
             Scopes = { "ApiGatewayForWeb.FullAccess" }
+        },
+        new()
+        {
+            Name = "ApiGatewayAdmin",
+            Description = "ApiGateway For Admin",
+            Scopes = { "ApiGatewayAdmin.FullAccess"}
+        },
+        new()
+        {
+            Name = "ProductService",
+            Description = "ProductService",
+            Scopes = { "ProductService.ProductsManagement" }
         }
     });
 

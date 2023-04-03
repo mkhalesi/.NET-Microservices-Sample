@@ -1,4 +1,7 @@
 using Microservices.Admin.Frontend.Models.ViewServices.ProductServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,11 +11,34 @@ builder.Services.AddControllersWithViews();
 ConfigurationManager Configuration = builder.Configuration;
 IWebHostEnvironment Environment = builder.Environment;
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IProductManagementService>(p =>
-{
-    return new ProductManagementService(new
-        RestSharp.RestClient(Configuration["MicroservicAddress:Product:Uri"]));
-});
+    new ProductManagementService(new RestSharp.RestClient(Configuration["MicroserviceAddress:AdminApiGateway:Uri"]),
+    new HttpContextAccessor()));
+
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+    {
+        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.Authority = "https://localhost:7017";
+        options.ClientId = "adminFrontendCode";
+        options.ClientSecret = "123321";
+        options.ResponseType = "code";
+        options.SaveTokens = true;
+        options.GetClaimsFromUserInfoEndpoint = true;
+
+        //options.Scope.Add(OidcConstants.StandardScopes.OpenId);
+        //options.Scope.Add(OidcConstants.StandardScopes.Profile);
+        options.Scope.Add("openid");
+        options.Scope.Add("profile");
+        options.Scope.Add("ApiGatewayAdmin.FullAccess");
+        options.Scope.Add("ProductService.ProductsManagement");
+    });
 
 var app = builder.Build();
 
@@ -28,7 +54,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

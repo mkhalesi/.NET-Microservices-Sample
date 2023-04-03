@@ -11,7 +11,10 @@
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/ProductManagement/{Id}",
@@ -23,7 +26,10 @@
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      }
     },
 
     // ------------------- ProductPriceManagement / api/ProductPriceManagement
@@ -37,7 +43,10 @@
         }
       ],
       "UpstreamPathTemplate": "/api/ProductPriceManagement",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      }
     }
 
   ]

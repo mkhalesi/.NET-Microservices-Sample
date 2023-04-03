@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProductService.Model.DTOs.ProductCategory;
 using ProductService.Model.Services.ProductCategoryService;
 
@@ -26,6 +27,7 @@ namespace ProductService.Controllers
         }
 
         // POST api/<CategoryController>
+        [Authorize(Policy = "ProductsManagement")]
         [HttpPost]
         public IActionResult Post([FromBody] CategoryDto  categoryDto)
         {

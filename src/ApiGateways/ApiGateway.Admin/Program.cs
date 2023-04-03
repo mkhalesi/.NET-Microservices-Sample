@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -16,6 +17,15 @@ builder.Configuration.SetBasePath(webHostEnvironment.ContentRootPath)
     .AddJsonFile("ocelot.json")
     .AddOcelot(webHostEnvironment)
     .AddEnvironmentVariables();
+
+var authenticationSchemeKey = "ApiGatewayAdminAuthenticationScheme";
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(authenticationSchemeKey, option =>
+    {
+        option.Authority = "https://localhost:7017";
+        option.Audience = "apiGatewayAdmin";
+    });
 
 builder.Services.AddOcelot(configuration);
 

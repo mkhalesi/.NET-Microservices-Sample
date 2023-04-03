@@ -1,8 +1,10 @@
 ﻿using Microservices.Admin.Frontend.Models.ViewServices.ProductServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Microservices.Admin.Frontend.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductManagementService productManagementService;

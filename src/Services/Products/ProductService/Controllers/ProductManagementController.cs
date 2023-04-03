@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using ProductService.MessagingBus.Config;
 using ProductService.MessagingBus.Messages;
@@ -11,6 +12,7 @@ namespace ProductService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "ProductsManagement")]
     public class ProductManagementController : ControllerBase
     {
         private readonly IProductService productService;
