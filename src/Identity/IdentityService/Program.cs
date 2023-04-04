@@ -39,6 +39,12 @@ builder.Services.AddIdentityServer()
                 "BasketService.FullAccess",
                 "ApiGatewayForWeb.FullAccess"
             },
+
+            //for refresh token
+            AllowOfflineAccess = true,
+            AccessTokenLifetime = 3600,
+            RefreshTokenUsage = TokenUsage.ReUse,
+            RefreshTokenExpiration = TokenExpiration.Sliding
         },
         new ()
         {

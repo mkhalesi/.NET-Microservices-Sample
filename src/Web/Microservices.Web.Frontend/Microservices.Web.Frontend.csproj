@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
-    <PackageReference Include="IdentityModel" Version="5.0.0" />
+    <PackageReference Include="IdentityModel" Version="6.0.0" />
+    <PackageReference Include="IdentityModel.AspNetCore" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -15,7 +16,7 @@
     <PackageReference Include="RestSharp" Version="106.12.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
   </ItemGroup>
-
+ 
   <ItemGroup>
     <Folder Include="Models\DTO\Discount\" />
   </ItemGroup>

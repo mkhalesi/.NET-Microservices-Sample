@@ -1,3 +1,4 @@
+using System;
 using IdentityModel;
 using Microservices.Web.Frontend.Services.BasketServices;
 using Microservices.Web.Frontend.Services.DiscountService;
@@ -32,7 +33,8 @@ namespace Microservices.Web.Frontend
         {
             var mvcService = services.AddControllersWithViews();
             services.AddHttpContextAccessor();
-            
+            services.AddAccessTokenManagement();
+
             //if (environment.IsDevelopment())
             //    mvcService.AddRazorRuntimeCompilation();
 
@@ -46,11 +48,14 @@ namespace Microservices.Web.Frontend
             services.AddScoped<IBasketService>(p => new BasketServices(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
-            services.AddScoped<IOrderService>(p => new OrderService(
-                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"]), new HttpContextAccessor()));
             //services.AddScoped<IOrderService>(p => new OrderService(
             //    new RestClient("https://localhost:7001"), new HttpContextAccessor()));
-
+            //services.AddScoped<IOrderService>(p => new OrderService(
+            //    new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"]), new HttpContextAccessor()));
+            services.AddHttpClient<IOrderService, OrderService>(p => 
+                p.BaseAddress = new Uri(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])
+            ).AddUserAccessTokenHandler();
+            
             services.AddScoped<IPaymentService>(p => new PaymentService(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
@@ -76,6 +81,8 @@ namespace Microservices.Web.Frontend
                     options.Scope.Add("OrderService.GetOrders");
                     options.Scope.Add("BasketService.FullAccess");
                     options.Scope.Add("ApiGatewayForWeb.FullAccess");
+                    // for refresh token
+                    options.Scope.Add("offline_access");
                 });
         }
 
