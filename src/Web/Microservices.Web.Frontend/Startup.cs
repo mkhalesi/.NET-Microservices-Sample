@@ -75,7 +75,7 @@ namespace Microservices.Web.Frontend
                     options.Scope.Add(OidcConstants.StandardScopes.Profile);
                     options.Scope.Add("OrderService.GetOrders");
                     options.Scope.Add("BasketService.FullAccess");
-                    //options.Scope.Add("ApiGatewayForWeb.FullAccess");
+                    options.Scope.Add("ApiGatewayForWeb.FullAccess");
                 });
         }
 
