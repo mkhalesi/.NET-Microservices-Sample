@@ -13,7 +13,7 @@
       "UpstreamPathTemplate": "/api/ProductManagement",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "ApiGatewayAdminAuthenticationScheme"
       }
     },
     {
@@ -28,7 +28,7 @@
       "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "ApiGatewayAdminAuthenticationScheme"
       }
     },
 
@@ -45,7 +45,7 @@
       "UpstreamPathTemplate": "/api/ProductPriceManagement",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "ApiGatewayAdminAuthenticationScheme"
       }
     }
 

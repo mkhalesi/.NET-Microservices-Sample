@@ -22,7 +22,8 @@ builder.Services.AddIdentityServer()
     .AddInMemoryIdentityResources(new List<IdentityResource>()
     {
         new IdentityResources.OpenId(),
-        new IdentityResources.Profile()
+        new IdentityResources.Profile(),
+        new("roles", "User role(s)", new List<string> { "role" })
     })
     .AddInMemoryClients(new List<Client>()
     {
@@ -48,7 +49,8 @@ builder.Services.AddIdentityServer()
                 IdentityServerConstants.StandardScopes.Profile,
                 "OrderService.GetOrders",
                 "BasketService.FullAccess",
-                "ApiGatewayForWeb.FullAccess"
+                "ApiGatewayForWeb.FullAccess",
+                "roles"
             },
 
             //for refresh token
@@ -72,7 +74,8 @@ builder.Services.AddIdentityServer()
                 "OrderService.GetOrders",
                 "OrderService.OrdersManagement",
                 "ApiGatewayAdmin.FullAccess",
-                "ProductService.ProductsManagement"
+                "ProductService.ProductsManagement",
+                "roles"
             },
         }
     })
@@ -91,8 +94,8 @@ builder.Services.AddIdentityServer()
         new() { Name = "OrderService.GetOrders" },
         new() { Name = "OrderService.OrdersManagement" },
         new() { Name = "BasketService.FullAccess" },
-        new() { Name = "ApiGatewayForWeb.FullAccess" },
-        new() { Name = "ApiGatewayAdmin.FullAccess" },
+        new() { Name = "ApiGatewayForWeb.FullAccess", UserClaims = new List<string> { "role" } },
+        new() { Name = "ApiGatewayAdmin.FullAccess", UserClaims = new List<string> { "role" } },
         new() { Name = "ProductService.ProductsManagement" }
     })
     .AddInMemoryApiResources(new List<ApiResource>()

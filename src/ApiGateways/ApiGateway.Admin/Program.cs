@@ -24,7 +24,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(authenticationSchemeKey, option =>
     {
         option.Authority = "https://localhost:7017";
-        option.Audience = "apiGatewayAdmin";
+        option.Audience = "ApiGatewayAdmin";
     });
 
 builder.Services.AddOcelot(configuration);

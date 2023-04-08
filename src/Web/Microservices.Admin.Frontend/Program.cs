@@ -1,7 +1,9 @@
 using Microservices.Admin.Frontend.Models.ViewServices.ProductServices;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,14 @@ builder.Services.AddAuthentication(options =>
         options.Scope.Add("profile");
         options.Scope.Add("ApiGatewayAdmin.FullAccess");
         options.Scope.Add("ProductService.ProductsManagement");
+
+        options.Scope.Add("roles");
+        options.ClaimActions.MapUniqueJsonKey("role", "role");
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            NameClaimType = "name",
+            RoleClaimType = "role"
+        };
     });
 
 var app = builder.Build();
