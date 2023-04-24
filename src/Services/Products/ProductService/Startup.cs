@@ -58,7 +58,7 @@ namespace ProductService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ProductDatabaseContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -66,6 +66,14 @@ namespace ProductService
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductService v1"));
             }
+
+            dbContext.Database.Migrate();
+
+            //using (var scope = app.Service.CraeteScope())
+            //{
+            //    var db = scope.ServiceProvider.GetRequiredService<ProductDatabaseContext>();
+            //    db.Database.Migrate();
+            //}
 
             app.UseHttpsRedirection();
 
