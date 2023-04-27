@@ -46,7 +46,7 @@ namespace ProductService
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = "https://localhost:7017";
+                    options.Authority = Configuration["IdentityServiceAddress"];
                     options.Audience = "ProductService";
                 });
 
