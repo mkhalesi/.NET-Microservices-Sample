@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Microservices.Web.Frontend.Models.DTO.Product.ProductDto>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products </h1>
+
+
+<table class="table table-hover table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @item.price.ToString("n0") t
+                    </td>
+                    <td>
+                        <a asp-action="Details"
+                           asp-controller="Product"
+                           asp-route-id="@item.id">
+                            details
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
