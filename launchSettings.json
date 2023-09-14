@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "orderservice": "StartDebugging",
+        "basketservice": "StartDebugging",
+        "discountservice": "StartDebugging",
+        "productservice": "StartDebugging",
+        "paymentservice.endpoint": "StartDebugging",
+        "identityservice": "StartDebugging",
+        "apigateway.forweb": "StartDebugging",
+        "apigateway.admin": "StartDebugging",
+        "microservices.web.frontend": "StartDebugging",
+        "microservices.admin.frontend": "StartDebugging"
+      }
+    }
+  }
+}
