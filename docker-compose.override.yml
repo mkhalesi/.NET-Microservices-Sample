@@ -1,14 +1,37 @@
 version: '3.4'
 
 services:
+
+  sqldata:
+    container_name: sqldata
+    ports:
+      - "1433:1433"
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=123321Aa@
+    volumes: 
+      - sqldata:/var/opt/mssql
+    networks:
+      - microservice-network
+
+  rabbitmq:
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
   orderservice:
     container_name: microservices/order.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - Data Source=Server;Initial Catalog=MicroserviceOrderDB;User Id=SA;Password=123321Aa@
     ports:
       - "80"
       - "443"
+    depends_on:
+      - sqldata
+      - identityservice
+      - rabbitmq
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -18,9 +41,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - Data Source=Server;Initial Catalog=MicroserviceBasketDB;User Id=SA;Password=123321Aa@
     ports:
       - "80"
       - "443"
+    depends_on:
+      - sqldata
+      - identityservice
+      - rabbitmq
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -29,9 +57,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - Data Source=Server;Initial Catalog=MicroserviceDiscountDB;User Id=SA;Password=123321Aa@
     ports:
       - "80"
       - "443"
+    depends_on:
+      - sqldata
+      - identityservice
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -40,9 +72,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - Data Source=Server;Initial Catalog=MicroserviceProductDB;User Id=SA;Password=123321Aa@
     ports:
       - "80"
       - "443"
+    depends_on:
+      - sqldata
+      - identityservice
+      - rabbitmq
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -51,9 +88,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - Data Source=Server;Initial Catalog=MicroservicePaymentDB;User Id=SA;Password=123321Aa@
     ports:
       - "80"
       - "443"
+    depends_on:
+      - sqldata
+      - identityservice
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -62,9 +103,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - Data Source=Server;Initial Catalog=MicroserviceAspIdentityDB;User Id=SA;Password=123321Aa@
     ports:
       - "80"
       - "443"
+    depends_on:
+      - sqldata
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -76,6 +120,14 @@ services:
     ports:
       - "80"
       - "443"
+    depends_on:
+      - sqldata
+      - identityservice
+      - orderservice
+      - discountservice
+      - basketservice
+      - productservice
+      - paymentservice
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -87,6 +139,14 @@ services:
     ports:
       - "80"
       - "443"
+    depends_on:
+      - sqldata
+      - identityservice
+      - orderservice
+      - discountservice
+      - basketservice
+      - productservice
+      - paymentservice
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -98,6 +158,8 @@ services:
     ports:
       - "80"
       - "443"
+    depends_on:
+      - apigateway.admin
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -109,6 +171,8 @@ services:
     ports:
       - "80"
       - "443"
+    depends_on:
+      - apigateway.forweb
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

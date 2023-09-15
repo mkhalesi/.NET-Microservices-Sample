@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
   orderservice:
     image: ${DOCKER_REGISTRY-}orderservice
     build:
@@ -13,13 +19,11 @@ services:
       context: .
       dockerfile: src/Services/Baskets/BasketService/Dockerfile
 
-
   discountservice:
     image: ${DOCKER_REGISTRY-}discountservice
     build:
       context: .
       dockerfile: src/Services/Discounts/DiscountService/Dockerfile
-
 
   productservice:
     image: ${DOCKER_REGISTRY-}productservice
@@ -27,13 +31,11 @@ services:
       context: .
       dockerfile: src/Services/Products/ProductService/Dockerfile
 
-
   paymentservice.endpoint:
     image: ${DOCKER_REGISTRY-}paymentserviceendpoint
     build:
       context: .
       dockerfile: src/Services/Payments/Presentation/PaymentService.EndPoint/Dockerfile
-
 
   identityservice:
     image: ${DOCKER_REGISTRY-}identityservice
@@ -41,13 +43,11 @@ services:
       context: .
       dockerfile: src/Identity/IdentityService/Dockerfile
 
-
   apigateway.admin:
     image: ${DOCKER_REGISTRY-}apigatewayadmin
     build:
       context: .
       dockerfile: src/ApiGateways/ApiGateway.Admin/Dockerfile
-
 
   apigateway.forweb:
     image: ${DOCKER_REGISTRY-}apigatewayforweb
@@ -55,17 +55,14 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGatewayForWeb/Dockerfile
 
-
   microservices.admin.frontend:
     image: ${DOCKER_REGISTRY-}microservicesadminfrontend
     build:
       context: .
       dockerfile: src/Web/Microservices.Admin.Frontend/Dockerfile
 
-
   microservices.web.frontend:
     image: ${DOCKER_REGISTRY-}microserviceswebfrontend
     build:
       context: .
       dockerfile: src/Web/Microservices.Web.Frontend/Microservices.Web.Frontend/Dockerfile
-
