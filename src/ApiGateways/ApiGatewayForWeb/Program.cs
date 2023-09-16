@@ -1,3 +1,4 @@
+using ApiGateway.ForWeb.Extensions;
 using ApiGateway.ForWeb.Models.DiscountServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.Cache.CacheManager;
@@ -40,6 +41,7 @@ builder.Services
     {
         x.WithDictionaryHandle();
     });
+//builder.Services.ConfigureDownstreamHostAndPortsPlaceholders(configuration);
 
 var app = builder.Build();
 

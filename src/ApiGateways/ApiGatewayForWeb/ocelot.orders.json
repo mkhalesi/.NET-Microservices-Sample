@@ -9,7 +9,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7001
+          "Port": 7002
         }
       ],
       "AuthenticationOptions": {

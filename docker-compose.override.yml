@@ -26,8 +26,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - Data Source=Server;Initial Catalog=MicroserviceOrderDB;User Id=SA;Password=123321Aa@
     ports:
-      - "80"
-      - "443"
+      - "7002:7002"
     depends_on:
       - sqldata
       - identityservice
@@ -43,8 +42,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - Data Source=Server;Initial Catalog=MicroserviceBasketDB;User Id=SA;Password=123321Aa@
     ports:
-      - "80"
-      - "443"
+      - "6002:6002"
     depends_on:
       - sqldata
       - identityservice
@@ -59,8 +57,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - Data Source=Server;Initial Catalog=MicroserviceDiscountDB;User Id=SA;Password=123321Aa@
     ports:
-      - "80"
-      - "443"
+      - "8002:8002"
     depends_on:
       - sqldata
       - identityservice
@@ -74,8 +71,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - Data Source=Server;Initial Catalog=MicroserviceProductDB;User Id=SA;Password=123321Aa@
     ports:
-      - "80"
-      - "443"
+      - "11002:11002"
     depends_on:
       - sqldata
       - identityservice
@@ -90,8 +86,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - Data Source=Server;Initial Catalog=MicroservicePaymentDB;User Id=SA;Password=123321Aa@
     ports:
-      - "80"
-      - "443"
+      - "10002:10002"
     depends_on:
       - sqldata
       - identityservice
@@ -105,8 +100,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - Data Source=Server;Initial Catalog=MicroserviceAspIdentityDB;User Id=SA;Password=123321Aa@
     ports:
-      - "80"
-      - "443"
+      - "7018:7018"
     depends_on:
       - sqldata
     volumes:
@@ -118,8 +112,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
-      - "80"
-      - "443"
+      - "11023:11022"
     depends_on:
       - sqldata
       - identityservice
@@ -137,8 +130,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
-      - "80"
-      - "443"
+      - "10023:10023"
     depends_on:
       - sqldata
       - identityservice
@@ -156,8 +148,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
-      - "80"
-      - "443"
+      - "7298:7298"
     depends_on:
       - apigateway.admin
     volumes:
@@ -169,8 +160,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
-      - "80"
-      - "443"
+      - "44328:44328"
     depends_on:
       - apigateway.forweb
     volumes:
