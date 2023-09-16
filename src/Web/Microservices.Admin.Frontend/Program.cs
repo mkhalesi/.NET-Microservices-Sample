@@ -27,7 +27,7 @@ builder.Services.AddAuthentication(options =>
     .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
     {
         options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.Authority = "https://localhost:7017";
+        options.Authority = Configuration["Identity:Uri"];
         options.ClientId = "adminFrontendCode";
         options.ClientSecret = "123321";
         options.ResponseType = "code";

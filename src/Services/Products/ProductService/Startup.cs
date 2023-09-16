@@ -3,13 +3,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing.Tree;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.OpenApi.Models;
 using ProductService.Infrastructure.Contexts;
 using ProductService.MessagingBus.Config;
@@ -49,16 +46,17 @@ namespace ProductService
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = Configuration["IdentityServiceAddress"];
-                    options.Audience = "ProductService";
+                    options.Authority = Configuration["Identity:Uri"];
+                    options.Audience = Configuration["ProductService"];
                 });
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ProductsManagement",
-                    policy => policy.RequireClaim("scope", "ProductService.ProductsManagement"));
+                options.AddPolicy(Configuration["Identity:Scopes:ProductsManagement"],
+                    policy => policy.RequireClaim("scope", $"{Configuration["ProductService"]}.${Configuration["ProductsManagement"]}"));
             });
-
+            
+            
             //services.AddHealthChecks()
             //    .AddSqlServer(
             //        connectionString: Configuration["ProductConnection"],

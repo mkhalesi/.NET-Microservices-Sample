@@ -1,13 +1,11 @@
 using BasketService.Infrastructure.Contexts;
 using BasketService.Infrastructure.MappingProfile;
-using BasketService.MessageBus;
 using BasketService.MessageBus.Config;
 using BasketService.MessageBus.ReceivedMessages.ProductMessages;
 using BasketService.MessageBus.SendMessages;
 using BasketService.Model.Services.BasketService;
 using BasketService.Model.Services.DiscountService;
 using BasketService.Model.Services.ProductService;
-using Google.Protobuf;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

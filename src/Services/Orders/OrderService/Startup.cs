@@ -45,7 +45,7 @@ namespace OrderService
             services.AddTransient<IRegisterOrderService, RegisterOrderService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IVerifyProductService>(p =>
-                new VerifyProductService(new RestClient("https://localhost:5001/")));
+                new VerifyProductService(new RestClient(Configuration["MicroServiceAddress:Product:Uri"])));
 
             services.AddHostedService<ReceivedOrderCreatedMessage>();
             services.AddHostedService<ReceivedPaymentOfOrderMessage>();
@@ -55,22 +55,21 @@ namespace OrderService
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(option =>
                 {
-                    option.Authority = "https://localhost:7017";
-                    option.Audience = "OrderService";
+                    option.Authority = Configuration["Identity:Uri"];
+                    option.Audience = Configuration["Audience"];
                 });
 
             services.AddAuthorization(option =>
             {
-                option.AddPolicy("OrdersManagement", policy =>
+                option.AddPolicy(Configuration["Identity:Scopes:OrdersManagement"], policy =>
                 {
-                    policy.RequireClaim("scope", "OrderService.OrdersManagement");
+                    policy.RequireClaim("scope", $"{Configuration["Identity:Audience"]}.{Configuration["Identity:Scopes:OrdersManagement"]}");
                 });
-                option.AddPolicy("GetOrders", policy =>
+                option.AddPolicy(Configuration["Identity:Scopes:GetOrders"], policy =>
                 {
-                    policy.RequireClaim("scope", "OrderService.GetOrders");
+                    policy.RequireClaim("scope", $"{Configuration["Identity:Audience"]}.{Configuration["Identity:Scopes:GetOrders"]}");
                 });
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

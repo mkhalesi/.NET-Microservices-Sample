@@ -41,8 +41,8 @@ builder.Services.AddIdentityServer()
             ClientId = "webFrontendCode",
             ClientSecrets = { new Secret("123321".Sha256()) },
             AllowedGrantTypes = GrantTypes.Code,
-            RedirectUris = { "https://localhost:44327/signin-oidc" },
-            PostLogoutRedirectUris = { "https://localhost:44327/signout-oidc" },
+            RedirectUris = { $"{configuration["WebFrontend:Uri"]}/signin-oidc" },
+            PostLogoutRedirectUris = { $"{configuration["WebFrontend:Uri"]}/signout-oidc" },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,
@@ -52,7 +52,6 @@ builder.Services.AddIdentityServer()
                 "ApiGatewayForWeb.FullAccess",
                 "roles"
             },
-
             //for refresh token
             AllowOfflineAccess = true,
             AccessTokenLifetime = 3600,
@@ -65,8 +64,8 @@ builder.Services.AddIdentityServer()
             ClientId = "adminFrontendCode",
             ClientSecrets = { new Secret("123321".Sha256()) },
             AllowedGrantTypes = GrantTypes.Code,
-            RedirectUris = { "https://localhost:7297/signin-oidc" },
-            PostLogoutRedirectUris = { "https://localhost:7297/signout-oidc" },
+            RedirectUris = { $"{configuration["AdminFrontend:Uri"]}/signin-oidc" },
+            PostLogoutRedirectUris= { $"{configuration["AdminFrontend:Uri"]}/signout-oidc" },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,

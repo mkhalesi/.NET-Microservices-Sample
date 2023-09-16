@@ -6,12 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{2B0B8B09-3A38-4C3D-8DBC-C6850035571A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{F72608EE-1943-4E51-BE25-3B29373A63C3}"
-	ProjectSection(SolutionItems) = preProject
-		src\Services\Products\.dockerignore = src\Services\Products\.dockerignore
-		src\Services\Products\.gitignore = src\Services\Products\.gitignore
-		src\Services\Products\docker-compose.debug.yml = src\Services\Products\docker-compose.debug.yml
-		src\Services\Products\docker-compose.yml = src\Services\Products\docker-compose.yml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{9107B5C3-CC1F-470E-B47A-85786C48C010}"
 EndProject
