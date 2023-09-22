@@ -7,7 +7,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 11001
+          "Port": 11002
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement",
@@ -22,7 +22,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 11001
+          "Port": 11002
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
@@ -39,7 +39,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 11001
+          "Port": 11002
         }
       ],
       "UpstreamPathTemplate": "/api/ProductPriceManagement",

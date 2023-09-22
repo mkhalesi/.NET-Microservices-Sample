@@ -23,8 +23,8 @@ var authenticationSchemeKey = "ApiGatewayAdminAuthenticationScheme";
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(authenticationSchemeKey, option =>
     {
-        option.Authority = "https://localhost:7017";
-        option.Audience = "ApiGatewayAdmin";
+        option.Authority = configuration["Identity:Uri"];
+        option.Audience = configuration["Identity:Uri"];
     });
 
 builder.Services.AddOcelot(configuration);

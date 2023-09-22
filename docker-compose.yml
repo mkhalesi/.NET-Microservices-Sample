@@ -8,61 +8,61 @@ services:
     image: rabbitmq:3-management-alpine
 
   orderservice:
-    image: ${DOCKER_REGISTRY-}orderservice
+    image: ${DOCKER_REGISTRY-microservices}/orderservice
     build:
       context: .
       dockerfile: src/Services/Orders/OrderService/Dockerfile
 
   basketservice:
-    image: ${DOCKER_REGISTRY-}basketservice
+    image: ${DOCKER_REGISTRY-microservices}/basketservice
     build:
       context: .
       dockerfile: src/Services/Baskets/BasketService/Dockerfile
 
   discountservice:
-    image: ${DOCKER_REGISTRY-}discountservice
+    image: ${DOCKER_REGISTRY-microservices}/discountservice
     build:
       context: .
       dockerfile: src/Services/Discounts/DiscountService/Dockerfile
 
   productservice:
-    image: ${DOCKER_REGISTRY-}productservice
+    image: ${DOCKER_REGISTRY-microservices}/productservice
     build:
       context: .
       dockerfile: src/Services/Products/ProductService/Dockerfile
 
   paymentservice.endpoint:
-    image: ${DOCKER_REGISTRY-}paymentserviceendpoint
+    image: ${DOCKER_REGISTRY-microservices}/paymentserviceendpoint
     build:
       context: .
       dockerfile: src/Services/Payments/Presentation/PaymentService.EndPoint/Dockerfile
 
   identityservice:
-    image: ${DOCKER_REGISTRY-}identityservice
+    image: ${DOCKER_REGISTRY-microservices}/identityservice
     build:
       context: .
       dockerfile: src/Identity/IdentityService/Dockerfile
 
   apigateway.admin:
-    image: ${DOCKER_REGISTRY-}apigatewayadmin
+    image: ${DOCKER_REGISTRY-microservices}/apigatewayadmin
     build:
       context: .
       dockerfile: src/ApiGateways/ApiGateway.Admin/Dockerfile
 
   apigateway.forweb:
-    image: ${DOCKER_REGISTRY-}apigatewayforweb
+    image: ${DOCKER_REGISTRY-microservices}/apigatewayforweb
     build:
       context: .
       dockerfile: src/ApiGateways/ApiGatewayForWeb/Dockerfile
 
   microservices.admin.frontend:
-    image: ${DOCKER_REGISTRY-}microservicesadminfrontend
+    image: ${DOCKER_REGISTRY-microservices}/microservicesadminfrontend
     build:
       context: .
       dockerfile: src/Web/Microservices.Admin.Frontend/Dockerfile
 
   microservices.web.frontend:
-    image: ${DOCKER_REGISTRY-}microserviceswebfrontend
+    image: ${DOCKER_REGISTRY-microservices}/microserviceswebfrontend
     build:
       context: .
       dockerfile: src/Web/Microservices.Web.Frontend/Microservices.Web.Frontend/Dockerfile
