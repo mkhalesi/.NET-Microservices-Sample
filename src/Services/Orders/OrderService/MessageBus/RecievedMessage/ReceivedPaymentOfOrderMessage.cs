@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -17,7 +18,9 @@ namespace OrderService.MessageBus.RecievedMessage
         private IModel _channel;
         private IConnection _connection;
         private readonly IOrderService orderService;
+        private readonly string _uri;
         private readonly string _hostName;
+        private readonly int _port;
         private readonly string _userName;
         private readonly string _password;
         private readonly string _queueName;
@@ -25,16 +28,20 @@ namespace OrderService.MessageBus.RecievedMessage
             IOrderService orderService)
         {
             this.orderService = orderService;
+            _uri = rabbitMqOptions.Value.Uri;
             _hostName = rabbitMqOptions.Value.HostName;
+            _port = rabbitMqOptions.Value.Port;
             _userName = rabbitMqOptions.Value.UserName;
             _password = rabbitMqOptions.Value.Password;
             _queueName = rabbitMqOptions.Value.QueueName_PaymentDone;
 
             var factory = new ConnectionFactory()
             {
-                HostName = _hostName,
-                UserName = _userName,
-                Password = _password
+                Uri = new Uri(_uri),
+                //HostName = _hostName,
+                //Port = _port,
+                //UserName = _userName,
+                //Password = _password,
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();

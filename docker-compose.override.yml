@@ -15,6 +15,7 @@ services:
     #   - microservice-network
 
   rabbitmq:
+    container_name: rabbitmq 
     ports:
       - "15672:15672"
       - "5672:5672"
@@ -24,12 +25,20 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Data Source=Server;Initial Catalog=MicroserviceOrderDB;User Id=SA;Password=123321Aa@
-      - MicroServiceAddress__Product__Uri=https://localhost:11002 
-      - Identity__Uri=http://localhost:7018
-      - Identity__Audience=OrderService
-      - Identity__Scopes__OrdersManagement=OrdersManagement
-      - Identity__Scopes__GetOrders=GetOrders
+      - OrderConnection=Server=localhost,1433;Initial Catalog=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
+      - MicroServiceAddress:Product:Uri=https://localhost:11002 
+      - Identity:Uri=http://localhost:7018
+      - Identity:Audience=OrderService
+      - Identity:Scopes:OrdersManagement=OrdersManagement
+      - Identity:Scopes:GetOrders=GetOrders
+      # - RabbitMq:HostName=amqp://guest:guest@rabbitmq:5672
+      # - RabbitMq:HostName=amqp://guest:guest@rabbitmq:5672
+      # - RabbitMq:HostName=http://localhost:5672
+      - RabbitMq:Uri=amqp://guest:guest@rabbitmq:5672
+      - RabbitMq:HostName=localhost
+      - RabbitMq:Port=5672
+      - RabbitMq:UserName=ghost 
+      - RabbitMq:Password=ghost
     ports:
       - "7002:7002"
     depends_on:
@@ -45,8 +54,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Data Source=Server;Initial Catalog=MicroserviceBasketDB;User Id=SA;Password=123321Aa@
-      - MicroServiceAddress__Discount__Uri=http://localhost:8002
+      - BasketConnection=Server=localhost,1433;Initial Catalog=MicroserviceBasketDB;User Id=SA;Password=123321Aa@
+      - MicroServiceAddress:Discount:Uri=http://localhost:8002
     ports:
       - "6002:6002"
     depends_on:
@@ -62,7 +71,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Data Source=Server;Initial Catalog=MicroserviceDiscountDB;User Id=SA;Password=123321Aa@
+      - DiscountConnection=Server=localhost,1433;Initial Catalog=MicroserviceDiscountDB;User Id=SA;Password=123321Aa@
     ports:
       - "8002:8002"
     depends_on:
@@ -77,10 +86,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Data Source=Server;Initial Catalog=MicroserviceProductDB;User Id=SA;Password=123321Aa@
-      - Identity__Uri=http://localhost:7018
-      - Identity__Audience=ProductService
-      - Identity__Scopes__ProductsManagement=ProductsManagement
+      - ProductConnection=Server=localhost,1433;Initial Catalog=MicroserviceProductDB;User Id=SA;Password=123321Aa@
+      - Identity:Uri=http://localhost:7018
+      - Identity:Audience=ProductService
+      - Identity:Scopes:ProductsManagement=ProductsManagement
     ports:
       - "11002:11002"
     depends_on:
@@ -96,7 +105,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Data Source=Server;Initial Catalog=MicroservicePaymentDB;User Id=SA;Password=123321Aa@
+      - PaymentConnection=Server=localhost,1433;Initial Catalog=MicroservicePaymentDB;User Id=SA;Password=123321Aa@
     ports:
       - "10002:10002"
     depends_on:
@@ -111,9 +120,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Data Source=Server;Initial Catalog=MicroserviceAspIdentityDB;User Id=SA;Password=123321Aa@
-      - WebFrontend__Uri=https://localhost:44328
-      - AdminFrontend__Uri=https://localhost:7298
+      - AspIdentityConnection=Server=localhost,1433;Initial Catalog=MicroserviceAspIdentityDB;User Id=SA;Password=123321Aa@
+      - WebFrontend:Uri=https://localhost:44328
+      - AdminFrontend:Uri=https://localhost:7298
     ports:
       - "7018:7018"
     depends_on:
@@ -127,8 +136,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Identity__Uri=http://localhost:7018
-      - Identity__Audience=ApiGatewayAdmin
+      - Identity:Uri=http://localhost:7018
+      - Identity:Audience=ApiGatewayAdmin
     ports:
       - "11023:11022"
     depends_on:
@@ -148,8 +157,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Identity__Uri=http://localhost:7018
-      - Identity__Audience=apiGatewayForWeb
+      - Identity:Uri=http://localhost:7018
+      - Identity:Audience=apiGatewayForWeb
     ports:
       - "10023:10023"
     depends_on:
@@ -169,7 +178,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Identity__Uri=http://localhost:7018
+      - Identity:Uri=http://localhost:7018
     ports:
       - "7298:7298"
     depends_on:
@@ -183,8 +192,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - MicroserviceAddress__ApiGatewayForWeb__Uri=https://localhost:10023
-      - Identity__Uri=http://localhost:7018
+      - MicroserviceAddress:ApiGatewayForWeb:Uri=https://localhost:10023
+      - Identity:Uri=http://localhost:7018
     ports:
       - "44328:44328"
     depends_on:
