@@ -18,7 +18,9 @@ namespace BasketService.MessageBus.ReceivedMessages.ProductMessages
         private IModel _channel;
         private IConnection _connection;
         private readonly IProductService productService;
+        private readonly string _uri;
         private readonly string _hostName;
+        private readonly int _port;
         private readonly string _userName;
         private readonly string _password;
         private readonly string _queueName;
@@ -27,6 +29,8 @@ namespace BasketService.MessageBus.ReceivedMessages.ProductMessages
             IProductService productService)
         {
             this.productService = productService;
+            _uri = rabbitMqOptions.Value.Uri;
+            _port = rabbitMqOptions.Value.Port;
             _hostName = rabbitMqOptions.Value.HostName;
             _userName = rabbitMqOptions.Value.UserName;
             _password = rabbitMqOptions.Value.Password;
@@ -35,9 +39,11 @@ namespace BasketService.MessageBus.ReceivedMessages.ProductMessages
 
             var factory = new ConnectionFactory()
             {
-                HostName = _hostName,
-                UserName = _userName,
-                Password = _password
+                Uri = new Uri(_uri),
+                //HostName = _hostName,
+                //Port = _port,
+                //UserName = _userName,
+                //Password = _password,
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();

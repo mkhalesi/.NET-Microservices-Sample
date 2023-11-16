@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -17,27 +18,33 @@ namespace PaymentService.Infrastructure.MessagingBus.ReceivedMessage.GetPaymentM
         private IModel _channel;
         private IConnection _connection;
         private readonly IPaymentService paymentService;
+        private readonly string _uri;
         private readonly string _hostName;
-        private readonly string _quequeName;
+        private readonly int _port;
         private readonly string _userName;
         private readonly string _password;
+        private readonly string _queueName;
         public ReceivedPaymentForOrderMessage(IPaymentService paymentService, IOptions<RabbitMqConfiguration> rabbitMqOptions)
         {
             this.paymentService = paymentService;
+            _uri = rabbitMqOptions.Value.Uri;
+            _port = rabbitMqOptions.Value.Port;
             _hostName = rabbitMqOptions.Value.HostName;
-            _quequeName = rabbitMqOptions.Value.QueueName_OrderSendToPayment;
+            _queueName = rabbitMqOptions.Value.QueueName_OrderSendToPayment;
             _userName = rabbitMqOptions.Value.UserName;
             _password = rabbitMqOptions.Value.Password;
 
             var factory = new ConnectionFactory()
             {
-                HostName = _hostName,
-                UserName = _userName,
-                Password = _password
+                Uri = new Uri(_uri),
+                //HostName = _hostName,
+                //Port = _port,
+                //UserName = _userName,
+                //Password = _password,
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.QueueDeclare(queue: _quequeName,
+            _channel.QueueDeclare(queue: _queueName,
                 durable: true,
                 exclusive: false,
                 autoDelete: false,
@@ -59,7 +66,7 @@ namespace PaymentService.Infrastructure.MessagingBus.ReceivedMessage.GetPaymentM
                 if (resultHandler)
                     _channel.BasicAck(eventArgs.DeliveryTag, false);
             };
-            _channel.BasicConsume(queue: _quequeName, autoAck: false, consumer);
+            _channel.BasicConsume(queue: _queueName, autoAck: false, consumer);
 
             return Task.CompletedTask;
         }

@@ -9,16 +9,20 @@ namespace OrderService.MessageBus.SendMessages
 {
     public class RabbitMqMessageBus : IMessageBus
     {
+        private readonly string _uri;
         private readonly string _hostName;
+        private readonly int _port;
         private readonly string _userName;
         private readonly string _password;
         private IConnection _connection;
 
         public RabbitMqMessageBus(IOptions<RabbitMqConfiguration> options)
         {
-            _hostName = options.Value.HostName;
-            _userName = options.Value.UserName;
-            _password = options.Value.Password;
+            _uri = options.Value.Uri;
+            //_hostName = options.Value.HostName;
+            //Port = _port,
+            //_userName = options.Value.UserName;
+            //_password = options.Value.Password;
         }
 
         public void SendMessage(BaseMessage message, string QueueName)
@@ -28,10 +32,10 @@ namespace OrderService.MessageBus.SendMessages
 
             using (var channel = _connection.CreateModel())
             {
-                channel.QueueDeclare(queue: QueueName, 
-                    durable: true, 
+                channel.QueueDeclare(queue: QueueName,
+                    durable: true,
                     exclusive: false,
-                    autoDelete:false,
+                    autoDelete: false,
                     arguments: null
                     );
                 var json = JsonConvert.SerializeObject(message);
@@ -39,9 +43,9 @@ namespace OrderService.MessageBus.SendMessages
                 var properties = channel.CreateBasicProperties();
                 properties.Persistent = true;
 
-                channel.BasicPublish(exchange: "" ,
-                    routingKey: QueueName ,
-                    basicProperties: properties ,
+                channel.BasicPublish(exchange: "",
+                    routingKey: QueueName,
+                    basicProperties: properties,
                     body: body);
             }
         }
@@ -52,9 +56,10 @@ namespace OrderService.MessageBus.SendMessages
             {
                 var factory = new ConnectionFactory()
                 {
-                    HostName = _hostName,
-                    UserName = _userName,
-                    Password = _password
+                    Uri = new Uri(_uri),
+                    //HostName = _hostName,
+                    //UserName = _userName,
+                    //Password = _password
                 };
                 _connection = factory.CreateConnection();
             }

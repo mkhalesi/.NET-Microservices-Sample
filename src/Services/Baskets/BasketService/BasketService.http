@@ -1,0 +1,9 @@
+﻿@BasketService_HostAddress = https://localhost:6001
+
+DELETE {{BasketService_HostAddress}}/api/basket
+
+###
+
+GET {{BasketService_HostAddress}}/api/basket?UserId=string
+
+###
