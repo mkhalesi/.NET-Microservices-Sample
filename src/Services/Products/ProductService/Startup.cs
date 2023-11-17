@@ -81,7 +81,7 @@ namespace ProductService
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductService v1"));
             }
 
-            //dbContext.Database.Migrate();
+            dbContext.Database.Migrate();
 
             //using (var scope = app.Service.CraeteScope())
             //{

@@ -8,7 +8,7 @@ services:
       - "1433:1433"
     environment: 
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=123321Aa@
+      - SA_PASSWORD=123321Aa@;Encrypt=False;TrustServerCertificate=true
     volumes: 
       - microservice-sqldata:/var/opt/mssql
     # networks:
@@ -25,7 +25,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - OrderConnection=Server=localhost,1433;Initial Catalog=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
+      - OrderConnection=Server=sqldata;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
       - MicroServiceAddress:Product:Uri=https://localhost:11002 
       - Identity:Uri=http://localhost:7018
       - Identity:Audience=OrderService
@@ -54,7 +54,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - BasketConnection=Server=localhost,1433;Initial Catalog=MicroserviceBasketDB;User Id=SA;Password=123321Aa@
+      - BasketConnection=Server=sqldata;Database=MicroserviceBasketDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
+      - RabbitMq:Uri=amqp://guest:guest@rabbitmq:5672
       - MicroServiceAddress:Discount:Uri=http://localhost:8002
     ports:
       - "6002:6002"
@@ -71,7 +72,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - DiscountConnection=Server=localhost,1433;Initial Catalog=MicroserviceDiscountDB;User Id=SA;Password=123321Aa@
+      - DiscountConnection=Server=sqldata;Database=MicroserviceDiscountDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
     ports:
       - "8002:8002"
     depends_on:
@@ -86,7 +87,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ProductConnection=Server=localhost,1433;Initial Catalog=MicroserviceProductDB;User Id=SA;Password=123321Aa@
+      - ProductConnection=Server=sqldata;Database=MicroserviceProductDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
+      - RabbitMq:Uri=amqp://guest:guest@rabbitmq:5672
       - Identity:Uri=http://localhost:7018
       - Identity:Audience=ProductService
       - Identity:Scopes:ProductsManagement=ProductsManagement
@@ -105,7 +107,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - PaymentConnection=Server=localhost,1433;Initial Catalog=MicroservicePaymentDB;User Id=SA;Password=123321Aa@
+      - PaymentConnection=Server=sqldata;Database=MicroservicePaymentDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
+      - RabbitMq:Uri=amqp://guest:guest@rabbitmq:5672
     ports:
       - "10002:10002"
     depends_on:
@@ -120,7 +123,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - AspIdentityConnection=Server=localhost,1433;Initial Catalog=MicroserviceAspIdentityDB;User Id=SA;Password=123321Aa@
+      - AspIdentityConnection=Server=sqldata;Database=MicroserviceAspIdentityDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - WebFrontend:Uri=https://localhost:44328
       - AdminFrontend:Uri=https://localhost:7298
     ports:

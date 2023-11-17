@@ -81,7 +81,7 @@ namespace OrderService
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OrderService v1"));
 
-                //dbContext.Database.Migrate();
+                dbContext.Database.Migrate();
             }
 
             app.UseHttpsRedirection();
