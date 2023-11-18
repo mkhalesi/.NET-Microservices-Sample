@@ -33,6 +33,7 @@ builder.Services.AddAuthentication(options =>
         options.ResponseType = "code";
         options.SaveTokens = true;
         options.GetClaimsFromUserInfoEndpoint = true;
+        options.RequireHttpsMetadata = false;
 
         //options.Scope.Add(OidcConstants.StandardScopes.OpenId);
         //options.Scope.Add(OidcConstants.StandardScopes.Profile);

@@ -24,10 +24,10 @@ services:
     container_name: microservices-order.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - OrderConnection=Server=sqldata;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
       - MicroServiceAddress:Product:Uri=https://localhost:11002 
-      - Identity:Uri=http://localhost:7018
+      - Identity:Uri=https://localhost:7018
       - Identity:Audience=OrderService
       - Identity:Scopes:OrdersManagement=OrdersManagement
       - Identity:Scopes:GetOrders=GetOrders
@@ -40,109 +40,91 @@ services:
       - RabbitMq:UserName=ghost 
       - RabbitMq:Password=ghost
     ports:
-      - "7002:7002"
+      - "7002:80"
     depends_on:
       - sqldata
       - identityservice
       - rabbitmq
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   basketservice:
-    container_name: microservices-basket.api
+    container_name: microservices-basket.api    
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - BasketConnection=Server=sqldata;Database=MicroserviceBasketDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - RabbitMq:Uri=amqp://guest:guest@rabbitmq:5672
       - MicroServiceAddress:Discount:Uri=http://localhost:8002
     ports:
-      - "6002:6002"
+      - "6002:80"
     depends_on:
       - sqldata
       - identityservice
       - rabbitmq
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   discountservice:
     container_name: microservices-discount.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - DiscountConnection=Server=sqldata;Database=MicroserviceDiscountDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
     ports:
-      - "8002:8002"
+      - "8002:80"
     depends_on:
       - sqldata
       - identityservice
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   productservice:
     container_name: microservices-product.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ProductConnection=Server=sqldata;Database=MicroserviceProductDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - RabbitMq:Uri=amqp://guest:guest@rabbitmq:5672
-      - Identity:Uri=http://localhost:7018
+      - Identity:Uri=https://localhost:7018
       - Identity:Audience=ProductService
       - Identity:Scopes:ProductsManagement=ProductsManagement
     ports:
-      - "11002:11002"
+      - "11002:80"
     depends_on:
       - sqldata
       - identityservice
       - rabbitmq
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   paymentservice.endpoint:
     container_name: microservices-payment.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - PaymentConnection=Server=sqldata;Database=MicroservicePaymentDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - RabbitMq:Uri=amqp://guest:guest@rabbitmq:5672
     ports:
-      - "10002:10002"
+      - "10002:80"
     depends_on:
       - sqldata
       - identityservice
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   identityservice:
     container_name: microservices-identity.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - AspIdentityConnection=Server=sqldata;Database=MicroserviceAspIdentityDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - WebFrontend:Uri=https://localhost:44328
       - AdminFrontend:Uri=https://localhost:7298
     ports:
-      - "7018:7018"
+      - "7018:80"
     depends_on:
       - sqldata
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   apigateway.admin:
     container_name: microservices-apigateway.admin
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Identity:Uri=http://localhost:7018
+      - ASPNETCORE_URLS=https://0.0.0.0:80
+      - Identity:Uri=https://localhost:7018
       - Identity:Audience=ApiGatewayAdmin
     ports:
-      - "11023:11022"
+      - "11023:80"
     depends_on:
       - sqldata
       - identityservice
@@ -151,19 +133,16 @@ services:
       - basketservice
       - productservice
       - paymentservice.endpoint
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   apigateway.forweb:
     container_name: microservices-apigateway.forweb
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Identity:Uri=http://localhost:7018
+      - ASPNETCORE_URLS=https://0.0.0.0:80
+      - Identity:Uri=https://localhost:7018
       - Identity:Audience=apiGatewayForWeb
     ports:
-      - "10023:10023"
+      - "10023:80"
     depends_on:
       - sqldata
       - identityservice
@@ -172,38 +151,29 @@ services:
       - basketservice
       - productservice
       - paymentservice.endpoint
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   microservices.admin.frontend:
     container_name: microservices.admin.frontend
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Identity:Uri=http://localhost:7018
+      - ASPNETCORE_URLS=https://0.0.0.0:80
+      - Identity:Uri=https://localhost:7018
     ports:
-      - "7298:7298"
+      - "7298:80"
     depends_on:
       - apigateway.admin
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   microservices.web.frontend:
     container_name: microservices.web.frontend
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - MicroserviceAddress:ApiGatewayForWeb:Uri=https://localhost:10023
-      - Identity:Uri=http://localhost:7018
+      - Identity:Uri=https://localhost:7018
     ports:
-      - "44328:44328"
+      - "44328:80"
     depends_on:
       - apigateway.forweb
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
 volumes:
   microservice-sqldata:

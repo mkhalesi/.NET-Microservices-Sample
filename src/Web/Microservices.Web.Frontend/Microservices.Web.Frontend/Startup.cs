@@ -51,10 +51,10 @@ namespace Microservices.Web.Frontend
             //    new RestClient("https://localhost:7001"), new HttpContextAccessor()));
             //services.AddScoped<IOrderService>(p => new OrderService(
             //    new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"]), new HttpContextAccessor()));
-            services.AddHttpClient<IOrderService, OrderService>(p => 
+            services.AddHttpClient<IOrderService, OrderService>(p =>
                 p.BaseAddress = new Uri(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])
             ).AddUserAccessTokenHandler();
-            
+
             services.AddScoped<IPaymentService>(p => new PaymentService(
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
@@ -73,6 +73,7 @@ namespace Microservices.Web.Frontend
                     options.ResponseType = "code";
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
+                    options.RequireHttpsMetadata = false;
 
                     // default
                     options.Scope.Add(OidcConstants.StandardScopes.OpenId);

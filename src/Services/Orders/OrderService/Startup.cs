@@ -57,6 +57,7 @@ namespace OrderService
                 {
                     option.Authority = Configuration["Identity:Uri"];
                     option.Audience = Configuration["Audience"];
+                    option.RequireHttpsMetadata = false;
                 });
 
             services.AddAuthorization(option =>

@@ -48,6 +48,7 @@ namespace ProductService
                 {
                     options.Authority = Configuration["Identity:Uri"];
                     options.Audience = Configuration["ProductService"];
+                    options.RequireHttpsMetadata = false;
                 });
 
             services.AddAuthorization(options =>
