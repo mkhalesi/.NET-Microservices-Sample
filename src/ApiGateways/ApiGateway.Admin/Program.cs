@@ -25,6 +25,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         option.Authority = configuration["Identity:Uri"];
         option.Audience = configuration["Identity:Uri"];
+        option.RequireHttpsMetadata = false;
     });
 
 builder.Services.AddOcelot(configuration);
