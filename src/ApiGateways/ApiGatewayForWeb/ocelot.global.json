@@ -1,5 +1,5 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:10023"
+    "BaseUrl": "http://microservices-apigateway.forweb"
   }
 }

@@ -6,8 +6,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
       // This information is provided to the subordinate
@@ -38,8 +38,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
 
@@ -56,8 +56,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/Category",
@@ -71,8 +71,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement",
@@ -86,8 +86,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
@@ -102,8 +102,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/ProductPriceManagement",

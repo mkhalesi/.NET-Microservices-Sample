@@ -32,6 +32,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         option.Authority = configuration["Identity:Uri"];
         option.Audience = configuration["Identity:Audience"];
+        option.RequireHttpsMetadata = false;
     });
 
 builder.Services

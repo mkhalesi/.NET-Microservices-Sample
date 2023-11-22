@@ -5,8 +5,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6002
+          "Host": "microservices-basket.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/Basket?UserId={userid}",
@@ -20,8 +20,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6002
+          "Host": "microservices-basket.api",
+          "Port": 80
         }
       ],
 
@@ -36,8 +36,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6002
+          "Host": "microservices-basket.api",
+          "Port": 80
         }
       ],
 
@@ -52,8 +52,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6002
+          "Host": "microservices-basket.api",
+          "Port": 80
         }
       ],
 
@@ -68,8 +68,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6002
+          "Host": "microservices-basket.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/Basket/CheckoutBasket",

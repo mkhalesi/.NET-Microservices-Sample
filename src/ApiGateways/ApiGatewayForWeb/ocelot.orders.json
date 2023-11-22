@@ -8,8 +8,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7002
+          "Host": "microservices-order.api",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {

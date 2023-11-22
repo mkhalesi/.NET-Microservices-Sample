@@ -6,8 +6,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 10002
+          "Host": "microservices-payment.api",
+          "Port": 80
         }
       ],
 
@@ -22,8 +22,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 10002
+          "Host": "microservices-payment.api",
+          "Port": 80
         }
       ],
 
