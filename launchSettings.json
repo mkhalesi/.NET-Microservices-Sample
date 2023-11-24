@@ -13,7 +13,9 @@
         "apigateway.forweb": "StartDebugging",
         "apigateway.admin": "StartDebugging",
         "microservices.web.frontend": "StartDebugging",
-        "microservices.admin.frontend": "StartDebugging"
+        "microservices.admin.frontend": "StartDebugging",
+        "sqldata": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging"
       }
     }
   }

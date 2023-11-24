@@ -27,7 +27,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - OrderConnection=Server=sqldata;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
       - MicroServiceAddress__Product__Uri=http://microservices-product.api
-      - Identity__Uri=http://microservices-identity.api
+      - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
       - Identity__Audience=OrderService
       - Identity__Scopes__OrdersManagement=OrdersManagement
       - Identity__Scopes__GetOrders=GetOrders
@@ -53,7 +53,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - BasketConnection=Server=sqldata;Database=MicroserviceBasketDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - RabbitMq__Uri=amqp://guest:guest@rabbitmq:5672
-      - MicroServiceAddress__Discount__Uri=http://microservices-discount.api
+      - MicroServiceAddress__Discount__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
     ports:
       - "6002:80"
     depends_on:
@@ -80,7 +80,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ProductConnection=Server=sqldata;Database=MicroserviceProductDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - RabbitMq__Uri=amqp://guest:guest@rabbitmq:5672
-      - Identity__Uri=http://microservices-identity.api
+      - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
       - Identity__Audience=ProductService
       - Identity__Scopes__ProductsManagement=ProductsManagement
     ports:
@@ -109,8 +109,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - AspIdentityConnection=Server=sqldata;Database=MicroserviceAspIdentityDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
-      - WebFrontend__Uri=http://microservices.web.frontend
-      - AdminFrontend__Uri=http://microservices.admin.frontend
+      - WebFrontend__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:44328
+      - AdminFrontend__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7298
     ports:
       - "7018:80"
     depends_on:
@@ -121,7 +121,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - Identity__Uri=http://microservices-identity.api
+      - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
       - Identity__Audience=ApiGatewayAdmin
     ports:
       - "11023:80"
@@ -139,7 +139,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - Identity__Uri=http://microservices-identity.api
+      - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
       - Identity__Audience=apiGatewayForWeb
     ports:
       - "10023:80"
@@ -157,8 +157,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - Identity__Uri=http://microservices-identity.api
-      - MicroserviceAddress__AdminApiGateway__Uri=http://microservices-apigateway.admin
+      - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
+      - MicroserviceAddress__AdminApiGateway__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:11023
     ports:
       - "7298:80"
     depends_on:
@@ -169,8 +169,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - MicroserviceAddress__ApiGatewayForWeb__Uri=http://microservices-apigateway.forweb
-      - Identity__Uri=http://microservices-identity.api
+      - MicroserviceAddress__ApiGatewayForWeb__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:10023
+      - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
     ports:
       - "44328:80"
     depends_on:

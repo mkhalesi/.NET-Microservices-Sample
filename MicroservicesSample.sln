@@ -100,6 +100,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.ComponentTes
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{185D5EB7-4078-4753-9262-B6969B61680C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48AC8522-29B2-442C-BCEA-1177B7CA2A22}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
