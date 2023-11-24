@@ -3,7 +3,7 @@
     //Payment
     {
       "DownstreamPathTemplate": "/api/Pay",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-payment.api",
@@ -19,7 +19,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/Pay/Verify",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-payment.api",

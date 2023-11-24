@@ -2,7 +2,7 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/Basket?UserId={userid}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-basket.api",
@@ -17,7 +17,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-basket.api",
@@ -33,7 +33,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/Basket?ItemId={ItemId}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-basket.api",
@@ -49,7 +49,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/Basket/{basketId}/{discountId}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-basket.api",
@@ -65,7 +65,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/Basket/CheckoutBasket",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-basket.api",

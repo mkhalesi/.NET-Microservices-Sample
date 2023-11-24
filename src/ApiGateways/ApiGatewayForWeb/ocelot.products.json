@@ -3,7 +3,7 @@
     {
       // Microservice information
       "DownstreamPathTemplate": "/api/Product",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-product.api",
@@ -35,7 +35,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/Product/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-product.api",
@@ -53,7 +53,7 @@
     //---------- category
     {
       "DownstreamPathTemplate": "/api/Category",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-product.api",
@@ -68,7 +68,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/ProductManagement",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-product.api",
@@ -83,7 +83,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/ProductManagement/{Id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-product.api",
@@ -99,7 +99,7 @@
     // price
     {
       "DownstreamPathTemplate": "/api/ProductPriceManagement",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "microservices-product.api",
