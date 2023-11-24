@@ -17,7 +17,10 @@ IConfiguration configuration = builder.Configuration;
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(configuration["AspIdentityConnection"]));
 
-builder.Services.AddIdentityServer()
+builder.Services.AddIdentityServer(options =>
+    {
+        options.IssuerUri = "null";
+    })
     .AddDeveloperSigningCredential()
     .AddInMemoryIdentityResources(new List<IdentityResource>()
     {
@@ -41,6 +44,7 @@ builder.Services.AddIdentityServer()
             ClientId = "webFrontendCode",
             ClientSecrets = { new Secret("123321".Sha256()) },
             AllowedGrantTypes = GrantTypes.Code,
+            ClientUri = $"{configuration["WebFrontend:Uri"]}",
             RedirectUris = { $"{configuration["WebFrontend:Uri"]}/signin-oidc" },
             PostLogoutRedirectUris = { $"{configuration["WebFrontend:Uri"]}/signout-oidc" },
             AllowedScopes =
@@ -64,6 +68,7 @@ builder.Services.AddIdentityServer()
             ClientId = "adminFrontendCode",
             ClientSecrets = { new Secret("123321".Sha256()) },
             AllowedGrantTypes = GrantTypes.Code,
+            ClientUri = $"{configuration["AdminFrontend:Uri"]}",
             RedirectUris = { $"{configuration["AdminFrontend:Uri"]}/signin-oidc" },
             PostLogoutRedirectUris= { $"{configuration["AdminFrontend:Uri"]}/signout-oidc" },
             AllowedScopes =
@@ -152,6 +157,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
 
 app.UseRouting();
 app.UseIdentityServer();
