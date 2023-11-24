@@ -87,7 +87,7 @@ namespace Microservices.Web.Frontend.Controllers
                 return Json(new ResultDTO()
                 {
                     IsSuccess = false,
-                    Message = "لطفا کد تخفیف را وارد نمایید"
+                    Message = "Please enter the discount code"
                 });
             }
             var discount = discountService.GetDiscountByCode(DiscountCode);
@@ -98,7 +98,7 @@ namespace Microservices.Web.Frontend.Controllers
                     return Json(new ResultDTO
                     {
                         IsSuccess = false,
-                        Message = "این کد تخفیف قبلا استفاده شده است"
+                        Message = "This discount code has already been used"
                     });
                 }
 
@@ -109,7 +109,7 @@ namespace Microservices.Web.Frontend.Controllers
                 return Json(new ResultDTO
                 {
                     IsSuccess = true,
-                    Message = "کد تخفیف با موفقیت به سبد خرید شما اعمال شد",
+                    Message = "The discount code has been successfully applied to your shopping cart",
                 });
             }
             else

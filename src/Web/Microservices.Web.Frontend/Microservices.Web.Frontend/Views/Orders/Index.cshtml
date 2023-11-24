@@ -7,17 +7,16 @@
     <thead>
         <tr>
             <th>
-                <label>تاریخ ثبت</label>
-
+                <label>Date of Registration</label>
             </th>
             <th>
-                <label>تعداد محصولات</label>
+                <label>Number of products</label>
             </th>
             <th>
-                <label>قیمت کل</label>
+                <label>Total price</label>
             </th>
             <th>
-                <label>پرداخت شده؟</label>
+                <label>Paid?</label>
             </th>
             <th></th>
         </tr>
@@ -28,8 +27,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-
-
                     <td>
                         @Html.DisplayFor(modelItem => item.OrderPlaced)
                     </td>
@@ -37,7 +34,7 @@
                         @Html.DisplayFor(modelItem => item.ItemCount)
                     </td>
                     <td>
-                        <b class="text-success"> @item.TotalPrice.ToString("n0") تومان</b>
+                        <b class="text-success"> @item.TotalPrice.ToString("n0")$</b>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.OrderPaid)
@@ -46,19 +43,15 @@
                         {
                             <a asp-action="Pay" asp-controller="Orders" asp-route-OrderId="@item.Id" class="btn btn-info">
                                 <i class="fa fa-payment"> </i>
-                                پرداخت
+                                Pay
                             </a>
                         }
-
                     </td>
                     <td class="row">
-                        <a class="" asp-action="Detail" asp-controller="Orders" asp-route-id="@item.Id"> جزئیات</a>
+                        <a class="" asp-action="Detail" asp-controller="Orders" asp-route-id="@item.Id">Details</a>
                     </td>
                 </tr>
             }
         }
-
     </tbody>
-
 </table>
-

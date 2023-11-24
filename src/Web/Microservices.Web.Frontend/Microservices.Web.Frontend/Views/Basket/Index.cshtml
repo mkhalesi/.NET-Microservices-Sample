@@ -2,132 +2,128 @@
 @model Microservices.Web.Frontend.Models.DTO.Basket.BasketDTO
 
 @{
-    ViewData["Title"] = "سبد خرید";
+    ViewData["Title"] = "Basket";
 }
-<h1>سبد خرید</h1>
+<h1>Basket</h1>
 
-<div class="row text-right">
-    <table class="table col-md-9">
-        <thead>
-            <tr>
+@if (Model?.Items != null && Model.Items.Any())
+{
+    <div class="row text-right">
+        <table class="table col-md-9">
+            <thead>
+                <tr>
 
-                <th>
-                    <label asp-for="Items.FirstOrDefault().ProductName"></label>
-                </th>
-                <th>
-                    <label asp-for="Items.FirstOrDefault().UnitPrice"></label>
-                </th>
-                <th>
-                    <label asp-for="Items.FirstOrDefault().Quantity"></label>
-                </th>
-                <th>
-                    <label>قیمت کل</label>
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model?.Items != null && Model.Items.Any())
-            {
-                @foreach (var item in Model.Items)
+                    <th>
+                        <label asp-for="Items.FirstOrDefault().ProductName"></label>
+                    </th>
+                    <th>
+                        <label asp-for="Items.FirstOrDefault().UnitPrice"></label>
+                    </th>
+                    <th>
+                        <label asp-for="Items.FirstOrDefault().Quantity"></label>
+                    </th>
+                    <th>
+                        <label>Total Price</label>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model?.Items != null && Model.Items.Any())
                 {
-                    <tr>
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProductName)
-                        </td>
-                        <td>
-                            <b class="text-success">@item.UnitPrice.ToString("n0")  تومان</b>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Quantity)
-                        </td>
-                        <td>
-                            <b class="text-success">@item.TotalPrice().ToString("n0")  تومان</b>
-                        </td>
-                        <td class="row">
-                            <a class="btn btn-danger" asp-action="Delete" asp-controller="Basket" asp-route-id="@item.Id"> حذف</a>
-                            <a class="btn btn-warning" onclick="ShowEdit('@item.Id','@item.Quantity')">ویزایش تعداد</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-        <tfoot>
-            <tr class="bg-dark text-white">
-
-                <td>
-                    قیمت کل
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                    @if (Model != null)
+                    @foreach (var item in Model.Items)
                     {
-                        <b>@Model.TotalPrice().ToString("n0")  تومان</b>
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td>
+                                <b class="text-success">@item.UnitPrice.ToString("n0")$</b>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                <b class="text-success">@item.TotalPrice().ToString("n0")$</b>
+                            </td>
+                            <td class="row">
+                                <a class="btn btn-danger" asp-action="Delete" asp-controller="Basket" asp-route-id="@item.Id">Delete</a>
+                                <a class="btn btn-warning" onclick="ShowEdit('@item.Id','@item.Quantity')">Edit Count</a>
+                            </td>
+                        </tr>
                     }
-                </td>
-                <td>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-    <div class="col-md-3 card">
-        <div class="row col-md-12 card-body ">
-            <label>استفاده از کد تخفیف</label>
-            <input type="text" class="form-control col-md-12" id="txtDiscountCode" placeholder="کد تخفیف را وارد نمایید" />
-            <button type="submit" onclick="ApplyDiscountCode()" id="btnApplyDiscountCode" class="btn btn-warning btn-sm col-md-12">اعمال کد تخفیف</button>
+                }
+            </tbody>
+            <tfoot>
+                <tr class="bg-dark text-white">
+                    <td>
+                        Total Price
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        @if (Model != null)
+                        {
+                            <b>@Model.TotalPrice().ToString("n0")$</b>
+                        }
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="col-md-3 card">
+            <div class="row col-md-12 card-body ">
+                <label>Using Discount Code</label>
+                <input type="text" class="form-control col-md-12" id="txtDiscountCode" placeholder="Enter Discount Code" />
+                <button type="submit" onclick="ApplyDiscountCode()" id="btnApplyDiscountCode" class="btn btn-warning btn-sm col-md-12">Apply Discount Code</button>
+                <hr />
+                @if (Model.DiscountDetail != null)
+                {
+                    <div>
+                        <b> Used Discount Code :</b>
+                        <small>  @Model.DiscountDetail.DiscountCode</small>
 
-
-            <hr />
-            @if (Model.DiscountDetail != null)
-            {
-                <div>
-                    <b> کد تخفیف استفاده شده :</b>
-                    <small>  @Model.DiscountDetail.DiscountCode</small>
-
-                    <b class="col-md-12">مبلغ : @Model.DiscountDetail.Amount.ToString("n0")  تومان</b>
-                </div>
-
-            }
-
-        </div>
-    </div>
-</div>
-
-
-<br />
-<a asp-action="Checkout" asp-controller="Basket" class="btn btn-success  col-md-12">ثبت سفارش</a>
-
-<!-- Modal -->
-<div class="modal fade" id="editQuantityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                        <b class="col-md-12">Price : @Model.DiscountDetail.Amount.ToString("n0")$</b>
+                    </div>
+                }
             </div>
-            <form asp-action="Edit" asp-controller="Basket">
-                <div class="modal-body">
-                    <input type="hidden" id="BasketItemId" name="BasketItemId" value="" />
-                    <input type="number" id="quantity" name="quantity" value="" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">برگشت</button>
-                    <button type="submit" class="btn btn-primary">ثبت تغییرات</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 
+    <br />
+    <a asp-action="Checkout" asp-controller="Basket" class="btn btn-success  col-md-12">Register Order</a>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editQuantityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="Edit" asp-controller="Basket">
+                    <div class="modal-body">
+                        <input type="hidden" id="BasketItemId" name="BasketItemId" value="" />
+                        <input type="number" id="quantity" name="quantity" value="" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                        <button type="submit" class="btn btn-primary">Apply Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
 
 @section Scripts
-    {
+{
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
@@ -156,26 +152,22 @@
                 success: function (data) {
                     if (data.isSuccess) {
                         swal({
-                            title: "بسیار خوب!",
+                            title: "Success!",
                             text: data.message,
                             icon: "warning",
-                            button: "خب",
+                            button: "Ok",
                         });
                     }
                     else {
                         swal({
-                            title: "هشدار!",
+                            title: "Warning!",
                             text: data.message,
                             icon: "warning",
-                            button: "خب",
+                            button: "Ok",
                         });
                     }
                 }
             });
         }
-
     </script>
-
-
 }
-
