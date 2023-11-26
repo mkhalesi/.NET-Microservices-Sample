@@ -53,7 +53,9 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - BasketConnection=Server=sqldata;Database=MicroserviceBasketDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - RabbitMq__Uri=amqp://guest:guest@rabbitmq:5672
-      - MicroServiceAddress__Discount__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
+      - MicroServiceAddress__Discount__Uri=http://microservices-discount.api
+      - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
+      - Identity__Audience=BasketService
     ports:
       - "6002:80"
     depends_on:
