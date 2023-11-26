@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OrderService.Infrastructure.Context;
 using OrderService.MessageBus.Base;
@@ -58,6 +59,10 @@ namespace OrderService
                     option.Authority = Configuration["Identity:Uri"];
                     option.Audience = Configuration["Audience"];
                     option.RequireHttpsMetadata = false;
+                    option.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = false
+                    };
                 });
 
             services.AddAuthorization(option =>

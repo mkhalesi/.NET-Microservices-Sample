@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using RestSharp;
 
 namespace Microservices.Web.Frontend
@@ -46,7 +47,8 @@ namespace Microservices.Web.Frontend
                 new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
 
             services.AddScoped<IBasketService>(p => new BasketServices(
-                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
+                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"]),
+                new HttpContextAccessor()));
 
             //services.AddScoped<IOrderService>(p => new OrderService(
             //    new RestClient("https://localhost:7001"), new HttpContextAccessor()));
@@ -75,11 +77,16 @@ namespace Microservices.Web.Frontend
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
                     options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = false
+                    };
 
                     // default
                     options.Scope.Add(OidcConstants.StandardScopes.OpenId);
                     options.Scope.Add(OidcConstants.StandardScopes.Profile);
                     options.Scope.Add("OrderService.GetOrders");
+                    options.Scope.Add("ProductService.ProductsManagement");
                     options.Scope.Add("BasketService.FullAccess");
                     options.Scope.Add("ApiGatewayForWeb.FullAccess");
                     // for refresh token

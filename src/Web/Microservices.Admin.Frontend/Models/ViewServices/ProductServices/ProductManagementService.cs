@@ -15,7 +15,6 @@ public class ProductManagementService : IProductManagementService
     {
         this.restClient = restClient;
         _contextAccessor = contextAccessor;
-        restClient.Timeout = -1;
     }
 
     private async Task<string> GetAccessToken()

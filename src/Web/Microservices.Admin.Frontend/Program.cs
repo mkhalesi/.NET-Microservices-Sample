@@ -2,7 +2,6 @@ using Microservices.Admin.Frontend.Models.ViewServices.ProductServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +33,10 @@ builder.Services.AddAuthentication(options =>
         options.SaveTokens = true;
         options.GetClaimsFromUserInfoEndpoint = true;
         options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false
+        };
 
         //options.Scope.Add(OidcConstants.StandardScopes.OpenId);
         //options.Scope.Add(OidcConstants.StandardScopes.Profile);
@@ -63,6 +66,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseCookiePolicy(new CookiePolicyOptions() { MinimumSameSitePolicy = SameSiteMode.Lax });
 
 app.UseRouting();
 app.UseAuthentication();

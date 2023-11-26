@@ -17,10 +17,11 @@ IConfiguration configuration = builder.Configuration;
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(configuration["AspIdentityConnection"]));
 
-builder.Services.AddIdentityServer(options =>
-    {
-        options.IssuerUri = "null";
-    })
+//options =>
+//{
+//    options.IssuerUri = "null";
+//}
+builder.Services.AddIdentityServer()
     .AddDeveloperSigningCredential()
     .AddInMemoryIdentityResources(new List<IdentityResource>()
     {
@@ -30,14 +31,6 @@ builder.Services.AddIdentityServer(options =>
     })
     .AddInMemoryClients(new List<Client>()
     {
-        //new ()
-        //{
-        //    ClientName = "Web Frontend",
-        //    ClientId = "webFrontend",
-        //    ClientSecrets = {new Secret("123321".Sha256())},
-        //    AllowedGrantTypes = GrantTypes.ClientCredentials,
-        //    AllowedScopes = { "OrderService.FullAccess" }
-        //},
         new()
         {
             ClientName = "Web Frontend Code",
@@ -54,6 +47,7 @@ builder.Services.AddIdentityServer(options =>
                 "OrderService.GetOrders",
                 "BasketService.FullAccess",
                 "ApiGatewayForWeb.FullAccess",
+                "ProductService.ProductsManagement",
                 "roles"
             },
             //for refresh token
@@ -83,16 +77,6 @@ builder.Services.AddIdentityServer(options =>
             },
         }
     })
-    //.AddTestUsers(new List<TestUser>()
-    //{
-    //    new()
-    //    {
-    //        IsActive = true,
-    //        Password = "123321",
-    //        Username = "admin",
-    //        SubjectId = "TestGuid"
-    //    }
-    //})
     .AddInMemoryApiScopes(new List<ApiScope>()
     {
         new() { Name = "OrderService.GetOrders" },

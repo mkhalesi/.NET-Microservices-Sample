@@ -14,9 +14,9 @@
       "UpstreamPathTemplate": "/api/Product",
       //"UpstreamPathTemplate": "/getAllProduct",
       "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
-      },
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      //},
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "2s",
@@ -45,9 +45,9 @@
 
       "UpstreamPathTemplate": "/api/Product/{id}",
       "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
-      },
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      //},
       "Key": "getproduct"
     },
     //---------- category
@@ -62,9 +62,9 @@
       ],
       "UpstreamPathTemplate": "/api/Category",
       "UpstreamHttpMethod": [ "GET", "POST" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
-      }
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/ProductManagement",
