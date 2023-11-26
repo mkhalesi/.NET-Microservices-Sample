@@ -12,6 +12,7 @@
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
 			<PrivateAssets>all</PrivateAssets>
@@ -24,6 +25,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -31,9 +33,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Protobuf Include="..\..\Discounts\DiscountService\Proto\discountprotobuff.proto" GrpcServices="Both">
-	    <Link>Protos\discountprotobuff.proto</Link>
-	  </Protobuf>
+		<Protobuf Include="..\..\Discounts\DiscountService\Proto\discountprotobuff.proto" GrpcServices="Both">
+			<Link>Protos\discountprotobuff.proto</Link>
+		</Protobuf>
 	</ItemGroup>
 
 </Project>

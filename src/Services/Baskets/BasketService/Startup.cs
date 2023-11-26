@@ -6,12 +6,15 @@ using BasketService.MessageBus.SendMessages;
 using BasketService.Model.Services.BasketService;
 using BasketService.Model.Services.DiscountService;
 using BasketService.Model.Services.ProductService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace BasketService
@@ -35,7 +38,7 @@ namespace BasketService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BasketService", Version = "v1" });
             });
             services.AddDbContext<BasketDataBaseContext>(o =>
-                o.UseSqlServer(Configuration["BasketConnection"]) , ServiceLifetime.Singleton);
+                o.UseSqlServer(Configuration["BasketConnection"]), ServiceLifetime.Singleton);
 
             services.AddAutoMapper(typeof(BasketMappingProfile));
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
@@ -46,6 +49,18 @@ namespace BasketService
 
             services.AddHostedService<ReceivedUpdateProductNameMessage>();
             services.AddTransient<IMessageBus, RabbitMqMessageBus>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = Configuration["Identity:Uri"];
+                    options.Audience = Configuration["Identity:Audience"];
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = false
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,8 +77,10 @@ namespace BasketService
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
 
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
