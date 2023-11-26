@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,11 +27,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(authenticationSchemeKey, option =>
     {
         option.Authority = configuration["Identity:Uri"];
-        option.Audience = configuration["Identity:Uri"];
+        option.Audience = configuration["Identity:Audience"];
         option.RequireHttpsMetadata = false;
+        option.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false
+        };
     });
 
-builder.Services.AddOcelot(configuration);
+builder.Services
+    .AddOcelot(configuration)
+    .AddPolly()
+    .AddCacheManager(x =>
+    {
+        x.WithDictionaryHandle();
+    });
 
 var app = builder.Build();
 
@@ -41,9 +54,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
+
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.UseOcelot().Wait();
 
