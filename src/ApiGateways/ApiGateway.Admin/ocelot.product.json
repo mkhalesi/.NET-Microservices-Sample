@@ -3,11 +3,11 @@
     // ------------------- ProductManagement / api/ProductManagement
     {
       "DownstreamPathTemplate": "/api/ProductManagement",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement",
@@ -18,11 +18,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/ProductManagement/{Id}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
@@ -35,11 +35,11 @@
     // ------------------- ProductPriceManagement / api/ProductPriceManagement
     {
       "DownstreamPathTemplate": "/api/ProductPriceManagement",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 11002
+          "Host": "microservices-product.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/ProductPriceManagement",
