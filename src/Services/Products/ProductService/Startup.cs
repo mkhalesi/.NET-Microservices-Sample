@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProductService.Infrastructure.Contexts;
 using ProductService.MessagingBus.Config;
@@ -47,29 +49,32 @@ namespace ProductService
                 .AddJwtBearer(options =>
                 {
                     options.Authority = Configuration["Identity:Uri"];
-                    options.Audience = Configuration["ProductService"];
+                    options.Audience = Configuration["Identity:Audience"];
                     options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = false
+                    };
                 });
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(Configuration["Identity:Scopes:ProductsManagement"],
-                    policy => policy.RequireClaim("scope", $"{Configuration["ProductService"]}.${Configuration["ProductsManagement"]}"));
+                    policy => policy.RequireClaim("scope",
+                        $"{Configuration["Identity:Audience"]}.${Configuration["Identity:Scopes:ProductsManagement"]}"));
             });
-            
-            
+
             //services.AddHealthChecks()
             //    .AddSqlServer(
             //        connectionString: Configuration["ProductConnection"],
             //        healthQuery: "SELECT 1",
             //        failureStatus: HealthStatus.Degraded,
             //        tags: new string[] { "db", "sqlServer" });
-            services.AddHealthChecks()
-                .AddSqlServer(Configuration["ProductConnection"]);
-
-            services.AddHealthChecksUI(p =>
-                p.AddHealthCheckEndpoint("ProductHealthCheck", "/health"))
-                .AddInMemoryStorage();
+            //services.AddHealthChecks()
+            //    .AddSqlServer(Configuration["ProductConnection"]);
+            //services.AddHealthChecksUI(p =>
+            //    p.AddHealthCheckEndpoint("ProductHealthCheck", "/health"))
+            //    .AddInMemoryStorage();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,9 +85,9 @@ namespace ProductService
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductService v1"));
-            }
 
-            dbContext.Database.Migrate();
+                dbContext.Database.Migrate();
+            }
 
             //using (var scope = app.Service.CraeteScope())
             //{
@@ -92,16 +97,18 @@ namespace ProductService
 
             app.UseHttpsRedirection();
 
-            app.UseHealthChecks("/health", new HealthCheckOptions()
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
-            app.UseHealthChecksUI(p =>
-            {
-                p.UIPath = "/healthui";
-                p.ApiPath = "/healthuiapi";
-            });
+            //app.UseHealthChecks("/health", new HealthCheckOptions()
+            //{
+            //    Predicate = _ => true,
+            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            //});
+            //app.UseHealthChecksUI(p =>
+            //{
+            //    p.UIPath = "/healthui";
+            //    p.ApiPath = "/healthuiapi";
+            //});
+
+            app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
 
             app.UseRouting();
             app.UseAuthentication();
@@ -110,7 +117,7 @@ namespace ProductService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
+                //endpoints.MapHealthChecks("/health");
                 //endpoints.MapHealthChecks("/health", new HealthCheckOptions()
                 //{
                 //    Predicate = _ => true,
