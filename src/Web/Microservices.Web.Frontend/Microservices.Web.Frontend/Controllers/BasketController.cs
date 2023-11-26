@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microservices.Web.Frontend.Models.DTO;
 using Microservices.Web.Frontend.Models.DTO.Basket;
 using Microservices.Web.Frontend.Services.BasketServices;
@@ -28,9 +29,9 @@ namespace Microservices.Web.Frontend.Controllers
         #endregion
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var basket = basketService.GetBasket(UserId);
+            var basket = await basketService.GetBasket(UserId);
 
             if (basket != null && basket.DiscountId.HasValue)
             {
@@ -46,17 +47,17 @@ namespace Microservices.Web.Frontend.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(Guid Id)
+        public async Task<IActionResult> Delete(Guid Id)
         {
             basketService.DeleteFromBasket(Id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult AddToBasket(Guid ProductId)
+        public async Task<IActionResult> AddToBasket(Guid ProductId)
         {
             var product = productService.GetProduct(ProductId);
-            var basket = basketService.GetBasket(UserId);
+            var basket = await basketService.GetBasket(UserId);
 
             AddToBasketDTO item = new AddToBasketDTO()
             {
@@ -67,20 +68,20 @@ namespace Microservices.Web.Frontend.Controllers
                 Quantity = 1,
                 UnitPrice = product.price,
             };
-            basketService.AddToBasket(item, UserId);
+            await basketService.AddToBasket(item, UserId);
             return RedirectToAction("Index");
         }
 
         [HttpPut]
-        public IActionResult Edit(Guid BasketItemId, int quantity)
+        public async Task<IActionResult> Edit(Guid BasketItemId, int quantity)
         {
-            basketService.UpdateQuantity(BasketItemId, quantity);
+            await basketService.UpdateQuantity(BasketItemId, quantity);
             return RedirectToAction("Index");
 
         }
 
         [HttpPost]
-        public IActionResult ApplyDiscount(string DiscountCode)
+        public async Task<IActionResult> ApplyDiscount(string DiscountCode)
         {
             if (string.IsNullOrWhiteSpace(DiscountCode))
             {
@@ -102,9 +103,9 @@ namespace Microservices.Web.Frontend.Controllers
                     });
                 }
 
-                var basket = basketService.GetBasket(UserId);
+                var basket = await basketService.GetBasket(UserId);
                 //basketService.ApplyDiscountToBasket(Guid.Parse(basket.Id), discount.Data.Id);
-                basketService.ApplyDiscountToBasket(basket.Id, discount.Data.Id);
+                await basketService.ApplyDiscountToBasket(basket.Id, discount.Data.Id);
                 discountService.UseDiscount(discount.Data.Id);
                 return Json(new ResultDTO
                 {
@@ -124,18 +125,18 @@ namespace Microservices.Web.Frontend.Controllers
 
         #region checkout
 
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Checkout(CheckoutDTO checkout)
+        public async Task<IActionResult> Checkout(CheckoutDTO checkout)
         {
             checkout.UserId = UserId;
-            checkout.BasketId = basketService.GetBasket(UserId).Id;
+            checkout.BasketId = basketService.GetBasket(UserId).Result.Id;
             //checkout.BasketId = Guid.Parse(basketService.GetBasket(UserId).Id);
-            var result = basketService.Checkout(checkout);
+            var result = await basketService.Checkout(checkout);
             if (result.IsSuccess)
                 return RedirectToAction("OrderCreated");
 
@@ -146,7 +147,7 @@ namespace Microservices.Web.Frontend.Controllers
         #endregion
 
         [HttpGet]
-        public IActionResult OrderCreated()
+        public async Task<IActionResult> OrderCreated()
         {
             return View();
         }
