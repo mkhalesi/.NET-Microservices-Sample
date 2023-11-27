@@ -45,6 +45,8 @@ services:
       - sqldata
       - identityservice
       - rabbitmq
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   basketservice:
     container_name: microservices-basket.api    
@@ -62,6 +64,8 @@ services:
       - sqldata
       - identityservice
       - rabbitmq
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   discountservice:
     container_name: microservices-discount.api
@@ -74,6 +78,8 @@ services:
     depends_on:
       - sqldata
       - identityservice
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   productservice:
     container_name: microservices-product.api
@@ -91,6 +97,8 @@ services:
       - sqldata
       - identityservice
       - rabbitmq
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   paymentservice.endpoint:
     container_name: microservices-payment.api
@@ -104,6 +112,8 @@ services:
     depends_on:
       - sqldata
       - identityservice
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   identityservice:
     container_name: microservices-identity.api
@@ -117,6 +127,8 @@ services:
       - "7018:80"
     depends_on:
       - sqldata
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   apigateway.admin:
     container_name: microservices-apigateway.admin
@@ -135,6 +147,8 @@ services:
       - basketservice
       - productservice
       - paymentservice.endpoint
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   apigateway.forweb:
     container_name: microservices-apigateway.forweb
@@ -142,7 +156,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
-      - Identity__Audience=apiGatewayForWeb
+      - Identity__Audience=ApiGatewayForWeb
     ports:
       - "10023:80"
     depends_on:
@@ -153,6 +167,8 @@ services:
       - basketservice
       - productservice
       - paymentservice.endpoint
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   microservices.admin.frontend:
     container_name: microservices.admin.frontend
@@ -165,6 +181,8 @@ services:
       - "7298:80"
     depends_on:
       - apigateway.admin
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
   microservices.web.frontend:
     container_name: microservices.web.frontend
@@ -177,6 +195,8 @@ services:
       - "44328:80"
     depends_on:
       - apigateway.forweb
+    extra_hosts:
+      - "host.docker.internal:${EXTERNAL_DNS_NAME_OR_IP}"
 
 volumes:
   microservice-sqldata:

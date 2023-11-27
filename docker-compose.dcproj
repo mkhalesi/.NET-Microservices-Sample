@@ -4,9 +4,11 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>185d5eb7-4078-4753-9262-b6969b61680c</ProjectGuid>
-    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>orderservice</DockerServiceName>
+	  <DockerLaunchBrowser>True</DockerLaunchBrowser>
+	  <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <!--<DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>-->
+    <DockerServiceUrl>http://host.docker.internal:44328</DockerServiceUrl>
+    <DockerServiceName>microservices.web.frontend</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
