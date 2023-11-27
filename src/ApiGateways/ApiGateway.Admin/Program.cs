@@ -21,10 +21,10 @@ builder.Configuration.SetBasePath(webHostEnvironment.ContentRootPath)
     .AddOcelot(webHostEnvironment)
     .AddEnvironmentVariables();
 
-var authenticationSchemeKey = "ApiGatewayAdminAuthenticationScheme";
+//var authenticationSchemeKey = "ApiGatewayAdminAuthenticationScheme";
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(authenticationSchemeKey, option =>
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, option =>
     {
         option.Authority = configuration["Identity:Uri"];
         option.Audience = configuration["Identity:Audience"];
