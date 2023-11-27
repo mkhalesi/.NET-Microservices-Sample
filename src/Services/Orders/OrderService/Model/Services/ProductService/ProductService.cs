@@ -26,8 +26,11 @@ namespace OrderService.Model.Services.ProductService
         public bool UpdateProductName(Guid productId, string productName)
         {
             var product = context.Products.Find(productId);
-            product.Name = productName;
-            context.SaveChanges();
+            if (product != null)
+            {
+                product.Name = productName;
+                context.SaveChanges();
+            }
             return true;
         }
 
