@@ -1,4 +1,3 @@
-using ApiGateway.ForWeb.Extensions;
 using ApiGateway.ForWeb.Models.DiscountServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -26,10 +25,10 @@ builder.Configuration.SetBasePath(environment.ContentRootPath)
     .AddOcelot(environment)
     .AddEnvironmentVariables();
 
-var authenticationSchemeKey = "ApiGatewayForWebAuthenticationScheme";
+//var authenticationSchemeKey = "ApiGatewayForWebAuthenticationScheme";
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(authenticationSchemeKey, option =>
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, option =>
     {
         option.Authority = configuration["Identity:Uri"];
         option.Audience = configuration["Identity:Audience"];

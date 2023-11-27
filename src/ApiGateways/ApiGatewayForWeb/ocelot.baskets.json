@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Basket?UserId={userid}",
+      "DownstreamPathTemplate": "/api/Basket/{userid}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -10,13 +10,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/Basket?UserId={userid}",
-      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}",
+      "DownstreamPathTemplate": "/api/Basket/SetQuantity/{basketItemId}/{quantity}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -25,14 +25,14 @@
         }
       ],
 
-      "UpstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}",
+      "UpstreamPathTemplate": "/api/Basket/SetQuantity?basketItemId={basketItemId}&quantity={quantity}",
       "UpstreamHttpMethod": [ "PUT" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Basket?ItemId={ItemId}",
+      "DownstreamPathTemplate": "/api/Basket/{ItemId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -44,11 +44,11 @@
       "UpstreamPathTemplate": "/api/Basket?ItemId={ItemId}",
       "UpstreamHttpMethod": [ "DELETE" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Basket/{basketId}/{discountId}",
+      "DownstreamPathTemplate": "/api/Basket/AddItemToBasket{UserId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -56,11 +56,10 @@
           "Port": 80
         }
       ],
-
-      "UpstreamPathTemplate": "/api/Basket/{basketId}/{discountId}",
-      "UpstreamHttpMethod": [ "PUT" ],
+      "UpstreamPathTemplate": "/api/Basket/AddItemToBasket/{UserId}",
+      "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     },
     {
@@ -75,7 +74,7 @@
       "UpstreamPathTemplate": "/api/Basket/CheckoutBasket",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     }
 

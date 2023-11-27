@@ -14,7 +14,7 @@
       "UpstreamPathTemplate": "/api/Pay",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     },
     {
@@ -30,7 +30,7 @@
       "UpstreamPathTemplate": "/api/Pay/Verify",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     }
   ]

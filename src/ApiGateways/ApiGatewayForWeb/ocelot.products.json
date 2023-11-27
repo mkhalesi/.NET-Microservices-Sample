@@ -78,7 +78,7 @@
       "UpstreamPathTemplate": "/api/ProductManagement",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     },
     {
@@ -93,7 +93,7 @@
       "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     },
     // price
@@ -109,7 +109,7 @@
       "UpstreamPathTemplate": "/api/ProductPriceManagement",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+        "AuthenticationProviderKey": "Bearer"
       }
     }
   ]
