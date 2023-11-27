@@ -35,13 +35,16 @@
                         @Html.DisplayFor(modelItem => item.name)
                     </td>
                     <td>
-                        @item.price.ToString("n0") t
+                        @item.price.ToString("n0")$
                     </td>
                     <td>
                         <a asp-action="Details"
                            asp-controller="Product"
                            asp-route-id="@item.id">
                             details
+                        </a>
+                        <a asp-action="AddToBasket" asp-controller="Basket" asp-route-ProductId="@item.id" class="btn btn-success">
+                            Add To Basket
                         </a>
                     </td>
                 </tr>

@@ -3,15 +3,17 @@ using System;
 using BasketService.Model.DTOs.Basket;
 using BasketService.Model.Services.BasketService;
 using BasketService.Model.Services.DiscountService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BasketService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BasketController : ControllerBase
     {
         private readonly IBasketService basketService;
-        public BasketController(IBasketService basketService )
+        public BasketController(IBasketService basketService)
         {
             this.basketService = basketService;
         }
@@ -27,7 +29,7 @@ namespace BasketService.Controllers
             var basket = basketService.GetOrCreateBasketForUser(UserId);
             return Ok(basket);
         }
-
+        
         /// <summary>
         /// AddItemToBasket
         /// </summary>
@@ -50,7 +52,7 @@ namespace BasketService.Controllers
         /// <param name="ItemId"></param>
         /// <returns></returns>
         [HttpDelete]
-        public IActionResult Remove(Guid ItemId)
+        public IActionResult Delete(Guid ItemId)
         {
             basketService.RemoveItemFromBasket(ItemId);
             return Ok();
@@ -68,7 +70,7 @@ namespace BasketService.Controllers
             basketService.SetQuantities(basketItemId, quantity);
             return Ok();
         }
-        
+
         /// <summary>
         ///
         /// </summary>

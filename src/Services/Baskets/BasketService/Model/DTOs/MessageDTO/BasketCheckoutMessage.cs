@@ -6,6 +6,11 @@ namespace BasketService.Model.DTOs.MessageDTO
 {
     public class BasketCheckoutMessage : BaseMessage
     {
+        public BasketCheckoutMessage()
+        {
+            BasketItems = new List<BasketItemMessage>();
+        }
+
         public Guid BasketId { get; set; }
         public string UserId { get; set; }
         public string FirstName { get; set; }

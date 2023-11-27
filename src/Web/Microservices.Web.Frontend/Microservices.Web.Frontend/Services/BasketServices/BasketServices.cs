@@ -21,7 +21,6 @@ namespace Microservices.Web.Frontend.Services.BasketServices
         {
             this.restClient = clientRest;
             _httpContextAccessor = httpContextAccessor;
-            restClient.Timeout = -1;
         }
 
         #endregion
@@ -32,7 +31,7 @@ namespace Microservices.Web.Frontend.Services.BasketServices
             var request = new RestRequest($"/api/Basket?UserId={userId}", Method.GET);
             request.AddHeader("Authorization", $"Bearer {token}");
 
-            IRestResponse response = restClient.Execute(request);
+            IRestResponse response = await restClient.ExecuteAsync(request);
 
             //var basket = JsonSerializer.Deserialize<BasketDTO>(response.Content);
             var basket = JsonConvert.DeserializeObject<BasketDTO>(response.Content);
