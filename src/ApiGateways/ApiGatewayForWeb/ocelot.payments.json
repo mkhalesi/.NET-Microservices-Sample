@@ -2,7 +2,7 @@
   "Routes": [
     //Payment
     {
-      "DownstreamPathTemplate": "/api/Pay/{OrderId}/{callbackUrlFront}",
+      "DownstreamPathTemplate": "/api/Pay?OrderId={OrderId}&callbackUrlFront={callbackUrlFront}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -18,7 +18,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Pay/Verify/{paymentId}{callbackUrlFront}",
+      "DownstreamPathTemplate": "/api/Pay/Verify?paymentId={paymentId}&callbackUrlFront={callbackUrlFront}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
