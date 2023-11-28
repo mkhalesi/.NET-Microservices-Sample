@@ -53,7 +53,7 @@ namespace Microservices.Web.Frontend.Services.BasketServices
 
         public async Task<ResultDTO> DeleteFromBasket(Guid Id)
         {
-            var request = new RestRequest($"/api/Basket?ItemId=${Id}", Method.DELETE);
+            var request = new RestRequest($"/api/Basket?ItemId={Id}", Method.DELETE);
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             request.AddHeader("Authorization", $"Bearer {token}");
 
@@ -63,11 +63,11 @@ namespace Microservices.Web.Frontend.Services.BasketServices
 
         public async Task<ResultDTO> UpdateQuantity(Guid basketItemId, int quantity)
         {
-            var request = new RestRequest($"/api/Basket?basketItemId=${basketItemId}&quantity={quantity}", Method.PUT);
+            var request = new RestRequest($"/api/Basket?basketItemId={basketItemId}&quantity={quantity}", Method.PUT);
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             request.AddHeader("Authorization", $"Bearer {token}");
 
-            IRestResponse response = restClient.Execute(request);
+            IRestResponse response = await restClient.ExecuteAsync(request);
             return GetResponseStatusCode(response);
         }
 
@@ -78,7 +78,7 @@ namespace Microservices.Web.Frontend.Services.BasketServices
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             request.AddHeader("Authorization", $"Bearer {token}");
 
-            IRestResponse response = restClient.Execute(request);
+            IRestResponse response = await restClient.ExecuteAsync(request);
             return GetResponseStatusCode(response);
         }
 

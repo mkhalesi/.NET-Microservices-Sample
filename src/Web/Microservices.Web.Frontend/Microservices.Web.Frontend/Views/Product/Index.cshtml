@@ -43,7 +43,8 @@
                            asp-route-id="@item.id">
                             details
                         </a>
-                        <a asp-action="AddToBasket" asp-controller="Basket" asp-route-ProductId="@item.id" class="btn btn-success">
+                        <a asp-action="AddToBasket" asp-controller="Basket" asp-route-ProductId="@item.id" class="btn btn-success"
+                           asp-antiforgery="true" data-method="post">
                             Add To Basket
                         </a>
                     </td>

@@ -95,7 +95,7 @@
     </div>
 
     <br />
-    <a asp-action="Checkout" asp-controller="Basket" class="btn btn-success  col-md-12">Register Order</a>
+    <a asp-action="Checkout" asp-controller="Basket" class="btn btn-success col-md-12">Register Order</a>
 
     <!-- Modal -->
     <div class="modal fade" id="editQuantityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -107,7 +107,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form asp-action="Edit" asp-controller="Basket">
+                <form asp-action="Edit" asp-controller="Basket" method="PUT">
                     <div class="modal-body">
                         <input type="hidden" id="BasketItemId" name="BasketItemId" value="" />
                         <input type="number" id="quantity" name="quantity" value="" />

@@ -28,7 +28,6 @@ namespace Microservices.Web.Frontend.Controllers
 
         #endregion
 
-        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var basket = await basketService.GetBasket(UserId);
@@ -46,14 +45,12 @@ namespace Microservices.Web.Frontend.Controllers
             return View(basket);
         }
 
-        [HttpDelete]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            basketService.DeleteFromBasket(Id);
+            await basketService.DeleteFromBasket(Id);
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
         public async Task<IActionResult> AddToBasket(Guid ProductId)
         {
             var product = productService.GetProduct(ProductId);
@@ -72,12 +69,10 @@ namespace Microservices.Web.Frontend.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPut]
         public async Task<IActionResult> Edit(Guid BasketItemId, int quantity)
         {
             await basketService.UpdateQuantity(BasketItemId, quantity);
             return RedirectToAction("Index");
-
         }
 
         [HttpPost]
@@ -125,12 +120,12 @@ namespace Microservices.Web.Frontend.Controllers
 
         #region checkout
 
-        public async Task<IActionResult> Checkout()
+        public IActionResult Checkout()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Checkout(CheckoutDTO checkout)
         {
             checkout.UserId = UserId;
@@ -141,13 +136,12 @@ namespace Microservices.Web.Frontend.Controllers
                 return RedirectToAction("OrderCreated");
 
             // creating message
-            return View(Checkout());
+            return View(checkout);
         }
 
         #endregion
 
-        [HttpGet]
-        public async Task<IActionResult> OrderCreated()
+        public IActionResult OrderCreated()
         {
             return View();
         }
