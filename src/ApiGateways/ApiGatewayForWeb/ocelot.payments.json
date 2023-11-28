@@ -2,7 +2,7 @@
   "Routes": [
     //Payment
     {
-      "DownstreamPathTemplate": "/api/Pay",
+      "DownstreamPathTemplate": "/api/Pay/{OrderId}/{callbackUrlFront}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -11,14 +11,14 @@
         }
       ],
 
-      "UpstreamPathTemplate": "/api/Pay",
+      "UpstreamPathTemplate": "/api/Pay?OrderId={OrderId}&callbackUrlFront={callbackUrlFront}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Pay/Verify",
+      "DownstreamPathTemplate": "/api/Pay/Verify/{paymentId}{callbackUrlFront}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -27,7 +27,7 @@
         }
       ],
 
-      "UpstreamPathTemplate": "/api/Pay/Verify",
+      "UpstreamPathTemplate": "/api/Pay/Verify?paymentId={paymentId}&callbackUrlFront={callbackUrlFront}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
