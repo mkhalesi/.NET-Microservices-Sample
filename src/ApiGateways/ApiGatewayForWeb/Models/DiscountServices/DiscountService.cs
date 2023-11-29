@@ -1,25 +1,24 @@
 ﻿using ApiGateway.ForWeb.Models.Dtos;
 using DiscountService.Proto;
-using Grpc.Net.Client;
 
 namespace ApiGateway.ForWeb.Models.DiscountServices;
 
 public class DiscountService : IDiscountService
 {
-    private readonly IConfiguration configuration;
-    private readonly GrpcChannel channel;
-
-    public DiscountService(IConfiguration configuration)
+    private readonly DiscountServiceProto.DiscountServiceProtoClient _discountClient;
+    //private readonly IConfiguration configuration;
+    //private readonly GrpcChannel channel;
+    public DiscountService(DiscountServiceProto.DiscountServiceProtoClient discountClient)
     {
-        this.configuration = configuration;
-        channel = GrpcChannel.ForAddress(configuration["MicroserviceAddress:Discount:Uri"]);
+        _discountClient = discountClient;
+        //this.configuration = configuration;
+        //channel = GrpcChannel.ForAddress(configuration["MicroserviceAddress:DiscountGrpc:Uri"]);
     }
-
 
     public ResultDto<DiscountDto> GetDiscountByCode(string Code)
     {
-        var grpc_discountService = new DiscountServiceProto.DiscountServiceProtoClient(channel);
-        var result = grpc_discountService.GetDiscountByCode(new RequestGetDiscountByCode
+        //var grpc_discountService = new DiscountServiceProto.DiscountServiceProtoClient(channel);
+        var result = _discountClient.GetDiscountByCode(new RequestGetDiscountByCode
         {
             Code = Code
         });
@@ -48,8 +47,8 @@ public class DiscountService : IDiscountService
 
     public ResultDto<DiscountDto> GetDiscountById(Guid Id)
     {
-        var grpc_discountService = new DiscountServiceProto.DiscountServiceProtoClient(channel);
-        var result = grpc_discountService.GetDiscountById(new RequestGetDiscountById
+        //var grpc_discountService = new DiscountServiceProto.DiscountServiceProtoClient(channel);
+        var result = _discountClient.GetDiscountById(new RequestGetDiscountById
         {
             Id = Id.ToString(),
         });
@@ -78,8 +77,8 @@ public class DiscountService : IDiscountService
 
     public ResultDto UseDiscount(Guid DiscountId)
     {
-        var grpc_discountService = new DiscountServiceProto.DiscountServiceProtoClient(channel);
-        var result = grpc_discountService.UseDiscount(new RequestUseDiscount
+        //var grpc_discountService = new DiscountServiceProto.DiscountServiceProtoClient(channel);
+        var result = _discountClient.UseDiscount(new RequestUseDiscount
         {
             Id = DiscountId.ToString(),
         });

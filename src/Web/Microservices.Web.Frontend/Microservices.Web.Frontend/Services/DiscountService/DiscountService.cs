@@ -15,6 +15,7 @@ namespace Microservices.Web.Frontend.Services.DiscountService
         {
             grpcChannel = GrpcChannel.ForAddress(configuration["MicroServiceAddress:ApiGatewayForWeb:Uri"]);
         }
+
         public ResultDTO<DiscountDTO> GetDiscountByCode(string code)
         {
             var grpc_DiscountService = new DiscountServiceProto.DiscountServiceProtoClient(grpcChannel);

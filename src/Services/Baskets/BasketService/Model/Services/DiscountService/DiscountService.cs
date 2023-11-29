@@ -14,8 +14,9 @@ namespace BasketService.Model.Services.DiscountService
         public DiscountService(IConfiguration configuration)
         {
             _configuration = configuration;
-            channel = GrpcChannel.ForAddress(_configuration["MicroServiceAddress:Discount:Uri"]);
+            channel = GrpcChannel.ForAddress(_configuration["MicroServiceAddress:DiscountGrpc:Uri"]);
         }
+
         public DiscountDTO GetDiscountByCode(string code)
         {
             var grpc_DiscountService = new DiscountServiceProto.DiscountServiceProtoClient(channel);

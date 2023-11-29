@@ -187,7 +187,7 @@ namespace BasketService.Model.Services.BasketService
             var basket = context.Baskets.Find(BasketId);
             if (basket == null)
                 throw new Exception("Basket not found....!");
-            basket.DiscountId = DiscountId ;
+            basket.DiscountId = DiscountId;
             context.SaveChanges();
         }
 
@@ -227,7 +227,7 @@ namespace BasketService.Model.Services.BasketService
                 message.TotalPrice = message.TotalPrice - discount.Amount;
 
             //sending message
-            messageBus.SendMessage(message , queueName_BasketCheckout);
+            messageBus.SendMessage(message, queueName_BasketCheckout);
 
             //Delete basket
             context.Baskets.Remove(basket);

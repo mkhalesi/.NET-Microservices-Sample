@@ -1,4 +1,6 @@
+using System.Configuration;
 using ApiGateway.ForWeb.Models.DiscountServices;
+using DiscountService.Proto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.Cache.CacheManager;
@@ -15,10 +17,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IDiscountService, ApiGateway.ForWeb.Models.DiscountServices.DiscountService>();
-
 IConfiguration configuration = builder.Configuration;
 IWebHostEnvironment environment = builder.Environment;
+
+builder.Services.AddTransient<IDiscountService, ApiGateway.ForWeb.Models.DiscountServices.DiscountService>();
+
+builder.Services.AddGrpcClient<DiscountServiceProto.DiscountServiceProtoClient>(options =>
+{
+    options.Address = new Uri(configuration["MicroserviceAddress:DiscountGrpc:Uri"]);
+});
 
 builder.Configuration.SetBasePath(environment.ContentRootPath)
     .AddJsonFile("ocelot.json")

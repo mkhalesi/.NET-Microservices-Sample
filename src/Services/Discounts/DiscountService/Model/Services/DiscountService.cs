@@ -33,9 +33,9 @@ namespace DiscountService.Model.Services
         public DiscountDto GetDiscountByCode(string Code)
         {
             var discountCode = context.DiscountCodes.SingleOrDefault(p => p.Code.Equals(Code));
-
             if (discountCode == null)
-                throw new Exception("Discount Not Found....");
+                return null;
+
             var result = mapper.Map<DiscountDto>(discountCode);
             return result;
         }
@@ -43,9 +43,9 @@ namespace DiscountService.Model.Services
         public DiscountDto GetDiscountById(string Id)
         {
             var discountCode = context.DiscountCodes.SingleOrDefault(p => p.Id.Equals(Id));
-
             if (discountCode == null)
-                throw new Exception("Discount Not Found....");
+                return null;
+
             var result = mapper.Map<DiscountDto>(discountCode);
             return result;
         }

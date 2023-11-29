@@ -24,13 +24,11 @@ namespace DiscountService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DiscountService", Version = "v1" });
             });
-
 
             services.AddDbContext<DiscountDataBaseContext>(o => o.UseSqlServer
                  (Configuration["DiscountConnection"]), ServiceLifetime.Singleton);
@@ -38,7 +36,6 @@ namespace DiscountService
             services.AddGrpc();
             services.AddAutoMapper(typeof(DiscountMappingProfile));
             services.AddTransient<IDiscountService, DiscountService.Model.Services.DiscountService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

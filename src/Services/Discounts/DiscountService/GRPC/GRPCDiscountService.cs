@@ -14,9 +14,18 @@ namespace DiscountService.GRPC
         {
             this.discountService = discountService;
         }
+
         public override Task<ResultStatusCode> GetDiscountByCode(RequestGetDiscountByCode request, ServerCallContext context)
         {
             var data = discountService.GetDiscountByCode(request.Code);
+
+            if (data == null)
+                return Task.FromResult(new ResultStatusCode()
+                {
+                    IsSuccess = false,
+                    Message = "Discount Not Found",
+                });
+
             return Task.FromResult(new ResultStatusCode()
             {
                 IsSuccess = true,
@@ -34,6 +43,14 @@ namespace DiscountService.GRPC
         public override Task<ResultStatusCode> GetDiscountById(RequestGetDiscountById request, ServerCallContext context)
         {
             var data = discountService.GetDiscountById(request.Id);
+
+            if (data == null)
+                return Task.FromResult(new ResultStatusCode()
+                {
+                    IsSuccess = false,
+                    Message = "Discount Not Found",
+                });
+
             return Task.FromResult(new ResultStatusCode()
             {
                 IsSuccess = true,
@@ -55,7 +72,6 @@ namespace DiscountService.GRPC
             {
                 IsSuccess = result,
             });
-
         }
 
         public override Task<ResultAddNewDiscount> AddNewDiscount(RequestAddNewDiscount request, ServerCallContext context)
