@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microservices.Web.Frontend.Models.DTO;
 using Microservices.Web.Frontend.Models.DTO.Basket;
@@ -18,8 +19,9 @@ namespace Microservices.Web.Frontend.Controllers
         private readonly IBasketService basketService;
         private readonly IProductService productService;
         private readonly IDiscountService discountService;
-        private const string UserId = "1";
-        public BasketController(IBasketService basketService, IProductService productService, IDiscountService discountService)
+        public BasketController(IBasketService basketService,
+            IProductService productService,
+            IDiscountService discountService)
         {
             this.basketService = basketService;
             this.productService = productService;
@@ -30,7 +32,9 @@ namespace Microservices.Web.Frontend.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var basket = await basketService.GetBasket(UserId);
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+
+            var basket = await basketService.GetBasket(userId);
 
             if (basket != null && basket.DiscountId.HasValue)
             {
@@ -53,8 +57,10 @@ namespace Microservices.Web.Frontend.Controllers
 
         public async Task<IActionResult> AddToBasket(Guid ProductId)
         {
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+
             var product = productService.GetProduct(ProductId);
-            var basket = await basketService.GetBasket(UserId);
+            var basket = await basketService.GetBasket(userId);
 
             AddToBasketDTO item = new AddToBasketDTO()
             {
@@ -65,7 +71,7 @@ namespace Microservices.Web.Frontend.Controllers
                 Quantity = 1,
                 UnitPrice = product.price,
             };
-            await basketService.AddToBasket(item, UserId);
+            await basketService.AddToBasket(item, userId);
             return RedirectToAction("Index");
         }
 
@@ -98,7 +104,9 @@ namespace Microservices.Web.Frontend.Controllers
                     });
                 }
 
-                var basket = await basketService.GetBasket(UserId);
+                var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+
+                var basket = await basketService.GetBasket(userId);
                 //basketService.ApplyDiscountToBasket(Guid.Parse(basket.Id), discount.Data.Id);
                 await basketService.ApplyDiscountToBasket(basket.Id, discount.Data.Id);
                 discountService.UseDiscount(discount.Data.Id);
@@ -128,8 +136,10 @@ namespace Microservices.Web.Frontend.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Checkout(CheckoutDTO checkout)
         {
-            checkout.UserId = UserId;
-            checkout.BasketId = basketService.GetBasket(UserId).Result.Id;
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+
+            checkout.UserId = userId;
+            checkout.BasketId = basketService.GetBasket(userId).Result.Id;
             //checkout.BasketId = Guid.Parse(basketService.GetBasket(UserId).Id);
             var result = await basketService.Checkout(checkout);
             if (result.IsSuccess)

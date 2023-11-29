@@ -92,7 +92,7 @@ namespace Microservices.Web.Frontend.Services.BasketServices
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             request.AddHeader("Authorization", $"Bearer {token}");
 
-            IRestResponse response = restClient.Execute(request);
+            IRestResponse response = await restClient.ExecuteAsync(request);
             return GetResponseStatusCode(response);
         }
 

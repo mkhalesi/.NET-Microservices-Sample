@@ -34,7 +34,6 @@
                     @foreach (var item in Model.Items)
                     {
                         <tr>
-
                             <td>
                                 @Html.DisplayFor(modelItem => item.ProductName)
                             </td>
@@ -154,7 +153,7 @@
                         swal({
                             title: "Success!",
                             text: data.message,
-                            icon: "warning",
+                            icon: "success",
                             button: "Ok",
                         });
                     }
