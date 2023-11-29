@@ -3,10 +3,10 @@ using OrderService.Model.Entities;
 
 namespace OrderService.Infrastructure.Context
 {
-    public class OrderDataBaseContext:DbContext
+    public class OrderDataBaseContext : DbContext
     {
         public OrderDataBaseContext(DbContextOptions<OrderDataBaseContext> options)
-       :base(options)
+       : base(options)
         {
 
         }

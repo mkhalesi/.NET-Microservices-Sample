@@ -26,7 +26,7 @@ namespace OrderService.Model.Entities
             this.PaymentStatus = PaymentStatus;
         }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string UserId { get; private set; }
         public DateTime OrderPlaced { get; private set; }
         public bool OrderPaid { get; private set; }

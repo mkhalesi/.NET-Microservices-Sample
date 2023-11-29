@@ -19,7 +19,6 @@ namespace OrderService.Model.Services.RegisterOrderService
 
         public bool Execute(BasketDTO basket)
         {
-            List<OrderLine> orderLines = new List<OrderLine>();
             Order order = new Order(
                 basket.UserId,
                 basket.FirstName,
@@ -27,7 +26,7 @@ namespace OrderService.Model.Services.RegisterOrderService
                 basket.Address,
                 basket.PhoneNumber,
                 basket.TotalPrice,
-                orderLines);
+                new List<OrderLine>());
             context.Orders.Add(order);
             context.SaveChanges();
 
@@ -41,7 +40,7 @@ namespace OrderService.Model.Services.RegisterOrderService
                         ProductPrice = item.Price,
                         ProductId = item.ProductId
                     });
-                    orderLines.Add(new OrderLine()
+                    context.OrderLines.Add(new OrderLine()
                     {
                         Id = System.Guid.NewGuid(),
                         Quantity = item.Quantity,

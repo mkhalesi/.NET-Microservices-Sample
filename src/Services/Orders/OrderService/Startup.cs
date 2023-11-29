@@ -57,7 +57,7 @@ namespace OrderService
                 .AddJwtBearer(option =>
                 {
                     option.Authority = Configuration["Identity:Uri"];
-                    option.Audience = Configuration["Audience"];
+                    option.Audience = Configuration["Identity:Audience"];
                     option.RequireHttpsMetadata = false;
                     option.TokenValidationParameters = new TokenValidationParameters()
                     {
