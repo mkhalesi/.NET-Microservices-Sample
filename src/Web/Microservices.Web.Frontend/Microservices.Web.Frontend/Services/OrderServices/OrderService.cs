@@ -48,9 +48,9 @@ namespace Microservices.Web.Frontend.Services.OrderServices
             //var request = new RestRequest($"/api/OrderPayment?OrderId={OrderId}", Method.POST);
             //request.AddHeader("Authorization", $"Bearer {await GetAccessToken()}");
             //request.AddHeader("Content-Type", "application/json");
+            //_httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
 
-            _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
-            var httpResponseMessage = await _httpClient.GetAsync(new RequestUrl($"/api/OrderPayment?OrderId={OrderId}").ToString());
+            var httpResponseMessage = await _httpClient.PostAsync($"/api/OrderPayment?OrderId={OrderId}", null);
             return GetResponseStatusCode(httpResponseMessage);
         }
 

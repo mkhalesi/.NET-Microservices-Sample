@@ -112,6 +112,8 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - PaymentConnection=Server=sqldata;Database=MicroservicePaymentDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
       - RabbitMq__Uri=amqp://guest:guest@rabbitmq:5672
+      - Identity__Uri=http://${EXTERNAL_DNS_NAME_OR_IP}:7018
+      - Identity__Audience=PaymentService
     ports:
       - "10002:80"
     depends_on:

@@ -42,6 +42,7 @@ namespace PaymentService.EndPoint.Controllers
             _queueName = configuration["RabbitMq:QueueName_PaymentDone"];
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get(Guid OrderId, string callbackUrlFront)
         {
@@ -51,7 +52,7 @@ namespace PaymentService.EndPoint.Controllers
                 ResultDTO ResultDTO = new ResultDTO
                 {
                     IsSuccess = false,
-                    Message = "پرداخت یافت نشد"
+                    Message = "Payment Not Found"
                 };
                 return Ok(ResultDTO);
             }
@@ -80,9 +81,7 @@ namespace PaymentService.EndPoint.Controllers
                 IsSuccess = true,
                 Data = new ReturnPaymentLinkDTO { PaymentLink = redirectUrl },
             });
-
         }
-
 
         [AllowAnonymous]
         [HttpGet("Verify")]
@@ -114,14 +113,12 @@ namespace PaymentService.EndPoint.Controllers
                 {
                     paymentService.PayDone(paymentId, Authority, verification.RefID);
 
-                    // ارسال پیغام برای سرویس سفارش
                     var payment = new PaymentIsDoneMessage()
                     {
                         OrderId = pay.OrderId
                     };
                     messageBus.SendMessage(payment, _queueName);
                     return Redirect(callbackUrlFront);
-
                 }
                 else
                 {
@@ -129,10 +126,7 @@ namespace PaymentService.EndPoint.Controllers
                 }
             }
 
-
             return Redirect(callbackUrlFront);
         }
-
-
     }
 }

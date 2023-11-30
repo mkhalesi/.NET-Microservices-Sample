@@ -48,6 +48,7 @@ builder.Services.AddIdentityServer()
                 "BasketService.FullAccess",
                 "ApiGatewayForWeb.FullAccess",
                 "ProductService.ProductsManagement",
+                "PaymentService.FullAccess",
                 "roles"
             },
             //for refresh token
@@ -84,7 +85,8 @@ builder.Services.AddIdentityServer()
         new() { Name = "BasketService.FullAccess" },
         new() { Name = "ApiGatewayForWeb.FullAccess", UserClaims = new List<string> { "role" } },
         new() { Name = "ApiGatewayAdmin.FullAccess", UserClaims = new List<string> { "role" } },
-        new() { Name = "ProductService.ProductsManagement" }
+        new() { Name = "ProductService.ProductsManagement" },
+        new() { Name = "PaymentService.FullAccess"}
     })
     .AddInMemoryApiResources(new List<ApiResource>()
     {
@@ -117,6 +119,12 @@ builder.Services.AddIdentityServer()
             Name = "ProductService",
             Description = "ProductService",
             Scopes = { "ProductService.ProductsManagement" }
+        },
+        new()
+        {
+            Name = "PaymentService",
+            Description = "PaymentService",
+            Scopes = { "PaymentService.FullAccess" }
         }
     })
     .AddAspNetIdentity<IdentityUser>();

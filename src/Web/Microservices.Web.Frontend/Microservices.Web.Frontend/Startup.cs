@@ -59,13 +59,13 @@ namespace Microservices.Web.Frontend
             ).AddUserAccessTokenHandler();
 
             services.AddScoped<IPaymentService>(p => new PaymentService(
-                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"])));
+                new RestClient(Configuration["MicroserviceAddress:ApiGatewayForWeb:Uri"]),
+                new HttpContextAccessor()));
 
             services.AddAuthentication(option =>
             {
                 option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-
             }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
@@ -89,6 +89,7 @@ namespace Microservices.Web.Frontend
                     options.Scope.Add("ProductService.ProductsManagement");
                     options.Scope.Add("BasketService.FullAccess");
                     options.Scope.Add("ApiGatewayForWeb.FullAccess");
+                    options.Scope.Add("PaymentService.FullAccess");
                     // for refresh token
                     options.Scope.Add("offline_access");
                 });
