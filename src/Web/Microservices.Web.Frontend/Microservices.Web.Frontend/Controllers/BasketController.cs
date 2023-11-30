@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microservices.Web.Frontend.Models.DTO;
 using Microservices.Web.Frontend.Models.DTO.Basket;
@@ -32,7 +33,7 @@ namespace Microservices.Web.Frontend.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
 
             var basket = await basketService.GetBasket(userId);
 
@@ -57,7 +58,7 @@ namespace Microservices.Web.Frontend.Controllers
 
         public async Task<IActionResult> AddToBasket(Guid ProductId)
         {
-            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
 
             var product = productService.GetProduct(ProductId);
             var basket = await basketService.GetBasket(userId);
@@ -104,7 +105,7 @@ namespace Microservices.Web.Frontend.Controllers
                     });
                 }
 
-                var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+                var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
 
                 var basket = await basketService.GetBasket(userId);
                 //basketService.ApplyDiscountToBasket(Guid.Parse(basket.Id), discount.Data.Id);
@@ -136,7 +137,7 @@ namespace Microservices.Web.Frontend.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Checkout(CheckoutDTO checkout)
         {
-            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
 
             checkout.UserId = userId;
             checkout.BasketId = basketService.GetBasket(userId).Result.Id;

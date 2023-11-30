@@ -2,9 +2,11 @@
 using Microservices.Web.Frontend.Services.PaymentServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using Microservices.Web.Frontend.Models.DTO.Order;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Microservices.Web.Frontend.Controllers
 {
@@ -13,8 +15,6 @@ namespace Microservices.Web.Frontend.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IPaymentService paymentService;
-        private readonly string UserId = "1";
-
         public OrdersController(IOrderService orderService,
             IPaymentService paymentService)
         {
@@ -23,7 +23,8 @@ namespace Microservices.Web.Frontend.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var orders = await orderService.GetOrders(UserId);
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
+            var orders = await orderService.GetOrders(userId);
             return View(orders);
         }
 
@@ -49,11 +50,11 @@ namespace Microservices.Web.Frontend.Controllers
             //Get the payment link from the payment service
             string callbackUrl = Url.Action(nameof(Detail), "Orders",
                 new { Id = OrderId }, protocol: Request.Scheme);
-            var paymentlink = paymentService.GetPaymentlink(order.Id, callbackUrl);
+            var paymentLink = await paymentService.GetPaymentLink(order.Id, callbackUrl);
 
-            if (paymentlink.IsSuccess)
+            if (paymentLink.IsSuccess)
             {
-                return Redirect(paymentlink.Data.PaymentLink);
+                return Redirect(paymentLink.Data.PaymentLink);
             }
 
             return NotFound();
