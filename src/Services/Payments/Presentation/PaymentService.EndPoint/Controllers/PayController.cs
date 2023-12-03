@@ -64,23 +64,34 @@ namespace PaymentService.EndPoint.Controllers
                 },
                 protocol: Request.Scheme);
 
-            var result = await _payment.Request(new DtoRequest()
+            try
             {
-                Amount = pay.Amount,
-                CallbackUrl = callbackUrl,
-                Description = "test",
-                Email = "",
-                Mobile = "",
-                MerchantId = merchendId,
-            }, Payment.Mode.sandbox);
+                var result = await _payment.Request(new DtoRequest()
+                {
+                    Amount = pay.Amount,
+                    CallbackUrl = callbackUrl,
+                    Description = "test",
+                    Email = "",
+                    Mobile = "",
+                    MerchantId = merchendId,
+                }, Payment.Mode.sandbox);
 
-            string redirectUrl = $"https://zarinpal.com/pg/StartPay/{result.Authority}";
+                string redirectUrl = $"https://zarinpal.com/pg/StartPay/{result.Authority}";
 
-            return Ok(new ResultDTO<ReturnPaymentLinkDTO>
+                return Ok(new ResultDTO<ReturnPaymentLinkDTO>
+                {
+                    IsSuccess = true,
+                    Data = new ReturnPaymentLinkDTO { PaymentLink = redirectUrl },
+                });
+            }
+            catch (Exception ex)
             {
-                IsSuccess = true,
-                Data = new ReturnPaymentLinkDTO { PaymentLink = redirectUrl },
-            });
+                return NotFound(new ResultDTO<ReturnPaymentLinkDTO>
+                {
+                    IsSuccess = false,
+                    ErrorMessage = ex.Message,
+                });
+            }
         }
 
         [AllowAnonymous]

@@ -32,7 +32,7 @@ namespace PaymentService.EndPoint
 
             services.AddTransient<IPaymentDatabaseContext, PaymentDatabaseContext>();
             services.AddDbContext<PaymentDatabaseContext>(p =>
-                p.UseSqlServer(Configuration["PaymentConnection"]) , ServiceLifetime.Singleton);
+                p.UseSqlServer(Configuration["PaymentConnection"]), ServiceLifetime.Singleton);
 
             services.AddScoped<IMessageBus, RabbitMqMessageBus>();
             services.AddHostedService<ReceivedPaymentForOrderMessage>();
