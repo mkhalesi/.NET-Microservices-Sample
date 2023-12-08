@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sql-deployment
+  labels:
+    app: sql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sql
+  template:
+    metadata:
+      labels:
+        app: sql
+    spec:
+      containers:
+        - name: sql
+          image: sqldata
+          ports:
+            - containerPort: 1434
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: ACCEPT_EULA
+              value: WQ==
+            - name: SA_PASSWORD
+              value: MTIzMzIxQWFA
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sql-service
+spec:
+  selector:
+    app: sql
+  ports:
+    - protocol: TCP
+      port: 1434
+      targetPort: 1433
