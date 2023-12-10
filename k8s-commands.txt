@@ -1,0 +1,55 @@
+
+-----------------------------------------k8s commands---------------------------------------------------------------
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v3.0.0-alpha0/charts/kubernetes-dashboard.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v3.0.0-alpha0/charts/kubernetes-dashboard.yaml
+
+kubectl apply -f sql.yaml
+kubectl delete -f sql.yaml
+
+kubectl apply -f mongo.yaml
+kubectl delete -f mongo.yaml 	
+
+kubectl apply -f mongo-secret.yaml
+kubectl delete -f mongo-secret.yaml
+
+kubectl apply -f mongo-configmap.yaml
+kubectl delete -f mongo-configmap.yaml
+
+kubectl apply -f rabbitmq.yaml
+kubectl delete -f rabbitmq.yaml
+
+kubectl apply -f orderservice.yaml
+kubectl delete -f orderservice.yaml
+
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.0/cert-manager.yaml
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.3.0/cert-manager.yaml
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.yaml
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.yaml
+
+kubectl apply -f k8s/deployments/nginx-ingress.yaml
+kubectl delete -f k8s/deployments/nginx-ingress.yaml
+
+*****
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+link ====>>>>> http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+
+kubectl -n kubernetes-dashboard create token admin-user
+eyJhbGciOiJSUzI1NiIsImtpZCI6IkRlbEY1WDBHRWV5dDItdlloclVqSG8wTzdxOGdlbVhiRXdmemx6TldSQk0ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzAyMTM1NjA3LCJpYXQiOjE3MDIxMzIwMDcsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJhZG1pbi11c2VyIiwidWlkIjoiZjVjODVkZGItMmU1MS00ZjkyLTk5ZmMtZTY1MGY2NzJlZjdhIn19LCJuYmYiOjE3MDIxMzIwMDcsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDphZG1pbi11c2VyIn0.M7R8rhd6sjO4KYwoVwCoIhb5QqzpgkQidaGUp067HJPQkkJWmPWNSTPd1i0GUBuq2XG6cvVljnT1EnN2qqgwh_PVtVYVE5RmZLSsggsLxYPaUC3-Zc_wK9tRT5G4dZ38zdj0YKTBrYxVp0Lu316CyD-ZJqfnBFifTP7eHH3eYWKaq7wWouIuyOv0HROIkMEbQ5MAiXIJqmvf1PZBPdUK5kHD40XFRJ-SEL2XEkzyfi3Fm7ugQsfSX5MtK5XlHfzUrNG_vc0ruwmuf2zbuG7nIHkiVWgt9r9-NdckOf3dmpuqPyeJZ_lp-YCouWsTQZwHgkC5pD-RNOh0OvtsD_m-Ww
+--------------------------------------------------------------------------------------------------------------------
+
+
+-----------------------------------------AKS ARS--------------------------------------------------------------------
+az login
+az group create --name myResourceGroup --location westeroupe
+az acr create --resource-group myResourceGroup --name shoppingacr --sku Basic (Consumption model)
+az acr update -n shoppingacr --admin-enabled true
+az acr login --name shoopingacr
+az acr list --resource-group myResourceGroup --query "[].[acrLoginServer:loginserver]" --output table
+docker tag shoping:latest shoppingacr.azurezace.io/shoppingapi:v1
+docker push shoppingacr.azureac.io/shopping:v1
+az acr repository list --name shoppingacr --output table
+az acr repository show-tags --name shoppingacr --repository shoppingclient --output table
+az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 1 --generate-ssh-keys --attach-acr shoppingacr
+
+--------------------------------------------------------------------------------------------------------------------

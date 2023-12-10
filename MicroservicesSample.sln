@@ -103,14 +103,25 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48AC8522-29B2-442C-BCEA-1177B7CA2A22}"
 	ProjectSection(SolutionItems) = preProject
 		Solution Items\.env = Solution Items\.env
+		k8s-commands.txt = k8s-commands.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{20A7EDF7-2E7D-4CE2-A4E3-34F68B0297DB}"
 	ProjectSection(SolutionItems) = preProject
+		dashboard-adminuser.yaml = dashboard-adminuser.yaml
 		mongo-configmap.yaml = mongo-configmap.yaml
 		mongo-secret.yaml = mongo-secret.yaml
 		mongo.yaml = mongo.yaml
 		orderservice.yaml = orderservice.yaml
+		rabbitmq.yaml = rabbitmq.yaml
+		sql.yaml = sql.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deployments", "deployments", "{F6A0F251-4759-4DAE-B611-9DC63B1658E5}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\deployments\appprotect-dos-arb.yaml = k8s\deployments\appprotect-dos-arb.yaml
+		k8s\deployments\nginx-ingress.yaml = k8s\deployments\nginx-ingress.yaml
+		k8s\deployments\nginx-plus-ingress.yaml = k8s\deployments\nginx-plus-ingress.yaml
 	EndProjectSection
 EndProject
 Global
@@ -244,6 +255,7 @@ Global
 		{354BD159-9E1A-454B-A20D-6C5A0DC68005} = {0A197A95-E14F-453A-B2D9-559B6593ECCC}
 		{167D6B0D-71E6-4926-B21B-9334B10298D2} = {0A197A95-E14F-453A-B2D9-559B6593ECCC}
 		{B4DFDDF1-A989-4F3F-B780-DA0320D10BFC} = {0A197A95-E14F-453A-B2D9-559B6593ECCC}
+		{F6A0F251-4759-4DAE-B611-9DC63B1658E5} = {20A7EDF7-2E7D-4CE2-A4E3-34F68B0297DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78E65AE0-10C8-4F41-8A80-5F7BFDE48504}
