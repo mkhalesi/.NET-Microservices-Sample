@@ -16,25 +16,38 @@ spec:
     spec:
       containers:
         - name: rabbitmq
-          image: rabbitmq
+          image: rabbitmq:3-management-alpine
           ports:
-            - containerPort: 5672
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          - name: http
+            protocol: TCP
+            containerPort: 15672
+          - name: amqp
+            protocol: TCP
+            containerPort: 5672
+          # resources:
+          #   requests:
+          #     memory: "64Mi"
+          #     cpu: "250m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: rabbitmq-service
 spec:
+  type: NodePort
   selector:
     app: rabbitmq
   ports:
-    - protocol: TCP
-      port: 15672
-      targetPort: 15672
+   - name: http
+     protocol: TCP
+     port: 15672
+     targetPort: 15672
+     nodePort: 31672
+   - name: amqp
+     protocol: TCP
+     port: 5672
+     targetPort: 5672
+     nodePort: 30672  
