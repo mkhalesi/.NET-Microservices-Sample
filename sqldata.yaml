@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqldata-deployment
+  labels:
+    app: sqldata
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqldata
+  template:
+    metadata:
+      labels:
+        app: sqldata
+    spec:
+      containers:
+        - name: sqldata
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          ports:
+            - containerPort: 1434
+          # resources:
+          #   requests:
+          #     memory: "64Mi"
+          #     cpu: "250m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            # - name: sqldata-secret
+            #   value: MTIzMzIxQWFA
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sqldata-secret
+                  key: MSSQL_SA_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqldata-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: sqldata
+  ports:
+    - protocol: TCP
+      port: 1434
+      targetPort: 1433

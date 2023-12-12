@@ -114,7 +114,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{20A7EDF7-2E7
 		mongo.yaml = mongo.yaml
 		orderservice.yaml = orderservice.yaml
 		rabbitmq.yaml = rabbitmq.yaml
-		sql.yaml = sql.yaml
+		sqldata-secret.yaml = sqldata-secret.yaml
+		sqldata.yaml = sqldata.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deployments", "deployments", "{F6A0F251-4759-4DAE-B611-9DC63B1658E5}"
