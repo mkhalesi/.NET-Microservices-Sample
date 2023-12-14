@@ -24,12 +24,7 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
             - name: DatabaseSettings__ConnectionString
-              value: Server=sqldata;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
-              # value: mongodb://username:password@mongo-service:27017
-              # valueFrom:
-              #     configMapKeyRef:
-              #       name: mongo-configmap
-              #       key: connection_string
+              value: Server=sqldata-service;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
             - name: Identity__Uri
               value: http://${EXTERNAL_DNS_NAME_OR_IP}:7018
             - name: Identity__Audience
@@ -39,14 +34,7 @@ spec:
             - name: Identity__Scopes__GetOrders
               value: GetOrders
             - name: RabbitMq__Uri
-              value: amqp://guest:guest@rabbitmq:5672
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+              value: amqp://guest:guest@rabbitmq-service:5672
 ---
 apiVersion: v1
 kind: Service

@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: rabbitmq-deployment
   labels:
@@ -24,13 +24,6 @@ spec:
           - name: amqp
             protocol: TCP
             containerPort: 5672
-          # resources:
-          #   requests:
-          #     memory: "64Mi"
-          #     cpu: "250m"
-          #   limits:
-          #     memory: "128Mi"
-          #     cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
@@ -50,4 +43,4 @@ spec:
      protocol: TCP
      port: 5672
      targetPort: 5672
-     nodePort: 30672  
+     nodePort: 30672
