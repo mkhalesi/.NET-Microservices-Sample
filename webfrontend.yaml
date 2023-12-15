@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webfrontend-deployment
+  labels:
+    app: webfrontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webfrontend
+  template:
+    metadata:
+      labels:
+        app: webfrontend
+    spec:
+      containers:
+        - name: webfrontend
+          image: mkhalesiir/microservicewebfrontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: MicroserviceAddress__ApiGatewayForWeb__Uri
+              value: http://apigatewayforweb-clusterip-srv:10025
+            - name: Identity__Uri
+              value: http://172.20.144.1:31720
+              # value: http://identityservice-clusterip-srv:7020
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webfrontend-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: webfrontend
+  ports:
+  - name: webfrontend
+    protocol: TCP
+    port: 44330
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webfrontend-srv
+spec:
+  type: NodePort
+  selector:
+    app: webfrontend
+  ports:
+    - name: webfrontend
+      protocol: TCP
+      port: 44330
+      targetPort: 80
+      nodePort: 31443

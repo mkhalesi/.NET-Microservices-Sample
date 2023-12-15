@@ -26,7 +26,7 @@ spec:
             - name: OrderConnection
               value: Server=sqldata-clusterip-service,1434;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
             - name: Identity__Uri
-              value: http://${EXTERNAL_DNS_NAME_OR_IP}:7018
+              value: http://identityservice-clusterip-srv:7020
             - name: Identity__Audience
               value: OrderService
             - name: Identity__Scopes__OrdersManagement
@@ -63,4 +63,4 @@ spec:
       protocol: TCP
       port: 7005
       targetPort: 80
-      nodePort: 31000
+      nodePort: 31705

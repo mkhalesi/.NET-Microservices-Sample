@@ -106,15 +106,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{20A7EDF7-2E7D-4CE2-A4E3-34F68B0297DB}"
 	ProjectSection(SolutionItems) = preProject
+		apigatewayforweb.yaml = apigatewayforweb.yaml
 		dashboard-adminuser.yaml = dashboard-adminuser.yaml
+		identityservice.yaml = identityservice.yaml
 		local-pvc.yaml = local-pvc.yaml
 		mongo-configmap.yaml = mongo-configmap.yaml
 		mongo-secret.yaml = mongo-secret.yaml
 		mongo.yaml = mongo.yaml
 		orderservice.yaml = orderservice.yaml
+		productservice.yaml = productservice.yaml
 		rabbitmq.yaml = rabbitmq.yaml
 		sqldata-secret.yaml = sqldata-secret.yaml
 		sqldata.yaml = sqldata.yaml
+		webfrontend.yaml = webfrontend.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deployments", "deployments", "{F6A0F251-4759-4DAE-B611-9DC63B1658E5}"

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigatewayforweb-deployment
+  labels:
+    app: apigatewayforweb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apigatewayforweb
+  template:
+    metadata:
+      labels:
+        app: apigatewayforweb
+    spec:
+      containers:
+        - name: apigatewayforweb
+          image: mkhalesiir/microservicesapigatewayforweb:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: Identity__Uri
+              value: http://identityservice-clusterip-srv:7020
+            - name: Identity__Audience
+              value: ApiGatewayForWeb
+            # - name: MicroserviceAddress__Discount__Uri
+            #   value: http://microservices-discount.api
+            # - name: MicroserviceAddress__DiscountGrpc__Uri
+            #   value: http://microservices-discount.api:81
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigatewayforweb-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: apigatewayforweb
+  ports:
+  - name: apigatewayforweb
+    protocol: TCP
+    port: 10025
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigatewayforweb-srv
+spec:
+  type: NodePort
+  selector:
+    app: apigatewayforweb
+  ports:
+    - name: apigatewayforweb
+      protocol: TCP
+      port: 10025
+      targetPort: 80
+      nodePort: 31125
