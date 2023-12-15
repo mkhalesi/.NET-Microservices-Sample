@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: sqldata-deployment
   labels:
@@ -36,16 +36,38 @@ spec:
                 secretKeyRef:
                   name: sqldata-secret
                   key: MSSQL_SA_PASSWORD
+          volumeMounts:
+          - mountPath: /var/opt/mssql/data
+            name: sqldatadb
+      volumes:
+      - name: sqldatadb
+        persistentVolumeClaim:
+          claimName: sqldata-claim
+            
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: sqldata-service
+  name: sqldata-clusterip-service
+spec:
+  type: ClusterIP
+  selector:
+    app: sqldata
+  ports:
+  - name: sqldata
+    protocol: TCP
+    port: 1434
+    targetPort: 1433
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqldata-loadbalancer-service
 spec:
   type: LoadBalancer
   selector:
     app: sqldata
   ports:
-    - protocol: TCP
-      port: 1434
-      targetPort: 1433
+  - protocol: TCP
+    port: 1434
+    targetPort: 1433

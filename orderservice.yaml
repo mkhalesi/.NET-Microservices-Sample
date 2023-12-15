@@ -23,8 +23,8 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
-            - name: DatabaseSettings__ConnectionString
-              value: Server=sqldata-service;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
+            - name: OrderConnection
+              value: Server=sqldata-clusterip-service,1434;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
             - name: Identity__Uri
               value: http://${EXTERNAL_DNS_NAME_OR_IP}:7018
             - name: Identity__Audience
@@ -39,13 +39,28 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: orderservice-service
+  name: orderservice-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: orderservice
+  ports:
+  - name: orderservice
+    protocol: TCP
+    port: 7005
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderservice-srv
 spec:
   type: NodePort
   selector:
     app: orderservice
   ports:
-    - protocol: TCP
+    - name: orderservice
+      protocol: TCP
       port: 7005
       targetPort: 80
       nodePort: 31000

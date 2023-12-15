@@ -68,8 +68,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway.ForWeb", "src\ApiGateways\ApiGatewayForWeb\ApiGateway.ForWeb.csproj", "{3F492966-A883-442E-816E-3674EE514C53}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{3A4C2053-F034-4CCA-9233-9DEDC95BB563}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{72BD114D-4BAC-4341-AC83-A83C85DBE88B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{184B6DA7-8192-4FE6-AAE3-4C2909389BC4}"
@@ -109,6 +107,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{20A7EDF7-2E7D-4CE2-A4E3-34F68B0297DB}"
 	ProjectSection(SolutionItems) = preProject
 		dashboard-adminuser.yaml = dashboard-adminuser.yaml
+		local-pvc.yaml = local-pvc.yaml
 		mongo-configmap.yaml = mongo-configmap.yaml
 		mongo-secret.yaml = mongo-secret.yaml
 		mongo.yaml = mongo.yaml
