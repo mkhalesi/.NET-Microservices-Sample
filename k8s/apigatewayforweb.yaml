@@ -17,6 +17,7 @@ spec:
       containers:
         - name: apigatewayforweb
           image: mkhalesiir/microservicesapigatewayforweb:latest
+          # image: mkhalesiir/microservicesapigatewayforweb:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
@@ -24,7 +25,7 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
             - name: Identity__Uri
-              value: http://identityservice-clusterip-srv:7020
+              value: http://172.20.144.1:31720
             - name: Identity__Audience
               value: ApiGatewayForWeb
             # - name: MicroserviceAddress__Discount__Uri
