@@ -28,7 +28,8 @@ spec:
             - name: RabbitMq__Uri
               value: amqp://guest:guest@rabbitmq-service:5672
             - name: Identity__Uri
-              value: http://identityservice-clusterip-srv:7020
+              value: http://172.20.144.1:31720
+              # value: http://172.20.144.1:31720
             - name: Identity__Audience
               value: ProductService
             - name: Identity__Scopes__ProductsManagement

@@ -26,7 +26,7 @@ spec:
             - name: OrderConnection
               value: Server=sqldata-clusterip-service,1434;Database=MicroserviceOrderDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
             - name: Identity__Uri
-              value: http://identityservice-clusterip-srv:7020
+              value: http://172.20.144.1:31720
             - name: Identity__Audience
               value: OrderService
             - name: Identity__Scopes__OrdersManagement
