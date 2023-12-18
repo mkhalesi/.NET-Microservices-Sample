@@ -23,7 +23,7 @@ spec:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: Development
+              value: Production
             - name: Identity__Uri
               value: http://172.20.144.1:31720
             - name: Identity__Audience

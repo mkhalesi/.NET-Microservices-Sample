@@ -22,7 +22,7 @@ spec:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: Development
+              value: Production
             - name: MicroserviceAddress__ApiGatewayForWeb__Uri
               value: http://apigatewayforweb-clusterip-srv:10025
             - name: Identity__Uri

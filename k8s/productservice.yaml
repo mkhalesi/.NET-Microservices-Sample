@@ -22,7 +22,7 @@ spec:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: Development
+              value: Production
             - name: ProductConnection
               value: Server=sqldata-clusterip-service,1434;Database=MicroserviceProductDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
             - name: RabbitMq__Uri
