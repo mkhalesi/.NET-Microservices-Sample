@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: webfrontend
-          image: mkhalesiir/microservicewebfrontend:latest
+          image: microserviceswebfrontend
+          # image: mkhalesiir/microservicewebfrontend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

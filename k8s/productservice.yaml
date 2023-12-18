@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: productservice
-          image: mkhalesiir/microserviceproductservice:latest
+          image: productservice
+          # image: mkhalesiir/microserviceproductservice:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: identityservice
-          image: mkhalesiir/microserviceidentityservice:latest
+          image: identityservice
+          # image: mkhalesiir/microserviceidentityservice:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
