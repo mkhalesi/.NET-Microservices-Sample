@@ -1,5 +1,9 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://microservices-apigateway.forweb"
+    "BaseUrl": "apigatewayforweb-clusterip-srv",
+    //"ServiceDiscoveryProvider": {
+    //  "Namespace": "dev",
+    //  "Type": "kube"
+    //}
   }
 }

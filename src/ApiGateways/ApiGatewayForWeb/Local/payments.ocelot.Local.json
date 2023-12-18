@@ -1,0 +1,37 @@
+{
+  "Routes": [
+    //Payment
+    {
+      "DownstreamPathTemplate": "/api/Pay?OrderId={OrderId}&callbackUrlFront={callbackUrlFront}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservices-payment.api",
+          "Port": 80
+        }
+      ],
+
+      "UpstreamPathTemplate": "/api/Pay?OrderId={OrderId}&callbackUrlFront={callbackUrlFront}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Pay/Verify?paymentId={paymentId}&callbackUrlFront={callbackUrlFront}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservices-payment.api",
+          "Port": 80
+        }
+      ],
+
+      "UpstreamPathTemplate": "/api/Pay/Verify?paymentId={paymentId}&callbackUrlFront={callbackUrlFront}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Basket?UserId={userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservices-basket.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Basket?UserId={userId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservices-basket.api",
+          "Port": 80
+        }
+      ],
+
+      "UpstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Basket?ItemId={ItemId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservices-basket.api",
+          "Port": 80
+        }
+      ],
+
+      "UpstreamPathTemplate": "/api/Basket?ItemId={ItemId}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Basket?UserId={UserId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservices-basket.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Basket?UserId={UserId}",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Basket/{basketId}/{discountId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservices-basket.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Basket/{basketId}/{discountId}",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Basket/CheckoutBasket",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservices-basket.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Basket/CheckoutBasket",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    }
+
+  ]
+}

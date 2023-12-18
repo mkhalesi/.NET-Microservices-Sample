@@ -1,4 +1,5 @@
 using System.Configuration;
+using ApiGateway.ForWeb.Extensions;
 using ApiGateway.ForWeb.Models.DiscountServices;
 using DiscountService.Proto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Kubernetes;
 using Ocelot.Provider.Polly;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +30,18 @@ builder.Services.AddGrpcClient<DiscountServiceProto.DiscountServiceProtoClient>(
 });
 
 builder.Configuration.SetBasePath(environment.ContentRootPath)
-    .AddJsonFile("ocelot.json")
-    .AddOcelot(environment)
+    //.AddJsonFile("ocelot.json")
+    .AddOcelotConfigFiles($"./{environment.EnvironmentName}",
+        new[]
+        {
+            "baskets",
+            "orders",
+            "payments",
+            "products",
+            "global"
+        },
+        environment)
+    //.AddOcelot(environment)
     .AddEnvironmentVariables();
 
 //var authenticationSchemeKey = "ApiGatewayForWebAuthenticationScheme";
@@ -49,6 +61,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services
     .AddOcelot(configuration)
     .AddPolly()
+    .AddKubernetes()
     .AddCacheManager(x =>
     {
         x.WithDictionaryHandle();

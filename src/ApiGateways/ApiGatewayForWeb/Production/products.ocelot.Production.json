@@ -1,0 +1,116 @@
+{
+  "Routes": [
+    {
+      // Microservice information
+      "DownstreamPathTemplate": "/api/Product",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.144.1",
+          "Port": 31114
+        }
+      ],
+      // This information is provided to the subordinate
+      "UpstreamPathTemplate": "/api/Product",
+      //"UpstreamPathTemplate": "/getAllProduct",
+      "UpstreamHttpMethod": [ "GET" ],
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      //},
+      //"RateLimitOptions": {
+      //  "EnableRateLimiting": true,
+      //  "Period": "2s",
+      //  "PeriodTimespan": 5,
+      //  "Limit": 1
+      //},
+      //"QoSOptions": {
+      //  "ExceptionsAllowedBeforeBreaking": 3,
+      //  "DurationOfBreak": 1000,
+      //  "TimeoutValue": 5000
+      //},
+      //"FileCacheOptions": {
+      //  "TtlSeconds": 30,
+      //  "Region": "Cache"
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/api/Product/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.144.1",
+          "Port": 31114
+        }
+      ],
+
+      "UpstreamPathTemplate": "/api/Product/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      //},
+      "Key": "getproduct"
+    },
+    //---------- category
+    {
+      "DownstreamPathTemplate": "/api/Category",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.144.1",
+          "Port": 31114
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Category",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayForWebAuthenticationScheme"
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/api/ProductManagement",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.144.1",
+          "Port": 31114
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ProductManagement",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/ProductManagement/{Id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.144.1",
+          "Port": 31114
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ProductManagement/{Id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    // price
+    {
+      "DownstreamPathTemplate": "/api/ProductPriceManagement",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.144.1",
+          "Port": 31114
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ProductPriceManagement",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    }
+  ]
+}
