@@ -116,6 +116,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{20A7EDF7-2E7D-4CE2-A4E3-34F68B0297DB}"
 	ProjectSection(SolutionItems) = preProject
 		k8s\apigatewayforweb.yaml = k8s\apigatewayforweb.yaml
+		basketservice.yaml = basketservice.yaml
 		k8s\dashboard-adminuser.yaml = k8s\dashboard-adminuser.yaml
 		k8s\identityservice.yaml = k8s\identityservice.yaml
 		k8s\local-pvc.yaml = k8s\local-pvc.yaml
