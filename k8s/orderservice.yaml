@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: orderservice
-          image: orderservice
+          image: microservices/orderservice
           # image: mkhalesiir/microservicesorderservice:latest
           imagePullPolicy: IfNotPresent
           ports:

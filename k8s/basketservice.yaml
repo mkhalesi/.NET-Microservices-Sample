@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: basketservice
-          image: basketservice
+          image: microservices/basketservice
           # image: mkhalesiir/microservicesbasketservice:latest
           imagePullPolicy: IfNotPresent
           ports:
@@ -24,7 +24,7 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
-            - name: ProductConnection
+            - name: BasketConnection
               value: Server=sqldata-clusterip-service,1434;Database=MicroserviceBasketDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
             - name: RabbitMq__Uri
               value: amqp://guest:guest@rabbitmq-service:5672

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: apigatewayforweb
-          image: apigatewayforweb
+          image: microservices/apigatewayforweb
           # image: mkhalesiir/microservicesapigatewayforweb:latest
           imagePullPolicy: IfNotPresent
           ports:
