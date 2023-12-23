@@ -23,7 +23,7 @@ spec:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: Production
+              value: Production 
             - name: BasketConnection
               value: Server=sqldata-clusterip-service,1434;Database=MicroserviceBasketDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
             - name: RabbitMq__Uri
@@ -33,7 +33,7 @@ spec:
             - name: MicroServiceAddress__DiscountGrpc__Uri
               value: http://microservices-discount.api:81
             - name: Identity__Uri
-              value: http://172.20.144.1:31720
+              value: http://kubernetes.docker.internal:31720
             - name: Identity__Audience
               value: BasketService
 ---

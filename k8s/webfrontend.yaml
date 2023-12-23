@@ -27,7 +27,7 @@ spec:
             - name: MicroserviceAddress__ApiGatewayForWeb__Uri
               value: http://apigatewayforweb-clusterip-srv:10025
             - name: Identity__Uri
-              value: http://172.20.144.1:31720
+              value: http://kubernetes.docker.internal:31720
               # value: http://identityservice-clusterip-srv:7020
 ---
 apiVersion: v1

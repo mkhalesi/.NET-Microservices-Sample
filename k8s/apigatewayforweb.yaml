@@ -25,7 +25,7 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
             - name: Identity__Uri
-              value: http://172.20.144.1:31720
+              value: http://kubernetes.docker.internal:31720
             - name: Identity__Audience
               value: ApiGatewayForWeb
             # - name: MicroserviceAddress__Discount__Uri

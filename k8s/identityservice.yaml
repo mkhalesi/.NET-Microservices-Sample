@@ -27,7 +27,7 @@ spec:
             - name: AspIdentityConnection
               value: Server=sqldata-clusterip-service,1434;Database=MicroserviceAspIdentityDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
             - name: WebFrontend__Uri
-              value: http://172.20.144.1:31443
+              value: http://kubernetes.docker.internal:31443
             # - name: AdminFrontend__Uri
             #   value: http://${EXTERNAL_DNS_NAME_OR_IP}:7298
 ---
