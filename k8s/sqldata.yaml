@@ -37,7 +37,7 @@ spec:
                   name: sqldata-secret
                   key: MSSQL_SA_PASSWORD
           volumeMounts:
-          - mountPath: /var/opt/mssql/data
+          - mountPath: /var/opt/mssql
             name: sqldatadb
       volumes:
       - name: sqldatadb
