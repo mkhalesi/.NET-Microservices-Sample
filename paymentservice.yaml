@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pyamentservice-deployment
+  labels:
+    app: pyamentservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pyamentservice
+  template:
+    metadata:
+      labels:
+        app: pyamentservice
+    spec:
+      containers:
+        - name: pyamentservice
+          image: microservices/paymentserviceendpoint
+          # image: mkhalesiir/microservicespaymentservice:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: PaymentConnection
+              value: Server=sqldata-clusterip-service,1434;Database=MicroservicePaymentDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
+            - name: Identity__Uri
+              value: http://kubernetes.docker.internal:31720
+            - name: Identity__Audience
+              value: PaymentService
+            - name: RabbitMq__Uri
+              value: amqp://guest:guest@rabbitmq-service:5672
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pyamentservice-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: pyamentservice
+  ports:
+  - name: pyamentservice
+    protocol: TCP
+    port: 7005
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pyamentservice-srv
+spec:
+  type: NodePort
+  selector:
+    app: pyamentservice
+  ports:
+    - name: pyamentservice
+      protocol: TCP
+      port: 7005
+      targetPort: 80
+      nodePort: 31705
