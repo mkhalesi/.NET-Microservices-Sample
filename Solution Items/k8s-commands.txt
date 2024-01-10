@@ -38,25 +38,50 @@ kubectl -n kubernetes-dashboard create token admin-user
 eyJhbGciOiJSUzI1NiIsImtpZCI6IkRlbEY1WDBHRWV5dDItdlloclVqSG8wTzdxOGdlbVhiRXdmemx6TldSQk0ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzAyMTM1NjA3LCJpYXQiOjE3MDIxMzIwMDcsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJhZG1pbi11c2VyIiwidWlkIjoiZjVjODVkZGItMmU1MS00ZjkyLTk5ZmMtZTY1MGY2NzJlZjdhIn19LCJuYmYiOjE3MDIxMzIwMDcsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDphZG1pbi11c2VyIn0.M7R8rhd6sjO4KYwoVwCoIhb5QqzpgkQidaGUp067HJPQkkJWmPWNSTPd1i0GUBuq2XG6cvVljnT1EnN2qqgwh_PVtVYVE5RmZLSsggsLxYPaUC3-Zc_wK9tRT5G4dZ38zdj0YKTBrYxVp0Lu316CyD-ZJqfnBFifTP7eHH3eYWKaq7wWouIuyOv0HROIkMEbQ5MAiXIJqmvf1PZBPdUK5kHD40XFRJ-SEL2XEkzyfi3Fm7ugQsfSX5MtK5XlHfzUrNG_vc0ruwmuf2zbuG7nIHkiVWgt9r9-NdckOf3dmpuqPyeJZ_lp-YCouWsTQZwHgkC5pD-RNOh0OvtsD_m-Ww
 --------------------------------------------------------------------------------------------------------------------
 
-kubectl apply -f sql.yaml
+kubectl delete -f sqldata.yaml
+kubectl delete -f sqldata-secret.yaml
+kubectl delete -f local-pvc.yaml
+kubectl delete -f rabbitmq.yaml
 kubectl apply -f sqldata-secret.yaml
 kubectl apply -f local-pvc.yaml
+kubectl apply -f sqldata.yaml
 kubectl apply -f rabbitmq.yaml
 
+kubectl delete -f sqldata.yaml
+kubectl delete -f sqldata-secret.yaml
+kubectl delete -f local-pvc.yaml
+kubectl delete -f rabbitmq.yaml
 kubectl delete -f webfrontend.yaml
 kubectl delete -f apigatewayforweb.yaml
 kubectl delete -f identityservice.yaml
+kubectl delete -f orderservice.yaml
+kubectl delete -f productservice.yaml
+kubectl delete -f basketservice.yaml
+kubectl delete -f discountservice.yaml
+kubectl delete -f paymentservice.yaml
+
+kubectl apply -f sqldata-secret.yaml
+kubectl apply -f local-pvc.yaml
+kubectl apply -f sqldata.yaml
+kubectl apply -f rabbitmq.yaml
 kubectl apply -f webfrontend.yaml
 kubectl apply -f apigatewayforweb.yaml
 kubectl apply -f identityservice.yaml
-
-
 kubectl apply -f orderservice.yaml
 kubectl apply -f productservice.yaml
+kubectl apply -f basketservice.yaml
+kubectl apply -f discountservice.yaml
+kubectl apply -f paymentservice.yaml
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 kubectl apply -f dashboard-adminuser.yaml
 kubectl -n kubernetes-dashboard create token admin-user
+
+kubectl cluster-info
+
+WebFrontAddress
+http://kubernetes.docker.internal:31443/
+
 
 -----------------------------------------AKS ARS--------------------------------------------------------------------
 az login
