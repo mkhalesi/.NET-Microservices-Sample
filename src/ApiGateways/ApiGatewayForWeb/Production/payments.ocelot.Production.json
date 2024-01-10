@@ -6,8 +6,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "microservices-payment.api",
-          "Port": 80
+          "Host": "kubernetes.docker.internal",
+          "Port": 31104
         }
       ],
 
@@ -22,8 +22,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "microservices-payment.api",
-          "Port": 80
+          "Host": "kubernetes.docker.internal",
+          "Port": 31104
         }
       ],
 

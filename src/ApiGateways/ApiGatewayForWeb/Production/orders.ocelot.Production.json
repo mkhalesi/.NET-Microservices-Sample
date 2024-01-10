@@ -8,7 +8,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "172.20.144.1",
+          "Host": "kubernetes.docker.internal",
           "Port": 31705
         }
       ],
