@@ -27,7 +27,7 @@ spec:
             - name: BasketConnection
               value: Server=sqldata-clusterip-service,1434;Database=MicroserviceBasketDB;User Id=sa;password=123321Aa@;Encrypt=False;TrustServerCertificate=true;
             - name: RabbitMq__Uri
-              value: amqp://guest:guest@rabbitmq-service:5672
+              value: amqp://guest:guest@rabbitmq-clusterip-service:5672
             - name: MicroServiceAddress__Discount__Uri
               value: http://microservices-discount.api
             - name: MicroServiceAddress__DiscountGrpc__Uri
