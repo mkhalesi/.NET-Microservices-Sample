@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pyamentservice-deployment
+  name: paymentservice-deployment
   labels:
-    app: pyamentservice
+    app: paymentservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pyamentservice
+      app: paymentservice
   template:
     metadata:
       labels:
-        app: pyamentservice
+        app: paymentservice
     spec:
       containers:
-        - name: pyamentservice
+        - name: paymentservice
           image: microservices/paymentserviceendpoint
           # image: mkhalesiir/microservicespaymentservice:latest
           imagePullPolicy: IfNotPresent
@@ -36,13 +36,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pyamentservice-clusterip-srv
+  name: paymentservice-clusterip-srv
 spec:
   type: ClusterIP
   selector:
-    app: pyamentservice
+    app: paymentservice
   ports:
-  - name: pyamentservice
+  - name: paymentservice
     protocol: TCP
     port: 10004
     targetPort: 80
@@ -50,13 +50,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pyamentservice-srv
+  name: paymentservice-srv
 spec:
   type: NodePort
   selector:
-    app: pyamentservice
+    app: paymentservice
   ports:
-    - name: pyamentservice
+    - name: paymentservice
       protocol: TCP
       port: 10004
       targetPort: 80
