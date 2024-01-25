@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminfrontend-deployment
+  labels:
+    app: adminfrontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adminfrontend
+  template:
+    metadata:
+      labels:
+        app: adminfrontend
+    spec:
+      containers:
+        - name: adminfrontend
+          image: microservices/microservicesadminfrontend
+          # image: mkhalesiir/microserviceadminfrontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: MicroserviceAddress__AdminApiGateway__Uri
+              value: http://apigatewayforweb-clusterip-srv:11025
+            - name: Identity__Uri
+              value: http://kubernetes.docker.internal:31720
+              # value: http://identityservice-clusterip-srv:7020
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adminfrontend-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: adminfrontend
+  ports:
+  - name: adminfrontend
+    protocol: TCP
+    port: 7300
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adminfrontend-srv
+spec:
+  type: NodePort
+  selector:
+    app: adminfrontend
+  ports:
+    - name: adminfrontend
+      protocol: TCP
+      port: 7300
+      targetPort: 80
+      nodePort: 31729
