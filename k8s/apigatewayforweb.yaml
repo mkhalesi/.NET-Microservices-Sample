@@ -60,4 +60,4 @@ spec:
       protocol: TCP
       port: 10025
       targetPort: 80
-      nodePort: 31125
+      nodePort: 31025
