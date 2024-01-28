@@ -140,6 +140,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deployments", "deployments"
 		k8s\deployments\nginx-ingress.yaml = k8s\deployments\nginx-ingress.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aks", "aks", "{3003F24D-DF53-4223-BA00-509B94DA7A4F}"
+	ProjectSection(SolutionItems) = preProject
+		aks\mongo-configmap.yaml = aks\mongo-configmap.yaml
+		aks\mongo-secret.yaml = aks\mongo-secret.yaml
+		aks\mongo.yaml = aks\mongo.yaml
+		aks\rabbitmq.yaml = aks\rabbitmq.yaml
+		aks\sqldata-secret.yaml = aks\sqldata-secret.yaml
+		aks\sqldata.yaml = aks\sqldata.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

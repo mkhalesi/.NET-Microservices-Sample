@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sqldata-deployment
+  labels:
+    app: sqldata
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqldata
+  template:
+    metadata:
+      labels:
+        app: sqldata
+    spec:
+      containers:
+        - name: sqldata
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          ports:
+            - containerPort: 1434
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sqldata-secret
+                  key: MSSQL_SA_PASSWORD
+          volumeMounts:
+          - mountPath: /var/opt/mssql
+            name: sqldatadb
+      volumes:
+      - name: sqldatadb
+        persistentVolumeClaim:
+          claimName: sqldata-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqldata-service
+spec:
+  selector:
+    app: sqldata
+  ports:
+  - name: sqldata
+    protocol: TCP
+    port: 1434
+    targetPort: 1433
