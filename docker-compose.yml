@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  orderdb:
+    image: mongo
+
+  mongoclient:
+    image: mongoclient/mongoclient
+
   sqldata:
     image: mcr.microsoft.com/mssql/server:2019-latest
 
