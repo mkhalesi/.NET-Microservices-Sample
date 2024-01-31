@@ -41,14 +41,14 @@
 
                         @if (item.OrderPaid == false)
                         {
-                            <a asp-action="Pay" asp-controller="Orders" asp-route-OrderId="@item.Id" class="btn btn-info">
+                            <a asp-action="Pay" asp-controller="Orders" asp-route-OrderId="@item.OrderId" class="btn btn-info">
                                 <i class="fa fa-payment"> </i>
                                 Pay
                             </a>
                         }
                     </td>
                     <td class="row">
-                        <a class="" asp-action="Detail" asp-controller="Orders" asp-route-id="@item.Id">Details</a>
+                        <a class="" asp-action="Detail" asp-controller="Orders" asp-route-id="@item.OrderId">Details</a>
                     </td>
                 </tr>
             }

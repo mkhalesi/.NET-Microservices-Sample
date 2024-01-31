@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using IdentityModel.Client;
 using Microservices.Web.Frontend.Models.DTO;
 using Microservices.Web.Frontend.Models.DTO.Order;
 using Microsoft.AspNetCore.Authentication;

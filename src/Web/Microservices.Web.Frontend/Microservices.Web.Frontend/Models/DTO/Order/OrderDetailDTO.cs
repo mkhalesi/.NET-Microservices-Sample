@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microservices.Web.Frontend.Services.OrderServices;
 
 namespace Microservices.Web.Frontend.Models.DTO.Order
 {
     public class OrderDetailDTO
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
+        public Guid OrderId => Guid.Parse(Id);
         public string UserId { get; set; }
         public DateTime OrderPlaced { get; set; }
         public bool OrderPaid { get; set; }

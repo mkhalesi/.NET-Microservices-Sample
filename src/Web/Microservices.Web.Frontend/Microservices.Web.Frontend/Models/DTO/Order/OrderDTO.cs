@@ -4,7 +4,8 @@ namespace Microservices.Web.Frontend.Models.DTO.Order
 {
     public class OrderDTO
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
+        public Guid OrderId => Guid.Parse(Id);
         public int ItemCount { get; set; }
         public int TotalPrice { get; set; }
         public bool OrderPaid { get; set; }

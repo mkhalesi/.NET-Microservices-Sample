@@ -50,7 +50,7 @@ namespace Microservices.Web.Frontend.Controllers
             //Get the payment link from the payment service
             string callbackUrl = Url.Action(nameof(Detail), "Orders",
                 new { Id = OrderId }, protocol: Request.Scheme);
-            var paymentLink = await paymentService.GetPaymentLink(order.Id, callbackUrl);
+            var paymentLink = await paymentService.GetPaymentLink(order.OrderId, callbackUrl);
 
             if (paymentLink.IsSuccess)
             {
