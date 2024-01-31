@@ -8,6 +8,6 @@ namespace OrderService.Model.Services.ProductService
     {
         Product GetProduct(ProductDTO product);
 
-        bool UpdateProductName(Guid productId, string productName);
+        bool UpdateProductName(string productId, string productName);
     }
 }

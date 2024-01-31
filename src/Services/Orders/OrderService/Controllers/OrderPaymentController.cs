@@ -13,7 +13,7 @@ namespace OrderService.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Guid orderId)
+        public IActionResult Post(string orderId)
         {
             return Ok(orderService.RequestPayment(orderId));
         }

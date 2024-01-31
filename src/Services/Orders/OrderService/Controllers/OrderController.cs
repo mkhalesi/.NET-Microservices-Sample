@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 using System.Security.Claims;
 using OrderService.Model.Services.OrderService;
@@ -24,7 +23,7 @@ namespace OrderService.Controllers
         }
 
         [HttpGet("{OrderId}")]
-        public IActionResult Get(Guid OrderId)
+        public IActionResult Get(string OrderId)
         {
             var order = orderService.GetOrderById(OrderId);
             return Ok(order);

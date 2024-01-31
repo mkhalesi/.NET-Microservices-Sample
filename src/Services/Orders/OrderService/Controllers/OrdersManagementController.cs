@@ -10,7 +10,7 @@ namespace OrderService.Controllers
     public class OrdersManagementController : ControllerBase
     {
         [HttpGet("EditOrders/{orderID}")]
-        public IActionResult EditOrders(Guid orderID)
+        public IActionResult EditOrders(string orderID)
         {
             return Ok(true);
         }

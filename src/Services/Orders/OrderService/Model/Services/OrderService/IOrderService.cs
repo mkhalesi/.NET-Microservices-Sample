@@ -9,8 +9,8 @@ namespace OrderService.Model.Services.OrderService
     {
         //void AddOrder(AddOrderDto addOrder);
         List<OrderDto> GetOrdersForUser(string UserId);
-        orderDetailDTO GetOrderById(Guid Id);
-        ResultDTO RequestPayment(Guid orderId);
-        bool PaymentIsDoneOrder(Guid orderId);
+        orderDetailDTO GetOrderById(string Id);
+        ResultDTO RequestPayment(string orderId);
+        bool PaymentIsDoneOrder(string orderId);
     }
 }

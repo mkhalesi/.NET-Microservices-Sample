@@ -5,7 +5,7 @@ namespace OrderService.MessageBus.Messages
 {
     public class UpdateProductNameMessage : BaseMessage
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string NewName { get; set; }
     }
 }

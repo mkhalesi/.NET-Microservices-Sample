@@ -7,7 +7,7 @@ namespace OrderService.Model.DTOs.Order
 {
     public class orderDetailDTO
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string UserId { get; set; }
         public DateTime OrderPlaced { get; set; }
         public bool OrderPaid { get; set; }

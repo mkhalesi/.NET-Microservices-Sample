@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using MongoDB.Driver;
 using OrderService.Infrastructure.Context;
 using OrderService.Model.DTOs.Product;
 using OrderService.Model.Entities;
@@ -8,30 +8,34 @@ namespace OrderService.Model.Services.ProductService
 {
     public class ProductService : IProductService
     {
-        private readonly OrderDataBaseContext context;
-        public ProductService(OrderDataBaseContext context)
+        private readonly IOrderDataBaseContext context;
+        public ProductService(IOrderDataBaseContext context)
         {
             this.context = context;
         }
 
         public Product GetProduct(ProductDTO product)
         {
-            var existProduct = context.Products.FirstOrDefault(p => p.ProductId == product.ProductId);
+            var filter = Builders<Product>.Filter.Eq(p => p.ProductId, product.ProductId);
+            var existProduct = context.Products.Find(filter).FirstOrDefault();
             if (existProduct != null)
                 return existProduct;
 
             return CreateNewProduct(product);
         }
 
-        public bool UpdateProductName(Guid productId, string productName)
+        public bool UpdateProductName(string productId, string productName)
         {
-            var product = context.Products.Find(productId);
-            if (product != null)
-            {
-                product.Name = productName;
-                context.SaveChanges();
-            }
-            return true;
+            var filter = Builders<Product>.Filter.Eq(p => p.ProductId, productId);
+            var product = context.Products.Find(filter).FirstOrDefault();
+
+            if (product == null)
+                return false;
+
+            product.Name = productName;
+            var updateRes = context.Products.ReplaceOne(filter, product);
+
+            return updateRes.IsAcknowledged && updateRes.ModifiedCount > 0;
         }
 
         private Product CreateNewProduct(ProductDTO productDTO)
@@ -42,8 +46,9 @@ namespace OrderService.Model.Services.ProductService
                 Name = productDTO.ProductName,
                 Price = productDTO.ProductPrice
             };
-            context.Products.Add(product);
-            context.SaveChanges();
+
+            context.Products.InsertOne(product);
+
             return product;
         }
     }

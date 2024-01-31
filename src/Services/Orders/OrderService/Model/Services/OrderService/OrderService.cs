@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using OrderService.Infrastructure.Context;
 using OrderService.Model.DTOs.Order;
 using OrderService.Model.DTOs.OrderLine;
@@ -6,19 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using OrderService.MessageBus.Base;
 using OrderService.MessageBus.SendMessages;
 using OrderService.Model.DTOs.Common;
 using OrderService.Model.DTOs.Messages;
+using OrderService.Model.Entities;
 
 namespace OrderService.Model.Services.OrderService
 {
     public class OrderService : IOrderService
     {
-        private readonly OrderDataBaseContext context;
+        private readonly IOrderDataBaseContext context;
         private readonly IMessageBus messageBus;
         private readonly string QueueName_OrderSendToPayment;
-        public OrderService(OrderDataBaseContext context, IMessageBus messageBus,
+        public OrderService(IOrderDataBaseContext context, IMessageBus messageBus,
             IOptions<RabbitMqConfiguration> rabbitMqOptions)
         {
             this.context = context;
@@ -45,29 +46,27 @@ namespace OrderService.Model.Services.OrderService
         //     }
         // }
 
-        public orderDetailDTO GetOrderById(Guid Id)
+        public orderDetailDTO GetOrderById(string Id)
         {
-            var orders = context.Orders
-            .Include(p => p.OrderLines)
-            .ThenInclude(p => p.Product)
-            .FirstOrDefault(p => p.Id == Id);
+            var filter = Builders<Order>.Filter.Eq(p => p.Id, Id);
+            var order = context.Orders.Find(filter).FirstOrDefault();
 
-            if (orders == null)
+            if (order == null)
                 throw new Exception("Order Not Found");
 
             var result = new orderDetailDTO
             {
-                Id = orders.Id,
-                OrderPaid = orders.OrderPaid,
-                OrderPlaced = orders.OrderPlaced,
-                UserId = orders.UserId,
-                FirstName = orders.FirstName,
-                LastName = orders.LastName,
-                PhoneNumber = orders.PhoneNumber,
-                Address = orders.Address,
-                TotalPrice = orders.TotalPrice,
-                PaymentStatus = orders.PaymentStatus,
-                OrderLines = orders.OrderLines.Select(o => new OrderLineDto
+                Id = order.Id,
+                OrderPaid = order.OrderPaid,
+                OrderPlaced = order.OrderPlaced,
+                UserId = order.UserId,
+                FirstName = order.FirstName,
+                LastName = order.LastName,
+                PhoneNumber = order.PhoneNumber,
+                Address = order.Address,
+                TotalPrice = order.TotalPrice,
+                PaymentStatus = order.PaymentStatus,
+                OrderLines = order.OrderLines.Select(o => new OrderLineDto
                 {
                     Id = o.Id,
                     ProductId = o.Product.ProductId,
@@ -81,9 +80,10 @@ namespace OrderService.Model.Services.OrderService
 
         public List<OrderDto> GetOrdersForUser(string UserId)
         {
+            var filter = Builders<Order>.Filter.Eq(p => p.UserId, UserId);
             var orders = context.Orders
-             .Include(p => p.OrderLines)
-             .Where(p => p.UserId == UserId)
+             .Find(filter)
+             .ToList()
              .Select(p => new OrderDto
              {
                  Id = p.Id,
@@ -96,9 +96,10 @@ namespace OrderService.Model.Services.OrderService
             return orders;
         }
 
-        public ResultDTO RequestPayment(Guid orderId)
+        public ResultDTO RequestPayment(string orderId)
         {
-            var order = context.Orders.SingleOrDefault(p => p.Id == orderId);
+            var filter = Builders<Order>.Filter.Eq(p => p.Id, orderId);
+            var order = context.Orders.Find(filter).FirstOrDefault();
             if (order == null)
                 return new ResultDTO()
                 {
@@ -116,7 +117,7 @@ namespace OrderService.Model.Services.OrderService
 
             // change order paymentStatus
             order.PaymentIsDone();
-            context.SaveChanges();
+            context.Orders.ReplaceOne(filter, order);
 
             return new ResultDTO()
             {
@@ -125,14 +126,16 @@ namespace OrderService.Model.Services.OrderService
             };
         }
 
-        public bool PaymentIsDoneOrder(Guid orderId)
+        public bool PaymentIsDoneOrder(string orderId)
         {
-            var order = context.Orders.FirstOrDefault(p => p.Id == orderId);
-            if (order == null)
-                return false;
+            var filter = Builders<Order>.Filter.Eq(p => p.Id, orderId);
+            var order = context.Orders.Find(filter)
+                .FirstOrDefault();
             order.PaymentIsDone();
-            context.SaveChanges();
-            return true;
+
+            var orderResult = context.Orders.ReplaceOne(filter, order);
+
+            return orderResult.IsAcknowledged && orderResult.ModifiedCount > 0;
         }
     }
 }

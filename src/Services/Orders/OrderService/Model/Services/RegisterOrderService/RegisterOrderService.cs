@@ -10,8 +10,8 @@ namespace OrderService.Model.Services.RegisterOrderService
     public class RegisterOrderService : IRegisterOrderService
     {
         private readonly IProductService productService;
-        private readonly OrderDataBaseContext context;
-        public RegisterOrderService(OrderDataBaseContext context, IProductService productService)
+        private readonly IOrderDataBaseContext context;
+        public RegisterOrderService(IOrderDataBaseContext context, IProductService productService)
         {
             this.productService = productService;
             this.context = context;
@@ -19,17 +19,7 @@ namespace OrderService.Model.Services.RegisterOrderService
 
         public bool Execute(BasketDTO basket)
         {
-            Order order = new Order(
-                basket.UserId,
-                basket.FirstName,
-                basket.LastName,
-                basket.Address,
-                basket.PhoneNumber,
-                basket.TotalPrice,
-                new List<OrderLine>());
-            context.Orders.Add(order);
-            context.SaveChanges();
-
+            var orderLines = new List<OrderLine>();
             if (basket.BasketItems != null && basket.BasketItems.Any())
             {
                 foreach (var item in basket.BasketItems)
@@ -40,16 +30,26 @@ namespace OrderService.Model.Services.RegisterOrderService
                         ProductPrice = item.Price,
                         ProductId = item.ProductId
                     });
-                    context.OrderLines.Add(new OrderLine()
+                    orderLines.Add(new OrderLine()
                     {
-                        Id = System.Guid.NewGuid(),
+                        Id = System.Guid.NewGuid().ToString(),
                         Quantity = item.Quantity,
-                        ProductId = product.ProductId,
-                        OrderId = order.Id
+                        Product = product,
                     });
-                };
-                context.SaveChanges();
+                }
             }
+
+            Order order = new Order(
+                basket.UserId,
+                basket.FirstName,
+                basket.LastName,
+                basket.Address,
+                basket.PhoneNumber,
+                basket.TotalPrice,
+                orderLines
+                );
+
+            context.Orders.InsertOne(order);
 
             return true;
         }

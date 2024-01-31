@@ -19,7 +19,7 @@ namespace OrderService.Controllers
         }
 
         [HttpGet]
-        public IActionResult Verify(Guid Id)
+        public IActionResult Verify(string Id)
         {
             var product = _productService.GetProduct(new ProductDTO() { ProductId = Id });
             return Ok(_verifyProductService.Verify(new ProductDTO()

@@ -4,6 +4,6 @@ namespace OrderService.Model.DTOs.Messages
 {
     public class PaymentOrderMessage
     {
-        public Guid OrderId { get; set; }
+        public string OrderId { get; set; }
     }
 }
