@@ -33,6 +33,16 @@ services:
       - "15672:15672"
       - "5672:5672"
 
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
   orderservice:
     container_name: microservices-order.api
     environment:
@@ -228,3 +238,4 @@ volumes:
   microservice-mongodata:
     external: false
     # driver: local
+  portainer_data:
