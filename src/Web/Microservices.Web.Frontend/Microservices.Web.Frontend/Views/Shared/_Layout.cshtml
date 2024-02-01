@@ -26,6 +26,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="basket" asp-action="Index">Basket</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="basket" asp-action="Index">Orders</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">About me</a>
                         </li>
                         @if (User.Identity is {IsAuthenticated: true })
