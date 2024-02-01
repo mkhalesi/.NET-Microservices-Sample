@@ -30,7 +30,10 @@ namespace OrderService.Model.Entities
         }
 
         [BsonId]
+        [BsonRequired]
         public string Id { get; set; } = Guid.NewGuid().ToString();
+
+        [BsonRequired]
         public string UserId { get; set; }
         public DateTime OrderPlaced { get; private set; } = DateTime.Now;
         public bool OrderPaid { get; private set; }
@@ -38,6 +41,8 @@ namespace OrderService.Model.Entities
         public string LastName { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
+
+        [BsonRequired]
         public int TotalPrice { get; set; }
         public PaymentStatus PaymentStatus { get; private set; }
         public ICollection<OrderLine> OrderLines { get; set; }
