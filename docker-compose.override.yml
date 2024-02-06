@@ -85,7 +85,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - BasketConnection=Server=sqldata;Database=MicroserviceBasketDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
-      - CacheSettings__ConnectionString=localhost:6379
+      - CacheSettings__ConnectionString=redisdb
       - RabbitMq__Uri=amqp://guest:guest@rabbitmq:5672
       - MicroServiceAddress__Discount__Uri=http://microservices-discount.api
       - MicroServiceAddress__DiscountGrpc__Uri=http://microservices-discount.api:81
