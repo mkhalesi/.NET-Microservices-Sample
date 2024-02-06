@@ -4,6 +4,7 @@ using BasketService.MessageBus.Config;
 using BasketService.MessageBus.ReceivedMessages.ProductMessages;
 using BasketService.MessageBus.SendMessages;
 using BasketService.Model.Services.BasketService;
+using BasketService.Model.Services.CacheService;
 using BasketService.Model.Services.DiscountService;
 using BasketService.Model.Services.ProductService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -52,6 +53,7 @@ namespace BasketService
             services.AddTransient<IBasketService, Model.Services.BasketService.BasketService>();
             services.AddTransient<IDiscountService, Model.Services.DiscountService.DiscountService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICacheService, CacheService>();
 
             services.AddHostedService<ReceivedUpdateProductNameMessage>();
             services.AddTransient<IMessageBus, RabbitMqMessageBus>();
