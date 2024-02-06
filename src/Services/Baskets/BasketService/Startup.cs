@@ -37,8 +37,14 @@ namespace BasketService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BasketService", Version = "v1" });
             });
+
             services.AddDbContext<BasketDataBaseContext>(o =>
                 o.UseSqlServer(Configuration["BasketConnection"]), ServiceLifetime.Singleton);
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration["CacheSettings:ConnectionString"];
+            });
 
             services.AddAutoMapper(typeof(BasketMappingProfile));
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));

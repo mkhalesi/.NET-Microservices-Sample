@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using BasketService.Extensions;
 using BasketService.Infrastructure.Contexts;
 using BasketService.MessageBus.Config;
 using BasketService.MessageBus.SendMessages;
@@ -10,7 +11,9 @@ using BasketService.Model.DTOs.Discount;
 using BasketService.Model.DTOs.MessageDTO;
 using BasketService.Model.DTOs.Product;
 using BasketService.Model.Entities;
+using BasketService.Model.Services.CacheService;
 using BasketService.Model.Services.DiscountService;
+using BasketService.Model.Services.ProductService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -21,160 +24,152 @@ namespace BasketService.Model.Services.BasketService
         private readonly BasketDataBaseContext context;
         private readonly IMapper mapper;
         private IMessageBus messageBus;
+        private readonly ICacheService _cacheService;
+        private readonly IProductService _productService;
         private readonly string queueName_BasketCheckout;
         public BasketService(BasketDataBaseContext context, IMapper mapper,
             IOptions<RabbitMqConfiguration> rabbitMqOptions,
-            IMessageBus messageBus)
+            IMessageBus messageBus,
+            ICacheService cacheService,
+            IProductService productService)
         {
             this.context = context;
             this.mapper = mapper;
             this.messageBus = messageBus;
+            _cacheService = cacheService;
+            _productService = productService;
             queueName_BasketCheckout = rabbitMqOptions.Value.QueueName_BasketCheckout;
         }
 
         public void AddItemToBasket(AddItemToBasketDto item)
         {
-            var basket = context.Baskets.FirstOrDefault(p => p.Id == item.basketId);
-
-            if (basket == null)
+            // Todo: UserId property new Added
+            var basketItem = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(item.UserId));
+            if (basketItem == null)
                 throw new Exception("Basket not found....!");
 
             var productDto = mapper.Map<ProductDTO>(item);
-            var basketItem = mapper.Map<BasketItem>(item);
+            basketItem.Add(mapper.Map<BasketItem>(item));
 
-            createProduct(productDto);
+            _productService.CreateProduct(productDto);
 
-            basket.Items.Add(basketItem);
-            context.SaveChanges();
+            _cacheService.SetList<BasketItem>(ConstantExtension.GetBasketItemListKey(item.UserId), basketItem);
         }
 
-        private ProductDTO getProduct(Guid productId)
+        public BasketDto GetBasket(string userId)
         {
-            var existsProduct = context.Products.FirstOrDefault(p => p.ProductId == productId);
-            if (existsProduct == null)
-                return null;
-
-            return mapper.Map<ProductDTO>(existsProduct);
-        }
-
-        private ProductDTO createProduct(ProductDTO product)
-        {
-            var existsProduct = getProduct(product.ProductId);
-            if (existsProduct != null)
-                return existsProduct;
-
-            var newProduct = mapper.Map<Product>(product);
-            context.Products.Add(newProduct);
-            context.SaveChanges();
-
-            return mapper.Map<ProductDTO>(newProduct);
-        }
-
-        public BasketDto GetBasket(string UserId)
-        {
-            var basket = context.Baskets
-                .Include(p => p.Items)
-                .ThenInclude(p => p.Product)
-                .SingleOrDefault(p => p.UserId == UserId);
-
+            var basket = _cacheService.Get<Basket>(ConstantExtension.GetBasketKey(userId));
             if (basket == null)
             {
                 return null;
             }
-            return new BasketDto
+
+            var basketModel = new BasketDto()
             {
                 Id = basket.Id,
                 UserId = basket.UserId,
-                Items = basket.Items.Select(item => new BasketItemDto
-                {
-                    ProductId = item.ProductId,
-                    Id = item.Id,
-                    ProductName = item.Product.ProductName,
-                    Quantity = item.Quantity,
-                    UnitPrice = item.Product.UnitPrice,
-                    ImageUrl = item.Product.ImageUrl
-                }).ToList(),
             };
-        }
-
-        public BasketDto GetOrCreateBasketForUser(string UserId)
-        {
-
-            var basket = context.Baskets
-                .Include(p => p.Items)
-                .ThenInclude(p => p.Product)
-                .SingleOrDefault(p => p.UserId == UserId);
-            if (basket == null)
+            foreach (var item in basket.Items)
             {
-                return CreateBasketForUser(UserId);
-            }
-
-            return new BasketDto
-            {
-                Id = basket.Id,
-                UserId = basket.UserId,
-                Items = basket.Items.Select(item => new BasketItemDto
+                var product = _productService.GetProduct(item.ProductId);
+                basketModel.Items.Add(new BasketItemDto()
                 {
-                    ProductId = item.ProductId,
                     Id = item.Id,
-                    ProductName = item.Product.ProductName,
                     Quantity = item.Quantity,
-                    UnitPrice = item.Product.UnitPrice,
-                    ImageUrl = item.Product.ImageUrl,
-                }).ToList(),
-            };
-        }
-
-        public void RemoveItemFromBasket(Guid ItemId)
-        {
-            var item = context.BasketItems.SingleOrDefault(p => p.Id == ItemId);
-            if (item == null)
-                throw new Exception("BasketItem Not Found...!");
-            context.BasketItems.Remove(item);
-            context.SaveChanges();
-        }
-
-        public void SetQuantities(Guid itemId, int quantity)
-        {
-            var item = context.BasketItems.SingleOrDefault(p => p.Id == itemId);
-            item.SetQuantity(quantity);
-            context.SaveChanges();
-        }
-
-        public void TransferBasket(string anonymousId, string UserId)
-        {
-            var anonymousBasket = context.Baskets
-                .Include(p => p.Items)
-                .SingleOrDefault(p => p.UserId == anonymousId);
-
-            if (anonymousBasket == null) return;
-
-            var userBasket = context.Baskets.SingleOrDefault(p => p.UserId == UserId);
-            if (userBasket == null)
-            {
-                userBasket = new Basket(UserId);
-                context.Baskets.Add(userBasket);
-            }
-            foreach (var item in anonymousBasket.Items)
-            {
-                userBasket.Items.Add(new BasketItem
-                {
                     ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    //UnitPrice = item.Product.UnitPrice,
-                    //ProductName = item.Product.ProductName,
-                    //ImageUrl = item.Product.ImageUrl,
+
+                    ProductName = product.ProductName,
+                    UnitPrice = product.UnitPrice,
+                    ImageUrl = product.ImageUrl
                 });
             }
-            context.Baskets.Remove(anonymousBasket);
-            context.SaveChanges();
+
+            return basketModel;
         }
 
-        private BasketDto CreateBasketForUser(string UserId)
+        public BasketDto GetOrCreateBasketForUser(string userId)
         {
-            Basket basket = new Basket(UserId);
-            context.Baskets.Add(basket);
-            context.SaveChanges();
+            var basket = _cacheService.Get<Basket>(ConstantExtension.GetBasketKey(userId));
+            if (basket == null)
+            {
+                return CreateBasketForUser(userId);
+            }
+
+            var basketModel = new BasketDto()
+            {
+                Id = basket.Id,
+                UserId = basket.UserId,
+            };
+            foreach (var item in basket.Items)
+            {
+                var product = _productService.GetProduct(item.ProductId);
+                basketModel.Items.Add(new BasketItemDto()
+                {
+                    Id = item.Id,
+                    Quantity = item.Quantity,
+                    ProductId = item.ProductId,
+
+                    ProductName = product.ProductName,
+                    UnitPrice = product.UnitPrice,
+                    ImageUrl = product.ImageUrl
+                });
+            }
+
+            return basketModel;
+        }
+
+        public void RemoveItemFromBasket(string itemId, string userId)
+        {
+            var basketItems = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(userId));
+            if (basketItems == null)
+                throw new Exception("BasketItem Not Found...!");
+
+            basketItems.Remove(basketItems.FirstOrDefault(p => p.Id == itemId));
+
+            _cacheService.SetList<BasketItem>(ConstantExtension.GetBasketItemListKey(userId), basketItems);
+        }
+
+        public void SetQuantities(string itemId, int quantity, string userId)
+        {
+            var basketItems = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(userId));
+
+            basketItems.FirstOrDefault(p => p.Id == itemId)?.SetQuantity(quantity);
+
+            _cacheService.SetList<BasketItem>(ConstantExtension.GetBasketItemListKey(userId), basketItems);
+        }
+
+        public void TransferBasket(string anonymousId, string userId)
+        {
+            var anonymousBasket = _cacheService.Get<Basket>(ConstantExtension.GetBasketKey(anonymousId));
+            if (anonymousBasket == null) return;
+
+            var userBasket = _cacheService.Get<Basket>(ConstantExtension.GetBasketKey(userId));
+            if (userBasket == null)
+            {
+                userBasket = new Basket(userId);
+
+                foreach (var item in anonymousBasket.Items)
+                {
+                    userBasket.Items.Add(new BasketItem
+                    {
+                        BasketId = userBasket.Id,
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity,
+                    });
+                }
+
+                _cacheService.Set(ConstantExtension.GetBasketKey(userId), userBasket);
+            }
+
+            _cacheService.Remove(ConstantExtension.GetBasketKey(anonymousId));
+        }
+
+        private BasketDto CreateBasketForUser(string userId)
+        {
+            Basket basket = new Basket(userId);
+
+            _cacheService.Set<Basket>(ConstantExtension.GetBasketKey(userId), basket);
+
             return new BasketDto
             {
                 UserId = basket.UserId,
@@ -182,21 +177,20 @@ namespace BasketService.Model.Services.BasketService
             };
         }
 
-        public void ApplyDiscountToBasket(Guid BasketId, Guid DiscountId)
+        public void ApplyDiscountToBasket(string basketId, string discountId, string userId)
         {
-            var basket = context.Baskets.Find(BasketId);
+            var basket = _cacheService.Get<Basket>(ConstantExtension.GetBasketKey(userId));
+
             if (basket == null)
                 throw new Exception("Basket not found....!");
-            basket.DiscountId = DiscountId;
-            context.SaveChanges();
+
+            basket.DiscountId = discountId;
+            _cacheService.Set<Basket>(ConstantExtension.GetBasketKey(userId), basket);
         }
 
         public ResultDTO CheckoutBasket(CheckoutBasketDTO checkoutBasket, IDiscountService discountService)
         {
-            var basket = context.Baskets
-                .Include(p => p.Items)
-                .ThenInclude(p => p.Product)
-                .FirstOrDefault(p => p.Id == checkoutBasket.BasketId);
+            var basket = _cacheService.Get<Basket>(ConstantExtension.GetBasketKey(checkoutBasket.UserId));
             if (basket == null)
                 return new ResultDTO()
                 {
@@ -221,17 +215,17 @@ namespace BasketService.Model.Services.BasketService
 
             // getting discount from Discount Service
             DiscountDTO discount = new DiscountDTO();
-            if (basket.DiscountId.HasValue)
-                discount = discountService.GetDiscountById(basket.DiscountId.Value);
+            if (!string.IsNullOrEmpty(basket.DiscountId))
+                discount = discountService.GetDiscountById(Guid.Parse(basket.DiscountId));
             if (discount != null)
-                message.TotalPrice = message.TotalPrice - discount.Amount;
+                message.TotalPrice -= discount.Amount;
 
             //sending message
             messageBus.SendMessage(message, queueName_BasketCheckout);
 
             //Delete basket
-            context.Baskets.Remove(basket);
-            context.SaveChanges();
+            _cacheService.Remove(ConstantExtension.GetBasketKey(basket.UserId));
+
             return new ResultDTO()
             {
                 IsSuccess = true,

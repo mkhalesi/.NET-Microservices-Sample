@@ -2,18 +2,20 @@
 
 namespace BasketService.Model.Entities
 {
+    [Serializable]
     public class BasketItem
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public int Quantity { get; set; }
+        public string BasketId { get; set; }
+        public string ProductId { get; set; }
+
         public Basket Basket { get; set; }
-        public Guid BasketId { get; set; }
+        public Product Product { get; set; }
+
         public void SetQuantity(int quantity)
         {
             Quantity = quantity;
         }
-
-        public Guid ProductId { get; set; }
-        public Product Product { get; set; }
     }
 }

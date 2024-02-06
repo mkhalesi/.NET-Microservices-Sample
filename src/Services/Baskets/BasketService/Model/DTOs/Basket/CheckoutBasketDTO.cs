@@ -4,7 +4,7 @@ namespace BasketService.Model.DTOs.Basket
 {
     public class CheckoutBasketDTO
     {
-        public Guid BasketId { get; set; }
+        public string BasketId { get; set; }
         public string UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

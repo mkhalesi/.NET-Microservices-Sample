@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace BasketService.Model.Entities
 {
+    [Serializable]
     public class Product
     {
         public Guid ProductId { get; set; }

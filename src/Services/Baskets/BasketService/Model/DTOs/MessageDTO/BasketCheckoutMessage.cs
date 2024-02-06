@@ -11,7 +11,7 @@ namespace BasketService.Model.DTOs.MessageDTO
             BasketItems = new List<BasketItemMessage>();
         }
 
-        public Guid BasketId { get; set; }
+        public string BasketId { get; set; }
         public string UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

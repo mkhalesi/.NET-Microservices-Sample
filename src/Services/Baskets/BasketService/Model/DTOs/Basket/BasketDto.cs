@@ -11,7 +11,7 @@ namespace BasketService.Model.DTOs.Basket
             Items = new List<BasketItemDto>();
         }
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string UserId { get; set; }
         public List<BasketItemDto> Items { get; set; }
         public int Total()

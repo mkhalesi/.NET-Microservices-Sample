@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace BasketService.Model.Entities
 {
+    [Serializable]
     public class Basket
     {
         public Basket(string UserId)
@@ -12,11 +13,11 @@ namespace BasketService.Model.Entities
         public Basket()
         {
         }
-        public Guid Id { get; set; }
+
+        public string Id { get; set; }
         public string UserId { get; private set; }
-        public Guid? DiscountId { get; set; }
+        public string DiscountId { get; set; }
 
         public List<BasketItem> Items { get; set; } = new();
     }
-
 }
