@@ -52,7 +52,9 @@ namespace Microservices.Web.Frontend.Controllers
 
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await basketService.DeleteFromBasket(Id);
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            await basketService.DeleteFromBasket(Id, userId);
             return RedirectToAction("Index");
         }
 
@@ -78,7 +80,9 @@ namespace Microservices.Web.Frontend.Controllers
 
         public async Task<IActionResult> Edit(Guid BasketItemId, int quantity)
         {
-            await basketService.UpdateQuantity(BasketItemId, quantity);
+            var userId = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            await basketService.UpdateQuantity(BasketItemId, quantity, userId);
             return RedirectToAction("Index");
         }
 
@@ -109,7 +113,7 @@ namespace Microservices.Web.Frontend.Controllers
 
                 var basket = await basketService.GetBasket(userId);
                 //basketService.ApplyDiscountToBasket(Guid.Parse(basket.Id), discount.Data.Id);
-                await basketService.ApplyDiscountToBasket(basket.Id, discount.Data.Id);
+                await basketService.ApplyDiscountToBasket(basket.Id, discount.Data.Id, userId);
                 discountService.UseDiscount(discount.Data.Id);
                 return Json(new ResultDTO
                 {
