@@ -29,7 +29,7 @@ namespace BasketService.Controllers
             var basket = basketService.GetOrCreateBasketForUser(UserId);
             return Ok(basket);
         }
-        
+
         /// <summary>
         /// AddItemToBasket
         /// </summary>
@@ -37,12 +37,12 @@ namespace BasketService.Controllers
         /// <param name="UserId"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult AddItemToBasket(AddItemToBasketDto request, string UserId)
+        public IActionResult AddItemToBasket(AddItemToBasketDto request, string userId)
         {
-            var basket = basketService.GetOrCreateBasketForUser(UserId);
+            var basket = basketService.GetOrCreateBasketForUser(userId);
             request.basketId = basket.Id;
             basketService.AddItemToBasket(request);
-            var basketData = basketService.GetBasket(UserId);
+            //var basketData = basketService.GetBasket(userId);
             return Ok();
         }
 
@@ -52,9 +52,9 @@ namespace BasketService.Controllers
         /// <param name="ItemId"></param>
         /// <returns></returns>
         [HttpDelete]
-        public IActionResult Delete(Guid ItemId)
+        public IActionResult Delete(Guid ItemId, string userId)
         {
-            basketService.RemoveItemFromBasket(ItemId);
+            basketService.RemoveItemFromBasket(ItemId.ToString(), userId);
             return Ok();
         }
 
@@ -65,9 +65,9 @@ namespace BasketService.Controllers
         /// <param name="quantity"></param>
         /// <returns></returns>
         [HttpPut]
-        public IActionResult SetQuantity(Guid basketItemId, int quantity)
+        public IActionResult SetQuantity(Guid basketItemId, int quantity, string userId)
         {
-            basketService.SetQuantities(basketItemId, quantity);
+            basketService.SetQuantities(basketItemId.ToString(), quantity,userId);
             return Ok();
         }
 
@@ -78,9 +78,9 @@ namespace BasketService.Controllers
         /// <param name="discountId"></param>
         /// <returns></returns>
         [HttpPut("{basketId}/{discountId}")]
-        public IActionResult ApplyDiscountToBasket(Guid basketId, Guid discountId)
+        public IActionResult ApplyDiscountToBasket(Guid basketId, Guid discountId, string userId)
         {
-            basketService.ApplyDiscountToBasket(basketId, discountId);
+            basketService.ApplyDiscountToBasket(basketId.ToString(), discountId.ToString(), userId);
             return Accepted();
         }
 
