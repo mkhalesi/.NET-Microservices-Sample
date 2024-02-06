@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Basket?UserId={userId}",
+      "DownstreamPathTemplate": "/api/Basket?userId={userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,14 +9,14 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/Basket?UserId={userId}",
+      "UpstreamPathTemplate": "/api/Basket?userId={userId}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}",
+      "DownstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}&userId={userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -25,14 +25,14 @@
         }
       ],
 
-      "UpstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}",
+      "UpstreamPathTemplate": "/api/Basket?basketItemId={basketItemId}&quantity={quantity}&userId={userId}",
       "UpstreamHttpMethod": [ "PUT" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Basket?ItemId={ItemId}",
+      "DownstreamPathTemplate": "/api/Basket?ItemId={ItemId}&userId={userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -41,14 +41,14 @@
         }
       ],
 
-      "UpstreamPathTemplate": "/api/Basket?ItemId={ItemId}",
+      "UpstreamPathTemplate": "/api/Basket?ItemId={ItemId}&userId={userId}",
       "UpstreamHttpMethod": [ "DELETE" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Basket?UserId={UserId}",
+      "DownstreamPathTemplate": "/api/Basket?userId={userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -56,14 +56,14 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/Basket?UserId={UserId}",
+      "UpstreamPathTemplate": "/api/Basket?userId={userId}",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Basket/{basketId}/{discountId}",
+      "DownstreamPathTemplate": "/api/Basket/{basketId}/{discountId}/{userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -71,7 +71,7 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/Basket/{basketId}/{discountId}",
+      "UpstreamPathTemplate": "/api/Basket/{basketId}/{discountId}/{userId}",
       "UpstreamHttpMethod": [ "PUT" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
