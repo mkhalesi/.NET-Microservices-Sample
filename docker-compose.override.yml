@@ -15,6 +15,12 @@ services:
     ports:
         - "27018:3000"
 
+  redisdb:
+    container_name: redisdb
+    restart: always    
+    ports:
+        - "6379:6379"
+
   sqldata:
     container_name: sqldata
     ports:
@@ -79,6 +85,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - BasketConnection=Server=sqldata;Database=MicroserviceBasketDB;User Id=SA;password=123321Aa@;Encrypt=False;TrustServerCertificate=true
+      - CacheSettings__ConnectionString=localhost:6379
       - RabbitMq__Uri=amqp://guest:guest@rabbitmq:5672
       - MicroServiceAddress__Discount__Uri=http://microservices-discount.api
       - MicroServiceAddress__DiscountGrpc__Uri=http://microservices-discount.api:81

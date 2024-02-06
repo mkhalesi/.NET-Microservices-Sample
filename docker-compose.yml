@@ -6,6 +6,9 @@ services:
 
   mongoclient:
     image: mongoclient/mongoclient
+    
+  redisdb:
+    image: redis
 
   sqldata:
     image: mcr.microsoft.com/mssql/server:2019-latest
