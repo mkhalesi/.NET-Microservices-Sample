@@ -67,6 +67,7 @@ namespace Microservices.Web.Frontend.Controllers
 
             AddToBasketDTO item = new AddToBasketDTO()
             {
+                UserId = userId,
                 BasketId = basket.Id,
                 ImageUrl = product.image.ToString(),
                 ProductId = product.id,
