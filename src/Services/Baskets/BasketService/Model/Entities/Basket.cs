@@ -15,7 +15,7 @@ namespace BasketService.Model.Entities
         }
 
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string UserId { get; private set; }
+        public string UserId { get; set; }
         public string DiscountId { get; set; }
 
         public List<BasketItem> Items { get; set; } = new();

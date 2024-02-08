@@ -204,13 +204,15 @@ namespace BasketService.Model.Services.BasketService
             var basketItems = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(checkoutBasket.UserId));
             foreach (var item in basketItems)
             {
-                message.TotalPrice += item.Product.UnitPrice * item.Quantity;
+                var product = _productService.GetProduct(item.ProductId);
+
+                message.TotalPrice += product.UnitPrice * item.Quantity;
                 message.BasketItems.Add(new BasketItemMessage()
                 {
                     BasketItemId = item.BasketId,
                     ProductId = item.ProductId,
-                    Name = item.Product.ProductName,
-                    Price = item.Product.UnitPrice,
+                    Name = product.ProductName,
+                    Price = product.UnitPrice,
                     Quantity = item.Quantity,
                 });
             }
@@ -226,6 +228,7 @@ namespace BasketService.Model.Services.BasketService
             messageBus.SendMessage(message, queueName_BasketCheckout);
 
             //Delete basket
+            _cacheService.Remove(ConstantExtension.GetBasketItemListKey(basket.UserId));
             _cacheService.Remove(ConstantExtension.GetBasketKey(basket.UserId));
 
             return new ResultDTO()
