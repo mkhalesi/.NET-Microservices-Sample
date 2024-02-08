@@ -20,6 +20,8 @@ services:
     restart: always    
     ports:
         - "6379:6379"
+    volumes: 
+        - microservice-redisdata:/data
 
   sqldata:
     container_name: sqldata
@@ -245,4 +247,6 @@ volumes:
   microservice-mongodata:
     external: false
     # driver: local
+  microservice-redisdata:
+    external: false
   portainer_data:
