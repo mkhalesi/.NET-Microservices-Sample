@@ -35,7 +35,7 @@ namespace BasketService.Model.Services.CacheService
                 return JsonConvert.DeserializeObject<List<T>>(value);
             }
 
-            return default;
+            return new List<T>();
         }
 
         public T Set<T>(string key, T value)

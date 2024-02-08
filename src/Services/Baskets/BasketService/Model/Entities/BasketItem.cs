@@ -5,7 +5,7 @@ namespace BasketService.Model.Entities
     [Serializable]
     public class BasketItem
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public int Quantity { get; set; }
         public string BasketId { get; set; }
         public string ProductId { get; set; }

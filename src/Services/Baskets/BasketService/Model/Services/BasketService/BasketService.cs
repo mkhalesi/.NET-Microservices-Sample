@@ -14,7 +14,6 @@ using BasketService.Model.Entities;
 using BasketService.Model.Services.CacheService;
 using BasketService.Model.Services.DiscountService;
 using BasketService.Model.Services.ProductService;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace BasketService.Model.Services.BasketService
@@ -45,8 +44,6 @@ namespace BasketService.Model.Services.BasketService
         {
             // Todo: UserId property new Added
             var basketItem = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(item.UserId));
-            if (basketItem == null)
-                throw new Exception("Basket not found....!");
 
             var productDto = mapper.Map<ProductDTO>(item);
             basketItem.Add(mapper.Map<BasketItem>(item));
@@ -69,7 +66,9 @@ namespace BasketService.Model.Services.BasketService
                 Id = basket.Id,
                 UserId = basket.UserId,
             };
-            foreach (var item in basket.Items)
+
+            var basketItems = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(userId));
+            foreach (var item in basketItems)
             {
                 var product = _productService.GetProduct(item.ProductId);
                 basketModel.Items.Add(new BasketItemDto()
@@ -100,7 +99,9 @@ namespace BasketService.Model.Services.BasketService
                 Id = basket.Id,
                 UserId = basket.UserId,
             };
-            foreach (var item in basket.Items)
+
+            var basketItems = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(userId));
+            foreach (var item in basketItems)
             {
                 var product = _productService.GetProduct(item.ProductId);
                 basketModel.Items.Add(new BasketItemDto()
@@ -147,8 +148,8 @@ namespace BasketService.Model.Services.BasketService
             if (userBasket == null)
             {
                 userBasket = new Basket(userId);
-
-                foreach (var item in anonymousBasket.Items)
+                var userBasketItems = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(anonymousId));
+                foreach (var item in userBasketItems)
                 {
                     userBasket.Items.Add(new BasketItem
                     {
@@ -200,7 +201,8 @@ namespace BasketService.Model.Services.BasketService
 
             //sending message to RabbitMQ , send to Order
             BasketCheckoutMessage message = mapper.Map<BasketCheckoutMessage>(checkoutBasket);
-            foreach (var item in basket.Items)
+            var basketItems = _cacheService.GetList<BasketItem>(ConstantExtension.GetBasketItemListKey(checkoutBasket.UserId));
+            foreach (var item in basketItems)
             {
                 message.TotalPrice += item.Product.UnitPrice * item.Quantity;
                 message.BasketItems.Add(new BasketItemMessage()
