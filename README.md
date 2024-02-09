@@ -1,7 +1,11 @@
 # .NET Microservices Sample Project
 
-There is a couple of microservices which implemented e-commerce modules over <b>Payment</b>, <b>Product</b>, <b>Basket</b>, <b>Discount</b>, <b>Ordering</b> and <b>Identity</b> microservices with <b>Relational databases (Sql Server)</b> with
+There is a couple of microservices which implemented e-commerce modules over <b>Payment</b>, <b>Product</b>, <b>Basket</b>, <b>Discount</b>, <b>Ordering</b> and <b>Identity</b> microservices with <b>NoSQL (MongoDB, Redis)</b> and <b>Relational databases (Sql Server)</b> with
 communicating over <b>RabbitMQ Event Driven Communication</b> and using <b>Ocelot API Gateway</b>.
+
+<h3>
+Deploying .Net Microservices into <h>Kubernetes</b> and moving deployments to the cloud <b>Azure Kubernetes Services (AKS)</b> with using <b>Azure Container Registry (ACR)</b>
+</h3>
 
 <hr>
 
@@ -55,6 +59,9 @@ communicating over <b>RabbitMQ Event Driven Communication</b> and using <b>Ocelo
 <h4>Ordering Microservice which includes:</h4>
 <ul>
   <li>
+    <b>MongoDB database</b> connection and containerization
+  </li>
+  <li>
     REST API principles, CRUD operations
   </li>
   <li>
@@ -65,9 +72,6 @@ communicating over <b>RabbitMQ Event Driven Communication</b> and using <b>Ocelo
   </li>
   <li>
     Swagger Open API implementation
-  </li>
-  <li>
-    SqlServer database
   </li>
 </ul>
 
@@ -87,6 +91,9 @@ communicating over <b>RabbitMQ Event Driven Communication</b> and using <b>Ocelo
 <h4>Basket Microservice which includes:</h4>
 <ul>
   <li>
+    <b>Redis database</b> connection and containerization
+  </li>
+  <li>
     REST API principles, CRUD operations
   </li>
   <li>
@@ -98,9 +105,6 @@ communicating over <b>RabbitMQ Event Driven Communication</b> and using <b>Ocelo
   <li>
     Swagger Open API implementation
   </li>
-  <li>
-    SqlServer database
-  </li>
 </ul>
 
 <h4>Payment Microservice which includes:</h4>
@@ -108,7 +112,7 @@ communicating over <b>RabbitMQ Event Driven Communication</b> and using <b>Ocelo
   <li>
     REST API principles
   </li>
-    <li>
+  <li>
     Implement Clean Architecture
   </li>
   <li>
@@ -209,6 +213,15 @@ communicating over <b>RabbitMQ Event Driven Communication</b> and using <b>Ocelo
     <p>Admin Frontend -> http://host.docker.internal:7298</p>
   </li>
 </ul>
+
+<h2>Apply Kubernetes clusters with command: </h2>
+<pre>kubectl apply /k8s</pre>
+<p>
+  <blockquote>
+    you can find Port or NodePort of services in k8s yaml files
+  </blockquote>
+</p>
+<h4>Currently working on Deploy to Azure Kubernetes Services through CI/CD Azure Pipelines</h4>
 
 <hr>
 
