@@ -33,4 +33,6 @@
 		<ProjectReference Include="..\..\..\Aspire\Microservices.ServiceDefaults\Microservices.ServiceDefaults.csproj" />
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="c" /></VisualStudio></ProjectExtensions>
+
 </Project>
