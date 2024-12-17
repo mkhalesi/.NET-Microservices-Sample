@@ -25,6 +25,7 @@ namespace Microservices.Web.Frontend.Services.BasketServices
 
         #endregion
 
+        // change for OriginAzure
         public async Task<BasketDTO> GetBasket(string userId)
         {
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
